@@ -14,6 +14,11 @@ public class Handler {
 		keyManager = game.getKeyManager();
 	}
 
+	public void init() {
+		world = new World(this);
+		world.init();
+	}
+	
 	public Game getGame() { return game; }
 	public World getWorld() { return world; }
 	public KeyManager getKeyManager() { return keyManager; }

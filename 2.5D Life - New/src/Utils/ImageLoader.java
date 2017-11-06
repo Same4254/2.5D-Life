@@ -8,6 +8,9 @@ import javax.imageio.ImageIO;
 import com.Engine.RenderEngine.Textures.Texture2D;
 
 public class ImageLoader {
+	public static final String MODEL_PATH = "res/models/";
+	public static final String TEXTURE_PATH = "/textures/";
+	
 	public static BufferedImage loadImage(String path){
 		try {
 			return ImageIO.read(ImageLoader.class.getResource(path));
