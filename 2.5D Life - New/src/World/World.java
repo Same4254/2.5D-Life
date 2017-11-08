@@ -2,24 +2,19 @@ package World;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Keyboard;
-
 import com.Engine.RenderEngine.Lights.Light;
 import com.Engine.RenderEngine.Shaders.Default.DefaultShader;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.WorldObjects.SubTileObject;
-import Entity.WorldObjects.WorldObject;
-import Entity.WorldObjects.FullObjects.Table;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.SubObjects.Wall;
 import Input.CameraMovement;
 import Main.Handler;
-import World.Tiles.Tile;
 
 public class World {
+	//TODO Ignore not tiles when trying to pick location for object?
+	
 	private Handler handler;
 
 	private Camera camera;

@@ -51,11 +51,9 @@ public class EditMode {
 						 lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()].add(heldObject);
 						 heldObject = null;
 					} else {
-						WorldObject clicked = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
-						if(clicked != null) {
-							lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().getZ()].remove(clicked);
-							System.out.println(lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().getZ()].getSubTileObjects());
-							heldObject = clicked;
+						heldObject = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
+						if(heldObject != null) {
+							lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().getZ()].remove(heldObject);
 						}
 					}
 				}, delta);

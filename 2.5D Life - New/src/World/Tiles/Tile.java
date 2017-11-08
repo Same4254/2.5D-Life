@@ -137,10 +137,10 @@ public class Tile {
 			return object;
 		} else {
 			boolean removed = false;
-			for(SubTileObject[] subTiles : subTileObjects) { 
-			for(SubTileObject o : subTiles) {
-				if(o == object) {
-					o = null;
+			for(int i = 0; i < subTileObjects.length; i++) { 
+			for(int j = 0; j < subTileObjects[i].length; j++) {
+				if(subTileObjects[i][j] == object) {
+					subTileObjects[i][j] = null;
 					removed = true;
 				}
 			}}
