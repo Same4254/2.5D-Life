@@ -1,20 +1,19 @@
 package Entity.WorldObjects;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-
 import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Main.Handler;
 import World.Tiles.Tile;
 
 public class SubTileObject extends WorldObject {
 	protected int subX, subY; 
 	protected int subWidth, subHeight;
 	
-	public SubTileObject(int subX, int subY, Vector2f twoDDimension, String name, Shader modelShader) {
-		super(twoDDimension, name, modelShader);
+	public SubTileObject(Handler handler, int subX, int subY, Vector2f twoDDimension, String name, Shader modelShader) {
+		super(handler, twoDDimension, name, modelShader);
 
 		this.subX = subX;
 		this.subY = subY;
@@ -79,6 +78,11 @@ public class SubTileObject extends WorldObject {
 //		Vector3f result = new Vector3f(new Vector2f(subX, subY).add(subWidth, 0).subtract(subWidth / 2f, subHeight / 2f), 0).rotate(new Vector3f(0, 0, 90)).add(subWidth / 2f, subHeight / 2f, 0).capMin(0);
 //		subX = (int) result.x;
 //		subY = (int) result.y;
+	}
+	
+	public void render(Camera camera) {
+		body.getRenderProperties().getTransform().setTranslation(body.getPosition3D().add((float) subX / Tile.TILE_RESOLUTION, 0, (float) subY / Tile.TILE_RESOLUTION));
+		body.render(camera);
 	}
 	
 	public int getSubX() { return subX; }

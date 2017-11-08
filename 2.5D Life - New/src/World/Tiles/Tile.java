@@ -3,6 +3,7 @@ package World.Tiles;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
@@ -10,12 +11,11 @@ import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.Entity;
 import Entity.WorldObjects.FullTileObject;
-import Entity.WorldObjects.Lot;
 import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
-import Utils.ImageLoader;
 
 public class Tile {
 	public static final int TILE_RESOLUTION = 4;
@@ -45,7 +45,7 @@ public class Tile {
 		body = new WrapperStaticBody(position, new Vector2f(1, 1), objPath, modelTexturePath, modelShader);
 		subTileObjects = new SubTileObject[TILE_RESOLUTION][TILE_RESOLUTION];
 		
-//		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
+		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
 	public void render(Camera camera) {
@@ -150,6 +150,22 @@ public class Tile {
 			else
 				return null;
 		}
+	}
+	
+	public WorldObject findObject(PhysicsBody body) {
+		if(fullObject != null && fullObject.getBody().getStaticBody() == body)
+			return fullObject;
+
+		System.out.println(body);
+		for(int i = 0; i < subTileObjects.length; i++) {
+		for(int j = 0; j < subTileObjects[i].length; j++) {
+			if(subTileObjects[i][j] != null) 
+				System.out.println(subTileObjects[i][j].getBody().getStaticBody());
+			if(subTileObjects[i][j] != null && subTileObjects[i][j].getBody().getStaticBody() == body)
+				return subTileObjects[i][j];
+		}}
+		
+		return null;
 	}
 
 	public FullTileObject getFullObject() { return fullObject; }

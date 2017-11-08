@@ -5,14 +5,19 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WrapperBodies.WrapperStaticBody;
+import Main.Handler;
 import World.Tiles.Tile;
 
 public abstract class WorldObject {
+	protected Handler handler;
 	protected WrapperStaticBody body;
 	protected Tile tile;
 	
-	public WorldObject(Vector2f twoDDimension, String name, Shader modelShader) {
+	public WorldObject(Handler handler, Vector2f twoDDimension, String name, Shader modelShader) {
+		this.handler = handler;
+		
 		body = new WrapperStaticBody(new Vector2f(), twoDDimension, name, modelShader);
+		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
 	public void render(Camera camera) {

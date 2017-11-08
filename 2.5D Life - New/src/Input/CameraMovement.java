@@ -3,9 +3,10 @@ package Input;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.RenderEngine.Util.Camera;
+import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
-import com.sun.corba.se.impl.oa.poa.ActiveObjectMap.Key;
 
 import Main.Handler;
 
@@ -49,17 +50,6 @@ public class CameraMovement {
 //		point(rotationToWorld);
 //	}
 //	
-//	public void updatePicker(OnPicked picked, float delta) {
-////		System.out.println("MouseX: " + Mouse.getX() + ", MouseY: " + Mouse.getY());
-//		MousePicker picker = new MousePicker(camera.getPosition(), camera.getRotation(), new Vector2f((float)Mouse.getX() / handler.getWidth(), (float) Mouse.getY() / handler.getHeight()));
-//		handler.getGame().getPhysicsEngine().add(picker);
-//		picker.update(delta);
-//		PhysicsBody selected = picker.getTarget();
-//		
-//		if(selected != null)
-//			picked.pick(selected);
-//	}
-	
 	public void update(float delta) {
 		Vector3f caped = camera.getRotation().capMax(100).capMin(-100);
 		camera.setRotX(caped.x);

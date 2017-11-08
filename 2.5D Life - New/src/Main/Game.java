@@ -1,39 +1,28 @@
 package Main;
 
+import static org.lwjgl.opengl.GL11.GL_BACK;
+import static org.lwjgl.opengl.GL11.GL_CCW;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_CULL_FACE;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glCullFace;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glFrontFace;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 
 import com.Engine.PhysicsEngine.PhysicsEngine;
 import com.Engine.PhysicsEngine.Detection.Intersection.Tests.MovingEllipsoidMeshIntersectionTest;
-import com.Engine.RenderEngine.GLFunctions.CullFace;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Window.Window;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Input.KeyManager;
+import Input.MouseManager;
 import World.World;
-
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.*;
-import static org.lwjgl.opengl.GL13.*;
-import static org.lwjgl.opengl.GL14.*;
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL21.*;
-import static org.lwjgl.opengl.GL30.*;
-import static org.lwjgl.opengl.GL31.*;
-import static org.lwjgl.opengl.GL32.*;
-import static org.lwjgl.opengl.GL33.*;
-import static org.lwjgl.opengl.GL40.*;
-import static org.lwjgl.opengl.GL41.*;
-import static org.lwjgl.opengl.GL42.*;
-import static org.lwjgl.opengl.GL43.*;
-import static org.lwjgl.opengl.GL44.*;
 
 public class Game {
 	private Window window;
@@ -42,8 +31,6 @@ public class Game {
 	private Handler handler;
 	private World world;
 	
-	private KeyManager keyManager;
-	
 	public void init() throws LWJGLException {
 		window = new Window();
 		window.setTitle("Life 2.5D");
@@ -51,8 +38,6 @@ public class Game {
 		window.initDisplay(800, 600);
 		
 		physicsEngine = new PhysicsEngine();
-		
-		keyManager = new KeyManager();
 		
 		handler = new Handler(this);
 		handler.init();
@@ -66,7 +51,8 @@ public class Game {
 	
 	public void loop() {
 		while(!window.isCloseRequested()) {
-			keyManager.update();
+			handler.getKeyManager().update();
+			handler.getMouseManager().update();
 			
 			world.update((float) window.getFrameTime());
 			world.render();
@@ -102,6 +88,5 @@ public class Game {
 	}
 	
 	public Window getWindow() { return window; }
-	public KeyManager getKeyManager() { return keyManager; }
 	public PhysicsEngine getPhysicsEngine() { return physicsEngine; }
 }

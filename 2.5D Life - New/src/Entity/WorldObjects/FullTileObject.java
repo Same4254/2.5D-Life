@@ -4,10 +4,12 @@ import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Main.Handler;
+
 public class FullTileObject extends WorldObject {
 	
-	public FullTileObject(Vector2f twoDDimension, String name, Shader modelShader) {
-		super(twoDDimension, name, modelShader);
+	public FullTileObject(Handler handler, Vector2f twoDDimension, String name, Shader modelShader) {
+		super(handler, twoDDimension, name, modelShader);
 	}
 
 	@Override
