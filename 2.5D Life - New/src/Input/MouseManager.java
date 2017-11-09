@@ -1,12 +1,16 @@
 package Input;
 
+import java.util.ArrayList;
+
 import org.lwjgl.input.Mouse;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
+import World.Tiles.Tile;
 
 public class MouseManager {
 	private Handler handler;
@@ -55,6 +59,17 @@ public class MouseManager {
 		
 		if(selected != null)
 			picked.pick(selected);
+	}
+	
+	public void updatePickerForTile(OnPicked picked, Lot lot, float delta) {
+		MousePicker picker = new MousePicker(camera.getPosition(), camera.getRotation(), new Vector2f((float)Mouse.getX() / handler.getWidth(), (float) Mouse.getY() / handler.getHeight()));
+		handler.getGame().getPhysicsEngine().add(picker);
+		picker.update(delta);
+		
+		ArrayList<PhysicsBody> all = picker.getAllTargets();
+		for(PhysicsBody p : all)
+			if(lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody() == p)
+				picked.pick(lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody());
 	}
 	
 	public void clearKeys(){

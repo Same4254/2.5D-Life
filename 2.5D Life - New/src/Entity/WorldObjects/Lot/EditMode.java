@@ -58,13 +58,13 @@ public class EditMode {
 					}
 				}, delta);
 			} else if(heldObject != null) {
-				handler.getMouseManager().updatePicker(s -> {
+				handler.getMouseManager().updatePickerForTile(s -> {
 					if(s != null) {
 						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 						Vector2f truncated = location.truncate();
 						heldObject.getBody().setPosition2D(truncated);
 					}
-				}, delta);
+				}, lot, delta);
 				
 				if(heldObject instanceof SubTileObject) {
 					SubTileObject temp = (SubTileObject) heldObject;

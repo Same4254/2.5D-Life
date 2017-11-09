@@ -1,5 +1,6 @@
 package Input;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.lwjgl.util.vector.Matrix4f;
@@ -15,6 +16,7 @@ import com.Engine.Util.Vectors.Vector4f;
 public class MousePicker extends MovingBody{
 
 	private PhysicsBody target;
+	private ArrayList<PhysicsBody> allTargets;
 	
 	public MousePicker(Vector3f cameraPos, Vector3f cameraRot, Vector2f clickLocation) {
 		super(new Vector3f(0.1f));
@@ -24,6 +26,8 @@ public class MousePicker extends MovingBody{
 
 		setPosition(startPos);
 		setVelocity(endPos.subtract(startPos));
+		
+		allTargets = new ArrayList<>();
 	}
 	
 	private Vector3f project(float x, float y, float z){
@@ -42,10 +46,14 @@ public class MousePicker extends MovingBody{
 		if(results.size() > 0){
 			IntersectionResult result = results.get(0);
 			target = result.getIntersected();
+			
+			for(IntersectionResult r : results)
+				allTargets.add(r.getIntersected());
 		}
 		
 		engine.remove(this);
 	}
-
-	public PhysicsBody getTarget(){return target;}
+	
+	public PhysicsBody getTarget() { return target; }
+	public ArrayList<PhysicsBody> getAllTargets() { return allTargets; } 
 }

@@ -23,7 +23,6 @@ public class World {
 	private DefaultShader shader;
 	private ArrayList<Light> sun;
 	
-//	private WorldObject testObject;
 	private Lot testLot, anothaOne;
 	
 	public World(Handler handler) {
