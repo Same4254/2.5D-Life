@@ -63,7 +63,7 @@ public class WrapperStaticBody {
 		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), getY(), position.getY()));
 		setHitBoxCoords(position);
 	}
-	
+
 	private void setHitBoxCoords(float x, float y) {
 		hitBox.x = x;
 		hitBox.y = y;
@@ -72,7 +72,10 @@ public class WrapperStaticBody {
 	private void setHitBoxCoords(Vector2f position) { setHitBoxCoords(position.x, position.y); }
 	
 	public float getWidth() { return hitBox.width; }
+	public void setWidth(float width) { hitBox.width = width; } 
+	
 	public float getHeight() { return hitBox.height; } 
+	public void setHeight(float height) { hitBox.height = height; }
 	
 	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
 	

@@ -8,6 +8,7 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.Lot.Lot;
 import Input.CameraMovement;
 import Main.Handler;
@@ -25,6 +26,8 @@ public class World {
 	
 	private Lot testLot, anothaOne;
 	
+	private ArrayList<Entity> entities;
+	
 	public World(Handler handler) {
 		this.handler = handler;
 		
@@ -35,11 +38,15 @@ public class World {
 		shader.getRenderer().usingFrustumCulling(false);
 		
 		sun = new ArrayList<>();
+		
+		entities = new ArrayList<>();
 	}
 	
 	public void init() {
 		testLot = new Lot(handler, new Vector2f(), 20, 20);
 		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
+		
+		
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 		

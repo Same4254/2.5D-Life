@@ -1,18 +1,26 @@
-package Entity;
+package Entity.FreeMoving;
 
+import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperStaticBody;
+import Main.Handler;
 import World.Tiles.Tile;
 
-public class Entity {
-	private WrapperStaticBody body;
+public abstract class Entity {
+	protected Handler handler;
+	protected WrapperStaticBody body;
 	
-	public Entity() {
-		
+	public Entity(Handler handler, Vector2f twoDLocation, Vector2f twoDDimension, String objPath, String modelTexturePath, Shader modelShader) {
+		this.handler = handler;
+		body = new WrapperStaticBody(twoDLocation, twoDDimension, objPath, modelTexturePath, modelShader);
 	}
 	
-	public boolean collide(Tile[][] tiles, Vector2f velocity) {
+	public boolean collide(Lot lot, Vector2f velocity) {
+		Tile[][] tiles = lot.getTiles();
+		
 		Vector2f currentLocation = body.getPosition2D();
 		Vector2f step = velocity.normalized().divide(Tile.TILE_RESOLUTION);
 
@@ -36,6 +44,9 @@ public class Entity {
 			body.setPosition2D(currentLocation);
 		}
 	}
+	
+	public abstract void update(float delta);
+	public abstract void render(Camera camera);
 	
 	public WrapperStaticBody getBody() { return body; }
 }

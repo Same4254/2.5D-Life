@@ -5,6 +5,7 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
 import World.Tiles.Tile;
 
@@ -27,32 +28,12 @@ public class SubTileObject extends WorldObject {
 		body.getRenderProperties().rotate(new Vector3f(0, 90, 0));
 		body.getRenderProperties().getTransform().setRotation(body.getRenderProperties().getTransform().getRotation().add(360).mod(180));
 
-//		Rectangle2D box = new Rectangle2D.Float(subX, subY, subWidth, subHeight);
-//		AffineTransform transformer = new AffineTransform();
-//		transformer.rotate(Math.PI / 2, box.getX(), box.getY());
-//		box = transformer.createTransformedShape(box).getBounds2D();
-//
-//		subX = (int) Math.max(box.getX(), 0);
-//		subY = (int) Math.max(box.getY(), 0);
-		
-//		Vector2f result = new Vector2f(subX, subY).add(subWidth, 0).subtract(subWidth / 2f, subHeight / 2f);
-//		
-//		float x = result.x;
-//		result.x = -result.y;
-//		result.y = x;
-//		
-//		result = result.add(subWidth / 2, subHeight / 2).capMin(0); 
-//		
 		subWidth ^= subHeight;
 		subHeight ^= subWidth;
 		subWidth ^= subHeight;
 		
 		subX = 0;
 		subY = 0;
-//		
-////		Vector3f result = new Vector3f(new Vector2f(subX, subY).add(subWidth, 0).subtract(subWidth / 2f, subHeight / 2f), 0).rotate(new Vector3f(0, 0, 90)).add(subWidth / 2f, subHeight / 2f, 0).capMin(0);
-//		subX = (int) result.x;
-//		subY = (int) result.y;
 	}
 
 	@Override
@@ -60,24 +41,24 @@ public class SubTileObject extends WorldObject {
 		body.getRenderProperties().rotate(new Vector3f(0, -90, 0));
 		body.getRenderProperties().getTransform().setRotation(body.getRenderProperties().getTransform().getRotation().add(360).mod(180));
 		
-//		Vector2f result = new Vector2f(subX, subY).add(0, subHeight).subtract(subWidth / 2f, subHeight / 2f);
-//		
 		subWidth ^= subHeight;
 		subHeight ^= subWidth;
 		subWidth ^= subHeight;
 		
 		subX = 0;
 		subY = 0;
-//		
-//		float x = result.x;
-//		result.x = result.y;
-//		result.y = -x;
-//		
-//		result = result.add(subWidth / 2, subHeight / 2).capMin(0); 
+	}
+	
+	@Override
+	public void addToTile(Lot lot, Tile tile) {
+		if(!tile.collide(this)) {
+			if(this.tile != null) 
+				this.tile.remove(this);
+			tile.add(this);
+			this.tile = tile;
 		
-//		Vector3f result = new Vector3f(new Vector2f(subX, subY).add(subWidth, 0).subtract(subWidth / 2f, subHeight / 2f), 0).rotate(new Vector3f(0, 0, 90)).add(subWidth / 2f, subHeight / 2f, 0).capMin(0);
-//		subX = (int) result.x;
-//		subY = (int) result.y;
+			body.setPosition2D(body.getPosition2D().add(new Vector2f(subX, subY).divide(Tile.TILE_RESOLUTION)));
+		}
 	}
 	
 	public void render(Camera camera) {

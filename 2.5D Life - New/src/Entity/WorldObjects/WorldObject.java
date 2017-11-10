@@ -4,6 +4,7 @@ import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
 import World.Tiles.Tile;
@@ -28,6 +29,7 @@ public abstract class WorldObject {
 		
 	}
 	
+	public abstract void addToTile(Lot lot, Tile tile);
 	public abstract void rotateLeft();
 	public abstract void rotateRight();
 

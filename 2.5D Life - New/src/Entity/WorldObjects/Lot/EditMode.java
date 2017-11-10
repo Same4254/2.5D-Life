@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.FullObjects.Table;
+import Entity.WorldObjects.MultiTileObjects.Box;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Handler;
 import World.Tiles.Tile;
@@ -36,20 +37,33 @@ public class EditMode {
 				heldObject = new Table(handler, new Vector2f(1), "Table", handler.getWorld().getShader());
 			}
 			
+			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_3)) {
+				heldObject = new Box(handler, new Vector2f(2), "Box", handler.getWorld().getShader());
+			}
+			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
 				heldObject = null;
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RETURN)) {
-				lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()].add(heldObject);
+				heldObject.addToTile(lot, lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 				heldObject = null;
 			}
 			
 			if(handler.getMouseManager().keyJustPressed(0)) {
 				handler.getMouseManager().updatePicker(s -> {
 					if(heldObject != null) {
-						 lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()].add(heldObject);
+						heldObject.addToTile(lot, lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+//						 lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()].add(heldObject);
 						 heldObject = null;
+						 
+						 System.out.println("--------------------");
+						 
+						 for(int x = 0; x < (int) lot.getTiles().length; x++) {
+						 for(int y = 0; y < (int) lot.getTiles()[x].length; y++) {
+							 System.out.print((lot.getTiles()[y][x].getFullObject() == null ? 0 : 1) + "\t");
+						 } System.out.println(); }
+						 System.out.println("--------------------");
 					} else {
 						heldObject = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
 						if(heldObject != null) {

@@ -9,8 +9,9 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.Entity;
+import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.FullTileObject;
+import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
@@ -33,7 +34,7 @@ public class Tile {
 	private Handler handler;
 	private Lot lot;
 	
-	private FullTileObject fullObject;
+	private WorldObject fullObject;
 	private WrapperStaticBody body;
 
 	private SubTileObject[][] subTileObjects; 
@@ -80,17 +81,17 @@ public class Tile {
 		if(!collide(obj)) {
 			if(obj instanceof FullTileObject) {
 				fullObject = (FullTileObject) obj;
-				obj.getBody().setPosition2D(body.getPosition2D());
-			}
-			else {
+			} else if(obj instanceof SubTileObject) {
 				SubTileObject temp = (SubTileObject) obj;
 				for(int x = temp.getSubX(); x < temp.getSubX() + temp.getSubWidth(); x++) { 
 				for(int y = temp.getSubY(); y < temp.getSubY() + temp.getSubHeight(); y++) {
 					subTileObjects[x][y] = temp;
 				}}
-				obj.getBody().setPosition2D(body.getPosition2D().add(new Vector2f(temp.getSubX() , temp.getSubY()).divide(Tile.TILE_RESOLUTION)));
+			} else if(obj instanceof MultiTileObject) {
+				MultiTileObject temp = (MultiTileObject) obj;
+				fullObject = temp;
 			}
-			obj.setTile(this);
+			
 			return true;
 		}
 		return false;
@@ -108,7 +109,7 @@ public class Tile {
 	
 	public boolean collide(WorldObject obj) {
 		if(fullObject == null) {
-			if(obj instanceof FullTileObject) {
+			if(obj instanceof FullTileObject || obj instanceof MultiTileObject) {
 				for(SubTileObject[] subTiles : subTileObjects) { 
 				for(SubTileObject o : subTiles) {
 					if(o != null) return true;
@@ -168,7 +169,7 @@ public class Tile {
 		return null;
 	}
 
-	public FullTileObject getFullObject() { return fullObject; }
+	public WorldObject getFullObject() { return fullObject; }
 	public WrapperStaticBody getBody() { return body; }
 	public SubTileObject[][] getSubTileObjects() { return subTileObjects; }
 }
