@@ -3,17 +3,15 @@ package Entity.WrapperBodies;
 import java.awt.geom.Rectangle2D;
 
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
+import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMeshLoader;
-import com.Engine.RenderEngine.Models.ModelLoader;
 import com.Engine.RenderEngine.Shaders.RenderProperties;
-import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.Model;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
-
-import Utils.ImageLoader;
 
 public class WrapperStaticBody {
 	private Model model;
@@ -21,32 +19,20 @@ public class WrapperStaticBody {
 	private StaticBody staticBody;
 	private Rectangle2D.Float hitBox;
 	
-	public WrapperStaticBody(Model model, RenderProperties renderProperties, StaticBody staticBody, Vector2f twoDLocation, Vector2f twoDDimensions) {
-		this.model = model;
+	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, RenderProperties renderProperties) {
+		this.model = wrapperModel.getModel();
 		this.renderProperties = renderProperties;
-		this.staticBody = staticBody;
 		
-		hitBox = new Rectangle2D.Float(twoDLocation.x, twoDLocation.y, twoDDimensions.x, twoDDimensions.y);
+		CollisionMesh col = wrapperModel.getCollisionMesh();
+		staticBody = new StaticBody(col);
 		
-		setPosition2D(twoDLocation);
+		Vector3f radius = col.getOctree().getRoot().getBounds().getRadius();
+		hitBox = new Rectangle2D.Float(0, 0, radius.x, radius.z);
+		setPosition2D(0, 0);
 	}
 	
-	public WrapperStaticBody(RenderProperties renderProperties, Vector2f twoDLocation, Vector2f twoDDimensions, String objPath, String modelTexturePath, Shader modelShader) {
-		this(new Model(ModelLoader.loadOBJ(objPath)), renderProperties, new StaticBody(CollisionMeshLoader.loadObj(objPath)), twoDLocation, twoDDimensions);
-		
-		model.setTexture(ImageLoader.loadTexture(modelTexturePath));
-		model.setShader(modelShader);
-	}
-	
-	public WrapperStaticBody(Vector2f twoDLocation, Vector2f twoDDimensions, String objPath, String modelTexturePath, Shader modelShader) {
-		this(new DefaultRenderProperties(), twoDLocation, twoDDimensions, objPath, modelTexturePath, modelShader);
-	}
-	
-	/**
-	 * This Will likely be removed
-	 */
-	public WrapperStaticBody(Vector2f twoDLocation, Vector2f twoDDimensions, String name, Shader modelShader) {
-		this(twoDLocation, twoDDimensions, ImageLoader.MODEL_PATH + name + ".obj", ImageLoader.TEXTURE_PATH + name + ".png", modelShader);
+	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D) {
+		this(wrapperModel, texture2D, new DefaultRenderProperties());
 	}
 	
 	public Vector3f getPosition3D() { return staticBody.getPosition(); }
@@ -64,6 +50,10 @@ public class WrapperStaticBody {
 		setHitBoxCoords(position);
 	}
 
+	public void setPosition2D(float x, float y) {
+		setPosition2D(new Vector2f(x, y));
+	}
+	
 	private void setHitBoxCoords(float x, float y) {
 		hitBox.x = x;
 		hitBox.y = y;
