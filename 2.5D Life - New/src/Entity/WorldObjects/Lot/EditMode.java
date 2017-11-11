@@ -30,15 +30,15 @@ public class EditMode {
 	public void update(float delta) {
 		if(enabled) {
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1)) {
-				heldObject = new Wall(handler, 0, 0,"Wall", handler.getWorld().getShader());
+				heldObject = new Wall(handler);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_2)) {
-				heldObject = new Table(handler, new Vector2f(1), "Table", handler.getWorld().getShader());
+				heldObject = new Table(handler);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_3)) {
-				heldObject = new Box(handler, new Vector2f(2), "Box", handler.getWorld().getShader());
+				heldObject = new Box(handler);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
@@ -66,10 +66,6 @@ public class EditMode {
 //						 System.out.println("--------------------");
 					} else {
 						heldObject = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
-						if(heldObject != null) {
-							heldObject.removeFromTile();
-//							lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].remove(heldObject);
-						}
 					}
 				}, delta);
 			} else if(heldObject != null) {

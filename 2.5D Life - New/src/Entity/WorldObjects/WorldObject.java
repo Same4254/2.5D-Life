@@ -1,9 +1,10 @@
 package Entity.WorldObjects;
 
-import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
 import World.Tiles.Tile;
@@ -13,10 +14,10 @@ public abstract class WorldObject {
 	protected WrapperStaticBody body;
 	protected Tile tile;
 	
-	public WorldObject(Handler handler, Vector2f twoDDimension, String name, Shader modelShader) {
+	public WorldObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		this.handler = handler;
 		
-		body = new WrapperStaticBody(new Vector2f(), twoDDimension, name, modelShader);
+		body = new WrapperStaticBody(wrapperModel, texture);
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	

@@ -1,10 +1,11 @@
 package Entity.WorldObjects;
 
-import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
@@ -12,14 +13,13 @@ public class SubTileObject extends WorldObject {
 	protected int subX, subY; 
 	protected int subWidth, subHeight;
 	
-	public SubTileObject(Handler handler, int subX, int subY, Vector2f twoDDimension, String name, Shader modelShader) {
-		super(handler, twoDDimension, name, modelShader);
+	public SubTileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
+		super(handler, wrapperModel, texture);
 
-		this.subX = subX;
-		this.subY = subY;
+		Vector2f dimensions = body.getDimensions();
 		
-		subWidth = (int) twoDDimension.multiply(Tile.TILE_RESOLUTION).x;
-		subHeight = (int) twoDDimension.multiply(Tile.TILE_RESOLUTION).y;
+		subWidth = (int) dimensions.multiply(Tile.TILE_RESOLUTION).x;
+		subHeight = (int) dimensions.multiply(Tile.TILE_RESOLUTION).y;
 	}
 	
 	@Override

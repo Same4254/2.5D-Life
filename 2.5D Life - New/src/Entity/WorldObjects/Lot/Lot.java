@@ -3,6 +3,7 @@ package Entity.WorldObjects.Lot;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
+import Main.Assets;
 import Main.Handler;
 import Utils.ImageLoader;
 import World.Tiles.Tile;
@@ -25,7 +26,7 @@ public class Lot {
 		
 		for(int x = 0; x < tiles.length; x++) {
 		for(int y = 0; y < tiles[x].length; y++) {
-			tiles[x][y] = new Tile(handler, this, new Vector2f(x, y), ImageLoader.MODEL_PATH + "Tile.obj", ImageLoader.TEXTURE_PATH + "Gold.png", handler.getWorld().getShader());
+			tiles[x][y] = new Tile(handler, this, new Vector2f(x, y), Assets.tileModel, Assets.goldTexture);
 		}}
 		
 		editMode = new EditMode(handler, this);

@@ -6,11 +6,13 @@ import com.Engine.PhysicsEngine.Render.PhysicsRenderProperties;
 import com.Engine.RenderEngine.Models.ModelData.ModelData;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Shaders.Default.Model;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.RenderEngine.Util.RenderStructs.Transform;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.WrapperBodies.WrapperModel;
 import Main.Game;
 import Main.Handler;
 import Utils.ImageLoader;
@@ -21,8 +23,8 @@ public class Player extends Human {
 	
 	private Model model;
 	
-	public Player(Handler handler, Vector2f twoDLocation, Vector2f twoDDimension, String name, Shader modelShader) {
-		super(handler, twoDLocation, twoDDimension, ImageLoader.MODEL_PATH + name + ".obj", ImageLoader.TEXTURE_PATH + name + ".png", modelShader);
+	public Player(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
+		super(handler, wrapperModel, texture);
 		
 		movementSpeed = new Vector2f(8);
 		ModelData modelData = new ModelData();

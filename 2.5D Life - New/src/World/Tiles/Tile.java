@@ -4,7 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
-import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
@@ -15,6 +15,7 @@ import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
 
@@ -39,11 +40,13 @@ public class Tile {
 
 	private SubTileObject[][] subTileObjects; 
 	
-	public Tile(Handler handler, Lot lot, Vector2f position, String objPath, String modelTexturePath, Shader modelShader) {
+	public Tile(Handler handler, Lot lot, Vector2f position, WrapperModel wrapperModel, Texture2D texture) {
 		this.handler = handler;
 		this.lot = lot;
 		
-		body = new WrapperStaticBody(position, new Vector2f(1, 1), objPath, modelTexturePath, modelShader);
+		body = new WrapperStaticBody(wrapperModel, texture);
+		body.setPosition2D(position);
+		
 		subTileObjects = new SubTileObject[TILE_RESOLUTION][TILE_RESOLUTION];
 		
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());

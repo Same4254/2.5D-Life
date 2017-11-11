@@ -3,7 +3,6 @@ package World;
 import java.util.ArrayList;
 
 import com.Engine.RenderEngine.Lights.Light;
-import com.Engine.RenderEngine.Shaders.Default.DefaultShader;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
@@ -12,8 +11,8 @@ import Entity.FreeMoving.Player;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.MultiTileObjects.Box;
 import Input.CameraMovement;
+import Main.Assets;
 import Main.Handler;
-import Utils.ImageLoader;
 
 public class World {
 	//TODO Ignore not tiles when trying to pick location for object?
@@ -23,7 +22,6 @@ public class World {
 	private Camera camera;
 	private CameraMovement cameraMovement;
 	
-	private DefaultShader shader;
 	private ArrayList<Light> sun;
 	
 	private Lot testLot, anothaOne;
@@ -38,9 +36,6 @@ public class World {
 		camera = new Camera(70, (float) handler.getWidth() / (float) handler.getHeight(), 0.3f, 1000);
 		cameraMovement = new CameraMovement(handler, camera, new Vector3f(7, 20, 24), 10, 10, .15f);
 		
-		shader = new DefaultShader();
-		shader.getRenderer().usingFrustumCulling(false);
-		
 		sun = new ArrayList<>();
 		
 //		entities = new ArrayList<>();
@@ -50,13 +45,11 @@ public class World {
 		testLot = new Lot(handler, new Vector2f(), 20, 20);
 		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
 
-		player = new Player(handler, new Vector2f(2), new Vector2f(1), "Cube Person", shader);
+		player = new Player(handler, Assets.playerModel, Assets.playerTexture);
+		player.getBody().setPosition2D(2, 2);
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 
-		Box box = new Box(handler, new Vector2f(1, 2), "Box", shader);
-		box.addToTile(testLot.getTiles()[0][0]);
-		
 		testLot.enableEdit();
 	}
 	
@@ -79,13 +72,12 @@ public class World {
 		
 		player.render(camera);
 		
-		shader.bind();
-		shader.loadLights(sun);
+		Assets.defaultShader.bind();
+		Assets.defaultShader.loadLights(sun);
 	}
 
 	public Camera getCamera() { return camera; }
 	public CameraMovement getCameraMovement() { return cameraMovement; }
-	public DefaultShader getShader() { return shader; }
 	
 	public Lot getTestLot() { return testLot; }
 }

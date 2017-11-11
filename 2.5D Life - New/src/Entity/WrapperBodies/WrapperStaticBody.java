@@ -23,10 +23,12 @@ public class WrapperStaticBody {
 		this.model = wrapperModel.getModel();
 		this.renderProperties = renderProperties;
 		
+		model.setTexture(texture2D);
+		
 		CollisionMesh col = wrapperModel.getCollisionMesh();
 		staticBody = new StaticBody(col);
 		
-		Vector3f radius = col.getOctree().getRoot().getBounds().getRadius();
+		Vector3f radius = col.getOctree().getRoot().getBounds().getRadius().multiply(2);
 		hitBox = new Rectangle2D.Float(0, 0, radius.x, radius.z);
 		setPosition2D(0, 0);
 	}

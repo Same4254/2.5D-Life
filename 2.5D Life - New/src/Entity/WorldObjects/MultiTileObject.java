@@ -2,12 +2,13 @@ package Entity.WorldObjects;
 
 import java.util.ArrayList;
 
-import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
@@ -15,8 +16,8 @@ public class MultiTileObject extends WorldObject {
 
 	protected ArrayList<Tile> tiles;
 	
-	public MultiTileObject(Handler handler, Vector2f twoDDimension, String name, Shader modelShader) {
-		super(handler, twoDDimension, name, modelShader);
+	public MultiTileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
+		super(handler, wrapperModel, texture);
 		
 		tiles = new ArrayList<>();
 	}

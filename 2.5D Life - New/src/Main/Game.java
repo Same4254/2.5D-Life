@@ -43,6 +43,7 @@ public class Game {
 		physicsEngine = new PhysicsEngine();
 		
 		physicsShader = new PhysicsShader();
+		Assets.init();
 		
 		handler = new Handler(this);
 		handler.init();
@@ -72,8 +73,8 @@ public class Game {
 			glCullFace(GL_BACK);
 			glEnable(GL_DEPTH_TEST);
 			
-			world.getShader().getRenderer().render();
-			world.getShader().getRenderer().clear();
+			Assets.defaultShader.getRenderer().render();
+			Assets.defaultShader.getRenderer().clear();
 			
 			physicsShader.getRenderer().render();
 			physicsShader.getRenderer().clear();
@@ -82,7 +83,7 @@ public class Game {
 			
 			for(Tile[] t : tiles)
 			for(Tile temp : t)
-				temp.getBody().getModel().setTexture(Entity.gold);
+				temp.getBody().getModel().setTexture(Assets.goldTexture);
 			
 			//Last
 			window.update();
