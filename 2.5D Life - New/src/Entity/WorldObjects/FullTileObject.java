@@ -4,7 +4,6 @@ import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
 import World.Tiles.Tile;
 
@@ -23,9 +22,9 @@ public class FullTileObject extends WorldObject {
 	public void rotateRight() {
 		body.getRenderProperties().rotate(new Vector3f(0, -90, 0));
 	}
-
+	
 	@Override
-	public void addToTile(Lot lot, Tile tile) {
+	public void addToTile(Tile tile) {
 		if(!tile.collide(this)) {
 			if(this.tile != null) 
 				this.tile.remove(this);
@@ -34,5 +33,10 @@ public class FullTileObject extends WorldObject {
 			
 			body.setPosition2D(tile.getBody().getPosition2D());
 		}
+	}
+
+	@Override
+	public void clearTile() {
+		tile = null;
 	}
 }

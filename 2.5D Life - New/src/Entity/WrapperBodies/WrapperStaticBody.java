@@ -80,6 +80,7 @@ public class WrapperStaticBody {
 	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
 	
 	public float getX() { return staticBody.getPosition().x; }
+	public void addX(float amount) { setX(getX() + amount); }
 	
 	public void setX(float x) {
 		staticBody.setPosition(new Vector3f(x, staticBody.getPosition().y, staticBody.getPosition().z));
@@ -95,12 +96,16 @@ public class WrapperStaticBody {
 	}
 	
 	public float getZ() { return staticBody.getPosition().z; }
+	public void addZ(float amount) { setZ(getZ() + amount); }
 	
 	public void setZ(float z) {
 		staticBody.setPosition(new Vector3f(staticBody.getPosition().x, staticBody.getPosition().y, z));
 		renderProperties.getTransform().setTranslation(new Vector3f(renderProperties.getTransform().getTranslation().x, renderProperties.getTransform().getTranslation().y, z));
 		hitBox.y = z;
 	}
+	
+	public void add(float x, float z) { addX(x); addZ(z); }
+	public void add(Vector2f amount) { addX(amount.x); addZ(amount.y); }
 	
 	public void render(Camera camera) { model.render(renderProperties, camera); }
 	

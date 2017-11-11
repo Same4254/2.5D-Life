@@ -16,13 +16,14 @@ import org.lwjgl.input.Keyboard;
 
 import com.Engine.PhysicsEngine.PhysicsEngine;
 import com.Engine.PhysicsEngine.Detection.Intersection.Tests.MovingEllipsoidMeshIntersectionTest;
+import com.Engine.PhysicsEngine.Render.PhysicsShader;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Window.Window;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Input.KeyManager;
-import Input.MouseManager;
+import Entity.FreeMoving.Entity;
 import World.World;
+import World.Tiles.Tile;
 
 public class Game {
 	private Window window;
@@ -31,6 +32,8 @@ public class Game {
 	private Handler handler;
 	private World world;
 	
+	public static PhysicsShader physicsShader;
+	
 	public void init() throws LWJGLException {
 		window = new Window();
 		window.setTitle("Life 2.5D");
@@ -38,6 +41,8 @@ public class Game {
 		window.initDisplay(800, 600);
 		
 		physicsEngine = new PhysicsEngine();
+		
+		physicsShader = new PhysicsShader();
 		
 		handler = new Handler(this);
 		handler.init();
@@ -69,6 +74,15 @@ public class Game {
 			
 			world.getShader().getRenderer().render();
 			world.getShader().getRenderer().clear();
+			
+			physicsShader.getRenderer().render();
+			physicsShader.getRenderer().clear();
+			
+			Tile[][] tiles = world.getTestLot().getTiles();
+			
+			for(Tile[] t : tiles)
+			for(Tile temp : t)
+				temp.getBody().getModel().setTexture(Entity.gold);
 			
 			//Last
 			window.update();

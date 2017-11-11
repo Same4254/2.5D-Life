@@ -55,9 +55,21 @@ public class Tile {
 		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
 		body.render(camera);
 		
+//		if(fullObject != null) {
+//			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+//			fullObject.render(camera);
+//		}
+		
 		if(fullObject != null) {
-			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-			fullObject.render(camera);
+			if(fullObject instanceof MultiTileObject)  {
+				if(!((MultiTileObject)fullObject).getTiles().isEmpty() && ((MultiTileObject)fullObject).getTiles().get(0) == this) {
+					fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+					fullObject.render(camera);
+				}
+			} else {
+				fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+				fullObject.render(camera);
+			}
 		}
 		
 		ArrayList<SubTileObject> objects = new ArrayList<>();
@@ -73,8 +85,21 @@ public class Tile {
 	}
 	
 	public void update() {
-		if(fullObject != null)
+		if(fullObject != null) {
+			if(fullObject instanceof MultiTileObject) 
+				if(!((MultiTileObject)fullObject).getTiles().isEmpty() && ((MultiTileObject)fullObject).getTiles().get(0) == this)
+					fullObject.update();
 			fullObject.update();
+		}
+		
+		ArrayList<SubTileObject> objects = new ArrayList<>();
+		for(SubTileObject[] subTiles : subTileObjects) { 
+		for(SubTileObject o : subTiles) {
+			if(o != null && !objects.contains(o)) {
+				o.update();
+				objects.add(o);
+			}
+		}}
 	}
 	
 	public boolean add(WorldObject obj) {
@@ -100,20 +125,18 @@ public class Tile {
 	public boolean collide(Entity e) {
 		Rectangle2D collisionRect = new Rectangle2D.Float(e.getBody().getX() - body.getX(), e.getBody().getZ() - body.getZ(), e.getBody().getWidth(), e.getBody().getHeight());
 		
-		for(int x = 0; x < TILE_RESOLUTION; x++) { 
-		for(int y = 0; y < TILE_RESOLUTION; y++) {
+		for(int x = 0; x < TILE_RESOLUTION; x++)  
+		for(int y = 0; y < TILE_RESOLUTION; y++) 
 			if((subTileObjects[x][y] != null || fullObject != null) && collisionRect.intersects(rectangles[x][y])) return true;
-		}}
 		return false;
 	}
 	
 	public boolean collide(WorldObject obj) {
 		if(fullObject == null) {
 			if(obj instanceof FullTileObject || obj instanceof MultiTileObject) {
-				for(SubTileObject[] subTiles : subTileObjects) { 
-				for(SubTileObject o : subTiles) {
+				for(SubTileObject[] subTiles : subTileObjects)  
+				for(SubTileObject o : subTiles) 
 					if(o != null) return true;
-				}}
 			} else {
 				SubTileObject temp = (SubTileObject) obj;
 				
@@ -134,6 +157,8 @@ public class Tile {
 	
 	public WorldObject remove(WorldObject object) {
 		if(fullObject == object) {
+			if(!(object instanceof MultiTileObject))
+				object.clearTile();
 			fullObject = null;
 			return object;
 		} else {
@@ -146,22 +171,30 @@ public class Tile {
 				}
 			}}
 			
-			if(removed)
+			if(removed) {
+				object.clearTile();
 				return object;
-			else
+			} else
 				return null;
 		}
+	}
+	
+	public boolean containsSubTileObject(SubTileObject object) {
+		for(int i = 0; i < subTileObjects.length; i++)  
+		for(int j = 0; j < subTileObjects[i].length; j++) 
+			if(subTileObjects[i][j] == object) return true;
+		return false;
 	}
 	
 	public WorldObject findObject(PhysicsBody body) {
 		if(fullObject != null && fullObject.getBody().getStaticBody() == body)
 			return fullObject;
 
-		System.out.println(body);
+//		System.out.println(body);
 		for(int i = 0; i < subTileObjects.length; i++) {
 		for(int j = 0; j < subTileObjects[i].length; j++) {
-			if(subTileObjects[i][j] != null) 
-				System.out.println(subTileObjects[i][j].getBody().getStaticBody());
+//			if(subTileObjects[i][j] != null) 
+//				System.out.println(subTileObjects[i][j].getBody().getStaticBody());
 			if(subTileObjects[i][j] != null && subTileObjects[i][j].getBody().getStaticBody() == body)
 				return subTileObjects[i][j];
 		}}
@@ -169,6 +202,7 @@ public class Tile {
 		return null;
 	}
 
+	public Lot getLot() { return lot; }
 	public WorldObject getFullObject() { return fullObject; }
 	public WrapperStaticBody getBody() { return body; }
 	public SubTileObject[][] getSubTileObjects() { return subTileObjects; }

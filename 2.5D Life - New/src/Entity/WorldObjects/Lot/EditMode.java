@@ -46,28 +46,29 @@ public class EditMode {
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RETURN)) {
-				heldObject.addToTile(lot, lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+				heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 				heldObject = null;
 			}
 			
 			if(handler.getMouseManager().keyJustPressed(0)) {
 				handler.getMouseManager().updatePicker(s -> {
 					if(heldObject != null) {
-						heldObject.addToTile(lot, lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+						heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 //						 lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()].add(heldObject);
 						 heldObject = null;
 						 
-						 System.out.println("--------------------");
+//						 System.out.println("--------------------");
 						 
-						 for(int x = 0; x < (int) lot.getTiles().length; x++) {
-						 for(int y = 0; y < (int) lot.getTiles()[x].length; y++) {
-							 System.out.print((lot.getTiles()[y][x].getFullObject() == null ? 0 : 1) + "\t");
-						 } System.out.println(); }
-						 System.out.println("--------------------");
+//						 for(int x = 0; x < (int) lot.getTiles().length; x++) {
+//						 for(int y = 0; y < (int) lot.getTiles()[x].length; y++) {
+//							 System.out.print((lot.getTiles()[y][x].getFullObject() == null ? 0 : 1) + "\t");
+//						 } System.out.println(); }
+//						 System.out.println("--------------------");
 					} else {
 						heldObject = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
 						if(heldObject != null) {
-							lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().getZ()].remove(heldObject);
+							heldObject.removeFromTile();
+//							lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].remove(heldObject);
 						}
 					}
 				}, delta);
@@ -83,22 +84,22 @@ public class EditMode {
 				if(heldObject instanceof SubTileObject) {
 					SubTileObject temp = (SubTileObject) heldObject;
 					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_UP)) {
+					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_I)) {
 						if(temp.getSubY() - 1 >= 0)
 							temp.setSubY(temp.getSubY() - 1);
 					}
 					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DOWN)) {
+					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_K)) {
 						if(temp.getSubY() + 1 + temp.getSubHeight() <= Tile.TILE_RESOLUTION)
 							temp.setSubY(temp.getSubY() + 1);
 					}
 					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_LEFT)) {
+					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_J)) {
 						if(temp.getSubX() - 1 >= 0)
 							temp.setSubX(temp.getSubX() - 1);
 					}
 					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RIGHT)) {
+					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_L)) {
 						if(temp.getSubX() + 1 + temp.getSubWidth() <= Tile.TILE_RESOLUTION)
 							temp.setSubX(temp.getSubX() + 1);
 					}

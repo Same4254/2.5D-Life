@@ -3,6 +3,7 @@ package Entity.WorldObjects;
 import java.util.ArrayList;
 
 import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
@@ -21,8 +22,10 @@ public class MultiTileObject extends WorldObject {
 	}
 
 	@Override
-	public void addToTile(Lot lot, Tile tile) {
+	public void addToTile(Tile tile) {
 		//TODO check if the object is in the lot's bounds
+		
+		Lot lot = tile.getLot();
 		
 		boolean noCollide = true;
 		
@@ -42,18 +45,33 @@ public class MultiTileObject extends WorldObject {
 			
 			for(int x = (int) tile.getBody().getPosition2D().x; x < (int) tile.getBody().getPosition2D().x + body.getWidth(); x++) {
 			for(int y = (int) tile.getBody().getPosition2D().y; y < (int) tile.getBody().getPosition2D().y + body.getHeight(); y++) {
-				tiles.add(lot.getTiles()[y][x]);
-				lot.getTiles()[y][x].add(this);
+				tiles.add(lot.getTiles()[x][y]);
+				lot.getTiles()[x][y].add(this);
 			}}
 		}
 	}
 	
 	@Override
+	public WorldObject removeFromTile() {
+		if(!tiles.isEmpty()) {
+			for(int i = tiles.size() - 1; i >= 0; i--) 
+				tiles.get(i).remove(this);
+			tiles.clear();
+			return this;
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public void render(Camera camera) {
+//		System.out.println(body.getRenderProperties().getTransform().getTranslation());
+		body.render(camera);
+	}
+	
+	@Override
 	public void rotateLeft() {
 		body.getRenderProperties().rotate(new Vector3f(0, 90, 0));
-		
-		int x = (int) body.getX();
-		int y = (int) body.getX();
 		
 		float width = body.getWidth();
 		float height = body.getHeight();
@@ -66,14 +84,16 @@ public class MultiTileObject extends WorldObject {
 	public void rotateRight() {
 		body.getRenderProperties().rotate(new Vector3f(0, -90, 0));
 		
-		int x = (int) body.getX();
-		int y = (int) body.getX();
-		
 		float width = body.getWidth();
 		float height = body.getHeight();
 		
 		body.setWidth(height);
 		body.setHeight(width);
+	}
+	
+	@Override
+	public void clearTile() {
+		tiles.clear();
 	}
 	
 	public ArrayList<Tile> getTiles() { return tiles; }

@@ -2,37 +2,72 @@ package Entity.FreeMoving;
 
 import org.lwjgl.input.Keyboard;
 
+import com.Engine.PhysicsEngine.Render.PhysicsRenderProperties;
+import com.Engine.RenderEngine.Models.ModelData.ModelData;
 import com.Engine.RenderEngine.Shaders.Shader;
+import com.Engine.RenderEngine.Shaders.Default.Model;
+import com.Engine.RenderEngine.Util.Camera;
+import com.Engine.RenderEngine.Util.RenderStructs.Transform;
 import com.Engine.Util.Vectors.Vector2f;
+import com.Engine.Util.Vectors.Vector3f;
 
+import Main.Game;
 import Main.Handler;
+import Utils.ImageLoader;
 
 public class Player extends Human {
 
 	private Vector2f movementSpeed;
 	
-	public Player(Handler handler, Vector2f twoDLocation, Vector2f twoDDimension, String objPath, String modelTexturePath, Shader modelShader) {
-		super(handler, twoDLocation, twoDDimension, objPath, modelTexturePath, modelShader);
+	private Model model;
+	
+	public Player(Handler handler, Vector2f twoDLocation, Vector2f twoDDimension, String name, Shader modelShader) {
+		super(handler, twoDLocation, twoDDimension, ImageLoader.MODEL_PATH + name + ".obj", ImageLoader.TEXTURE_PATH + name + ".png", modelShader);
 		
-		movementSpeed = new Vector2f(1);
+		movementSpeed = new Vector2f(8);
+		ModelData modelData = new ModelData();
+		model = new Model(modelData);
+		
+		modelData.storeDataInAttributeList(Shader.ATTRIBUTE_LOC_POSITIONS, 3, new float[] {
+				0, 0, 0,					body.getWidth(), 0, 0,
+				0, 0, body.getHeight(),		body.getWidth(), 0, body.getHeight()	     
+		}, false);
+		
+		modelData.loadIndicies(new int[] {
+				1,0,2,	
+				1,2,3,
+		});
+		
+		model.setShader(Game.physicsShader);
 	}
 
 	@Override
 	public void update(float delta) {
-		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_W)) {
-			
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
+			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, -movementSpeed.y * delta)))
+				body.add(0, -movementSpeed.y * delta);
 		}
 		
-		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_A)) {
-			
+		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
+			if(!collide(handler.getWorld().getTestLot(), new Vector2f(-movementSpeed.x * delta, 0)))
+				body.add(-movementSpeed.x * delta, 0);
 		}
 		
-		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_S)) {
-					
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
+			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, movementSpeed.y * delta)))
+				body.add(0, movementSpeed.y * delta);
 		}
 		
-		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_D)) {
-			
+		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
+			if(!collide(handler.getWorld().getTestLot(), new Vector2f(movementSpeed.x * delta, 0)))
+				body.add(movementSpeed.x * delta, 0);
 		}
+	}
+	
+	@Override
+	public void render(Camera camera) {
+		body.render(camera);
+		
+		model.render(new PhysicsRenderProperties(new Transform(body.getPosition3D().subtract(new Vector3f(body.getWidth() / 2, 0, body.getHeight() / 2)), new Vector3f(0), new Vector3f(1)), new Vector3f(1, 0, 0), true), camera);
 	}
 }

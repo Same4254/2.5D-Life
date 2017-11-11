@@ -4,7 +4,6 @@ import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
-import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
 import World.Tiles.Tile;
@@ -25,11 +24,17 @@ public abstract class WorldObject {
 		body.render(camera);
 	}
 	
-	public void update() {
-		
+	public void update() {	}
+	
+	public abstract void addToTile(Tile tile);
+	
+	public WorldObject removeFromTile() {
+		if(tile != null)
+			return tile.remove(this);
+		return null;
 	}
 	
-	public abstract void addToTile(Lot lot, Tile tile);
+	public abstract void clearTile();
 	public abstract void rotateLeft();
 	public abstract void rotateRight();
 

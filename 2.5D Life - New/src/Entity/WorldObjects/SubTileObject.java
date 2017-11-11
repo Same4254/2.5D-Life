@@ -5,7 +5,6 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
 import World.Tiles.Tile;
 
@@ -50,7 +49,7 @@ public class SubTileObject extends WorldObject {
 	}
 	
 	@Override
-	public void addToTile(Lot lot, Tile tile) {
+	public void addToTile(Tile tile) {
 		if(!tile.collide(this)) {
 			if(this.tile != null) 
 				this.tile.remove(this);
@@ -61,8 +60,14 @@ public class SubTileObject extends WorldObject {
 		}
 	}
 	
+	@Override
+	public void clearTile() {
+		tile = null;
+	}
+	
 	public void render(Camera camera) {
-		body.getRenderProperties().getTransform().setTranslation(body.getPosition3D().add((float) subX / Tile.TILE_RESOLUTION, 0, (float) subY / Tile.TILE_RESOLUTION));
+		if(tile == null)
+			body.getRenderProperties().getTransform().setTranslation(body.getPosition3D().add((float) subX / Tile.TILE_RESOLUTION, 0, (float) subY / Tile.TILE_RESOLUTION));
 		body.render(camera);
 	}
 	

@@ -8,10 +8,12 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.FreeMoving.Entity;
+import Entity.FreeMoving.Player;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.MultiTileObjects.Box;
 import Input.CameraMovement;
 import Main.Handler;
+import Utils.ImageLoader;
 
 public class World {
 	//TODO Ignore not tiles when trying to pick location for object?
@@ -26,7 +28,9 @@ public class World {
 	
 	private Lot testLot, anothaOne;
 	
-	private ArrayList<Entity> entities;
+	private Player player;
+	
+//	private ArrayList<Entity> entities;
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -39,16 +43,19 @@ public class World {
 		
 		sun = new ArrayList<>();
 		
-		entities = new ArrayList<>();
+//		entities = new ArrayList<>();
 	}
 	
 	public void init() {
 		testLot = new Lot(handler, new Vector2f(), 20, 20);
 		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
-		
-		
+
+		player = new Player(handler, new Vector2f(2), new Vector2f(1), "Cube Person", shader);
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
+
+		Box box = new Box(handler, new Vector2f(1, 2), "Box", shader);
+		box.addToTile(testLot.getTiles()[0][0]);
 		
 		testLot.enableEdit();
 	}
@@ -56,6 +63,8 @@ public class World {
 	public void update(float delta) {
 		testLot.update(delta);
 		anothaOne.update(delta);
+		
+		player.update(delta);
 
 		Vector3f thing = new Vector3f(anothaOne.getPosition(), 0).rotate(new Vector3f(0, 0, .1));
 		anothaOne.getPosition().x = thing.x;
@@ -68,6 +77,8 @@ public class World {
 		testLot.render(camera);
 		anothaOne.render(camera);
 		
+		player.render(camera);
+		
 		shader.bind();
 		shader.loadLights(sun);
 	}
@@ -75,4 +86,6 @@ public class World {
 	public Camera getCamera() { return camera; }
 	public CameraMovement getCameraMovement() { return cameraMovement; }
 	public DefaultShader getShader() { return shader; }
+	
+	public Lot getTestLot() { return testLot; }
 }
