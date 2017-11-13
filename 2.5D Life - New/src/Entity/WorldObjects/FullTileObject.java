@@ -8,7 +8,7 @@ import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
-public class FullTileObject extends WorldObject {
+public abstract class FullTileObject extends WorldObject {
 	
 	public FullTileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		super(handler, wrapperModel, texture);

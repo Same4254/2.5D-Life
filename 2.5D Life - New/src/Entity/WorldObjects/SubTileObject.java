@@ -9,7 +9,7 @@ import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
-public class SubTileObject extends WorldObject {
+public abstract class SubTileObject extends WorldObject {
 	protected int subX, subY; 
 	protected int subWidth, subHeight;
 	
@@ -31,6 +31,12 @@ public class SubTileObject extends WorldObject {
 		subHeight ^= subWidth;
 		subWidth ^= subHeight;
 		
+		float width = body.getDimensions().x;
+		float height = body.getDimensions().y;
+		
+		body.setWidth(height);
+		body.setHeight(width);
+		
 		subX = 0;
 		subY = 0;
 	}
@@ -43,6 +49,12 @@ public class SubTileObject extends WorldObject {
 		subWidth ^= subHeight;
 		subHeight ^= subWidth;
 		subWidth ^= subHeight;
+		
+		float width = body.getDimensions().x;
+		float height = body.getDimensions().y;
+		
+		body.setWidth(height);
+		body.setHeight(width);
 		
 		subX = 0;
 		subY = 0;
@@ -78,4 +90,6 @@ public class SubTileObject extends WorldObject {
 
 	public void setSubX(int subX) { this.subX = subX; }
 	public void setSubY(int subY) { this.subY = subY; }
+	public void setSubWidth(int subWidth) { this.subWidth = subWidth; }
+	public void setSubHeight(int subHeight) { this.subHeight = subHeight; }
 }

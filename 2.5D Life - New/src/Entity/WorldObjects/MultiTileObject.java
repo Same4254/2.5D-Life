@@ -12,7 +12,7 @@ import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
-public class MultiTileObject extends WorldObject {
+public abstract class MultiTileObject extends WorldObject {
 
 	protected ArrayList<Tile> tiles;
 	

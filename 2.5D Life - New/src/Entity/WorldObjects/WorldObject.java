@@ -27,6 +27,7 @@ public abstract class WorldObject {
 	
 	public void update() {	}
 	
+	public abstract WorldObject clone();
 	public abstract void addToTile(Tile tile);
 	
 	public WorldObject removeFromTile() {
@@ -35,10 +36,16 @@ public abstract class WorldObject {
 		return null;
 	}
 	
+	public void cleanUp() {
+		handler.getGame().getPhysicsEngine().remove(body.getStaticBody());
+	}
+	
 	public abstract void clearTile();
 	public abstract void rotateLeft();
 	public abstract void rotateRight();
 
 	public WrapperStaticBody getBody() { return body; }
+	public void setBody(WrapperStaticBody body) { this.body = body; }
+	
 	public void setTile(Tile tile) { this.tile = tile; }
 }

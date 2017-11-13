@@ -1,6 +1,7 @@
 package Entity.WrapperBodies;
 
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.Float;
 
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
@@ -14,12 +15,14 @@ import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 public class WrapperStaticBody {
+	private WrapperModel wrapperModel;
 	private Model model;
 	private RenderProperties renderProperties;
 	private StaticBody staticBody;
 	private Rectangle2D.Float hitBox;
 	
 	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, RenderProperties renderProperties) {
+		this.wrapperModel = wrapperModel;
 		this.model = wrapperModel.getModel();
 		this.renderProperties = renderProperties;
 		
@@ -35,6 +38,20 @@ public class WrapperStaticBody {
 	
 	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D) {
 		this(wrapperModel, texture2D, new DefaultRenderProperties());
+	}
+	
+	private WrapperStaticBody(Model model, CollisionMesh col, Rectangle2D.Float hitBox, RenderProperties renderProperties) {
+		this.model = new Model(model.getModelData());
+		this.model.setTexture(model.getTexture());
+		this.model.setShader(model.getShader());
+		
+		this.staticBody = new StaticBody(col);
+		this.hitBox = (Float) hitBox.clone();
+		this.renderProperties = renderProperties.clone();
+	}
+
+	public WrapperStaticBody clone() {
+		return new WrapperStaticBody(model, wrapperModel.getCollisionMesh(), hitBox, renderProperties);
 	}
 	
 	public Vector3f getPosition3D() { return staticBody.getPosition(); }
