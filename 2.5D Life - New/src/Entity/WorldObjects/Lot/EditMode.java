@@ -170,7 +170,6 @@ public class EditMode {
 							}
 							
 							for(float i = y; i >= tempY; i -= original.getBody().getDimensions().y) {
-								System.out.println(i);
 								boolean alreadyContained = false;
 								for(WorldObject o : heldObjects) {
 									if(o.getBody().getPosition2D().y == i) {
