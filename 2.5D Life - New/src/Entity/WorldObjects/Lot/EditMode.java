@@ -32,7 +32,7 @@ public class EditMode {
 		heldObjects = new ArrayList<>();
 	}
 	
-	public void update(float delta) {
+	public void update(float delta) { // TODO When walls are dragged, they're 2D pos changes but not they're sub coordinates!!!! <- fix that
 		if(enabled) {
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1)) {
 				for(WorldObject heldObject : heldObjects) 
