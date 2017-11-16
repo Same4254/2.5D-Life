@@ -80,7 +80,6 @@ public class Tile {
 		for(SubTileObject[] subTiles : subTileObjects) { 
 		for(SubTileObject o : subTiles) {
 			if(o != null && !objects.contains(o)) {
-//				o.getBody().getRenderProperties().getTransform().translate(new Vector3f(temp.x, 0, temp.y));
 				o.render(camera);
 				objects.add(o);
 			}
@@ -150,7 +149,7 @@ public class Tile {
 				
 				for(int x = temp.getSubX(); x < temp.getSubX() + temp.getSubWidth(); x++) { 
 				for(int y = temp.getSubY(); y < temp.getSubY() + temp.getSubHeight(); y++) {
-					if(subTileObjects[x][y] != null && subTileObjects[x][y].getClass().equals(obj.getClass())) continue;
+//					if(subTileObjects[x][y] != null && subTileObjects[x][y].getClass().equals(obj.getClass())) continue;
 					if(subTileObjects[x][y] != null) return true;
 				}}
 			}

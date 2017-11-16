@@ -14,6 +14,7 @@ import Entity.WorldObjects.FullObjects.Table;
 import Entity.WorldObjects.MultiTileObjects.Box;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Handler;
+import Utils.Util;
 import World.Tiles.Tile;
 
 public class EditMode {
@@ -120,6 +121,7 @@ public class EditMode {
 							for(float i = x; i >= tempX; i -= original.getBody().getDimensions().x) {
 								boolean alreadyContained = false;
 								for(WorldObject o : heldObjects) {
+//									System.out.println(o.getBody().getPosition2D().x);
 									if(o.getBody().getPosition2D().x == i) {
 										alreadyContained = true;
 										break;
@@ -194,7 +196,7 @@ public class EditMode {
 				handler.getMouseManager().updatePicker(s -> {
 					if(!heldObjects.isEmpty()) {
 						for(WorldObject heldObject : heldObjects) {
-							heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+							System.out.println(heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]));
 						}
 						
 						heldObjects.clear();
@@ -253,9 +255,14 @@ public class EditMode {
 	}
 	
 	public void render(Camera camera) {
-		if(enabled && !heldObjects.isEmpty())
-			for(WorldObject o : heldObjects)
+		if(enabled && !heldObjects.isEmpty()) {
+			for(WorldObject o : heldObjects) {
+//				if(o instanceof SubTileObject)
+//					System.out.println(((SubTileObject) o).getSubX());
+				
 				o.render(camera);
+			}
+		}
 	}
 	
 	public boolean isEnabled() { return enabled; }

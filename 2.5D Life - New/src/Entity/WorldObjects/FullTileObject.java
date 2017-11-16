@@ -25,7 +25,7 @@ public abstract class FullTileObject extends WorldObject {
 	}
 	
 	@Override
-	public void addToTile(Tile tile) {
+	public boolean addToTile(Tile tile) {
 		if(!tile.collide(this)) {
 			if(this.tile != null) 
 				this.tile.remove(this);
@@ -33,7 +33,10 @@ public abstract class FullTileObject extends WorldObject {
 			this.tile = tile;
 			
 			body.setPosition2D(tile.getBody().getPosition2D());
+			return true;
 		}
+		
+		return false;
 	}
 
 	@Override

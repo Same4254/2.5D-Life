@@ -23,7 +23,7 @@ public abstract class MultiTileObject extends WorldObject {
 	}
 
 	@Override
-	public void addToTile(Tile tile) {
+	public boolean addToTile(Tile tile) {
 		//TODO check if the object is in the lot's bounds
 		
 		Lot lot = tile.getLot();
@@ -49,7 +49,11 @@ public abstract class MultiTileObject extends WorldObject {
 				tiles.add(lot.getTiles()[x][y]);
 				lot.getTiles()[x][y].add(this);
 			}}
+			
+			return true;
 		}
+		
+		return false;
 	}
 	
 	@Override

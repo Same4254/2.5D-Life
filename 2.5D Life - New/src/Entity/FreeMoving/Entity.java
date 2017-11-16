@@ -40,8 +40,10 @@ public abstract class Entity {
 				Vector2f gridPosition = position.subtract(maxWidth / 2f, maxHeight / 2f).truncate();
 				for(int x = (int) gridPosition.x; x < gridPosition.x + maxWidth + 1; x++) { 
 				for(int y = (int) gridPosition.y; y < gridPosition.y + maxHeight + 1; y++) {
-					tiles[x][y].getBody().getModel().setTexture(Assets.redTexture);
-					if(tiles[x][y].collide(this)) return true;
+					if(x >= 0 && y >= 0 && x <= lot.getWidth() && y <= lot.getHeight()) {
+						tiles[x][y].getBody().getModel().setTexture(Assets.redTexture);
+						if(tiles[x][y].collide(this)) return true;
+					}
 				}}
 				position = position.add(step);
 			} while(position.subtract(currentLocation).length() <= velocity.length());

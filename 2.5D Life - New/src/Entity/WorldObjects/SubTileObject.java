@@ -61,7 +61,7 @@ public abstract class SubTileObject extends WorldObject {
 	}
 	
 	@Override
-	public void addToTile(Tile tile) {
+	public boolean addToTile(Tile tile) {
 		if(!tile.collide(this)) {
 			if(this.tile != null) 
 				this.tile.remove(this);
@@ -69,7 +69,10 @@ public abstract class SubTileObject extends WorldObject {
 			this.tile = tile;
 		
 			body.setPosition2D(body.getPosition2D().add(new Vector2f(subX, subY).divide(Tile.TILE_RESOLUTION)));
+			return true;
 		}
+		
+		return false;
 	}
 	
 	@Override

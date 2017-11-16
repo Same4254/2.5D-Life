@@ -14,6 +14,7 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Utils.Util;
 import World.Tiles.Tile;
 
 public class WrapperStaticBody {
@@ -36,13 +37,7 @@ public class WrapperStaticBody {
 		Vector3f radius = col.getOctree().getRoot().getBounds().getRadius().multiply(2);
 		
 		Vector2f dimensions = new Vector2f(radius.x, radius.z);
-		float numberX  = dimensions.x;
-		float numberY  = dimensions.y;
-		
-		float roundTo = 1f / Tile.TILE_RESOLUTION;
-		
-		dimensions.x = Math.round(numberX / roundTo) * roundTo;
-		dimensions.y = Math.round(numberY / roundTo) * roundTo;
+		dimensions = Util.roundNearestMultiple(dimensions, 1f / Tile.TILE_RESOLUTION);
 		
 //		dimensions = dimensions.divide(1 / Tile.TILE_RESOLUTION).round().multiply(1 / Tile.TILE_RESOLUTION);
 //		Math.round(number / roundTo) * roundTo

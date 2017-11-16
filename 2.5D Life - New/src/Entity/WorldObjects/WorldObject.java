@@ -28,7 +28,7 @@ public abstract class WorldObject {
 	public void update() {	}
 	
 	public abstract WorldObject clone();
-	public abstract void addToTile(Tile tile);
+	public abstract boolean addToTile(Tile tile);
 	
 	public WorldObject removeFromTile() {
 		if(tile != null)
