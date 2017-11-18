@@ -8,8 +8,8 @@ import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Player;
+import Entity.FreeMoving.AI.Action.GoToAction;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.MultiTileObjects.Box;
 import Input.CameraMovement;
 import Main.Assets;
 import Main.Handler;
@@ -48,9 +48,11 @@ public class World {
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture);
 		player.getBody().setPosition2D(2, 2);
 		
+//		player.addAction(new GoToAction(player, 2, 10));
+		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 
-		testLot.enableEdit();
+//		testLot.enableEdit();
 	}
 	
 	public void update(float delta) {

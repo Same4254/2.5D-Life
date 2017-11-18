@@ -12,21 +12,18 @@ import com.Engine.RenderEngine.Util.RenderStructs.Transform;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.AI.Action.GoToAction;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Game;
 import Main.Handler;
-import Utils.ImageLoader;
 
 public class Player extends Human {
 
-	private Vector2f movementSpeed;
-	
 	private Model model;
 	
 	public Player(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		super(handler, wrapperModel, texture);
 		
-		movementSpeed = new Vector2f(8);
 		ModelData modelData = new ModelData();
 		model = new Model(modelData);
 		
@@ -45,24 +42,36 @@ public class Player extends Human {
 
 	@Override
 	public void update(float delta) {
+		super.update(delta);
+		
+		if(handler.getMouseManager().keyJustReleased(0)) {
+			handler.getMouseManager().updatePicker(s -> {
+				addAction(new GoToAction(this, (int) s.getPosition().x, (int) s.getPosition().z));
+			}, delta);
+		}
+		
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, -movementSpeed.y * delta)))
-				body.add(0, -movementSpeed.y * delta);
+//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, -movementSpeed.y * delta)))
+//				body.add(0, -movementSpeed.y * delta);
+			move(new Vector2f(0, -movementSpeed.y), delta);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			if(!collide(handler.getWorld().getTestLot(), new Vector2f(-movementSpeed.x * delta, 0)))
-				body.add(-movementSpeed.x * delta, 0);
+//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(-movementSpeed.x * delta, 0)))
+//				body.add(-movementSpeed.x * delta, 0);
+			move(new Vector2f(-movementSpeed.x, 0), delta);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, movementSpeed.y * delta)))
-				body.add(0, movementSpeed.y * delta);
+//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, movementSpeed.y * delta)))
+//				body.add(0, movementSpeed.y * delta);
+			move(new Vector2f(0, movementSpeed.y), delta);
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			if(!collide(handler.getWorld().getTestLot(), new Vector2f(movementSpeed.x * delta, 0)))
-				body.add(movementSpeed.x * delta, 0);
+//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(movementSpeed.x * delta, 0)))
+//				body.add(movementSpeed.x * delta, 0);
+			move(new Vector2f(movementSpeed.x, 0), delta);
 		}
 	}
 	
