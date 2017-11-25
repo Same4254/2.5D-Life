@@ -59,6 +59,7 @@ public class Game {
 		while(!window.isCloseRequested()) {
 			handler.getKeyManager().update();
 			handler.getMouseManager().update();
+//			physicsEngine.simulate((float) window.getFrameTime());
 			
 			world.update((float) window.getFrameTime());
 			world.render();
@@ -73,10 +74,10 @@ public class Game {
 			glCullFace(GL_BACK);
 			glEnable(GL_DEPTH_TEST);
 			
-			Assets.defaultShader.getRenderer().render();
+			Assets.defaultShader.getRenderer().render(world.getCamera());
 			Assets.defaultShader.getRenderer().clear();
 			
-			physicsShader.getRenderer().render();
+			physicsShader.getRenderer().render(world.getCamera());
 			physicsShader.getRenderer().clear();
 			
 			Tile[][] tiles = world.getTestLot().getTiles();

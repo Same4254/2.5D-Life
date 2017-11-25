@@ -21,8 +21,8 @@ public abstract class WorldObject {
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
-	public void render(Camera camera) {
-		body.render(camera);
+	public void render() {
+		body.render();
 	}
 	
 	public void update() {	}

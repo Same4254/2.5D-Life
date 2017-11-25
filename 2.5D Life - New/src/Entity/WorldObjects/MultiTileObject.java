@@ -69,9 +69,9 @@ public abstract class MultiTileObject extends WorldObject {
 	}
 	
 	@Override
-	public void render(Camera camera) {
+	public void render() {
 //		System.out.println(body.getRenderProperties().getTransform().getTranslation());
-		body.render(camera);
+		body.render();
 	}
 	
 	@Override

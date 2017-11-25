@@ -44,9 +44,10 @@ public class Player extends Human {
 	public void update(float delta) {
 		super.update(delta);
 		
-		if(handler.getMouseManager().keyJustReleased(0)) {
+		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-				addAction(new GoToAction(this, (int) s.getPosition().x, (int) s.getPosition().z));
+				goTo(handler.getWorld().getTestLot(), new Vector2f(s.getPosition().x, s.getPosition().z));
+//				addAction(new GoToAction(this, (int) s.getPosition().x, (int) s.getPosition().z));
 			}, delta);
 		}
 		
@@ -76,9 +77,9 @@ public class Player extends Human {
 	}
 	
 	@Override
-	public void render(Camera camera) {
-		body.render(camera);
+	public void render() {
+		body.render();
 		
-		model.render(new PhysicsRenderProperties(new Transform(body.getPosition3D().subtract(new Vector3f(body.getWidth() / 2, 0, body.getHeight() / 2)), new Vector3f(0), new Vector3f(1)), new Vector3f(1, 0, 0), true), camera);
+		model.render(new PhysicsRenderProperties(new Transform(body.getPosition3D().subtract(new Vector3f(body.getWidth() / 2, 0, body.getHeight() / 2)), new Vector3f(0), new Vector3f(1)), new Vector3f(1, 0, 0), true));
 	}
 }

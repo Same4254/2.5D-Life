@@ -126,7 +126,7 @@ public class WrapperStaticBody {
 	public void add(float x, float z) { addX(x); addZ(z); }
 	public void add(Vector2f amount) { addX(amount.x); addZ(amount.y); }
 	
-	public void render(Camera camera) { model.render(renderProperties, camera); }
+	public void render() { model.render(renderProperties); }
 	
 	public Model getModel() { return model; }
 	public StaticBody getStaticBody() { return staticBody; }

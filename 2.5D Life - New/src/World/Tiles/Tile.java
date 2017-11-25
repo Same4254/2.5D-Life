@@ -52,11 +52,11 @@ public class Tile {
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
-	public void render(Camera camera) {
+	public void render() {
 		Vector2f temp = body.getPosition2D().add(lot.getPosition());
 		
 		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-		body.render(camera);
+		body.render();
 		
 //		if(fullObject != null) {
 //			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
@@ -67,11 +67,11 @@ public class Tile {
 			if(fullObject instanceof MultiTileObject)  {
 				if(!((MultiTileObject)fullObject).getTiles().isEmpty() && ((MultiTileObject)fullObject).getTiles().get(0) == this) {
 					fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-					fullObject.render(camera);
+					fullObject.render();
 				}
 			} else {
 				fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-				fullObject.render(camera);
+				fullObject.render();
 			}
 		}
 		
@@ -80,7 +80,7 @@ public class Tile {
 		for(SubTileObject[] subTiles : subTileObjects) { 
 		for(SubTileObject o : subTiles) {
 			if(o != null && !objects.contains(o)) {
-				o.render(camera);
+				o.render();
 				objects.add(o);
 			}
 		}}
@@ -202,6 +202,15 @@ public class Tile {
 		}}
 		
 		return null;
+	}
+	
+	public boolean containsAnything() {
+		if(fullObject != null) return true;
+		
+		for(int i = 0; i < subTileObjects.length; i++) 
+		for(int j = 0; j < subTileObjects[i].length; j++)
+			if(subTileObjects[i][j] != null) return true;
+		return false;
 	}
 
 	public Lot getLot() { return lot; }

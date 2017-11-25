@@ -83,7 +83,7 @@ public abstract class SubTileObject extends WorldObject {
 	public void render(Camera camera) {
 		if(tile == null)
 			body.getRenderProperties().getTransform().setTranslation(body.getPosition3D().add((float) subX / Tile.TILE_RESOLUTION, 0, (float) subY / Tile.TILE_RESOLUTION));
-		body.render(camera);
+		body.render();
 	}
 	
 	public int getSubX() { return subX; }

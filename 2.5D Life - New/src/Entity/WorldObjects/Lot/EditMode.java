@@ -254,13 +254,13 @@ public class EditMode {
 		}
 	}
 	
-	public void render(Camera camera) {
+	public void render() {
 		if(enabled && !heldObjects.isEmpty()) {
 			for(WorldObject o : heldObjects) {
 //				if(o instanceof SubTileObject)
 //					System.out.println(((SubTileObject) o).getSubX());
 				
-				o.render(camera);
+				o.render();
 			}
 		}
 	}

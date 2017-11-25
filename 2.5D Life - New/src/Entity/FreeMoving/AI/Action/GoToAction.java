@@ -3,6 +3,7 @@ package Entity.FreeMoving.AI.Action;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
+import Utils.Util;
 
 public class GoToAction extends Action {
 	private Entity entity;
@@ -12,7 +13,7 @@ public class GoToAction extends Action {
 	
 	public GoToAction(Entity entity, Vector2f toGridLocation) {
 		this.entity = entity;
-		this.toGridLocation = toGridLocation.truncate();
+		this.toGridLocation = toGridLocation;
 	}
 	
 	public GoToAction(Entity entity, int x, int z) {
@@ -23,12 +24,16 @@ public class GoToAction extends Action {
 	public void start() {
 		super.start();
 		
-		step = toGridLocation.subtract(entity.getGridLocation()).divide(toGridLocation.subtract(entity.getGridLocation()).length()).multiply(entity.getMovementSpeed());
+		Vector2f location = entity.getLocation();
+		
+		step = toGridLocation.subtract(location).divide(toGridLocation.subtract(location).length()).multiply(entity.getMovementSpeed());
 	}
 	
 	@Override
 	public void update(float delta) {
-		if(entity.getGridLocation().equals(toGridLocation)) {
+//		Vector2f pos = Util.roundNearestTenth(entity.getCenterLocation());
+
+		if(Util.withinRange(entity.getLocation(), toGridLocation, .1f)) {
 			complete = true;
 		} else {
 			if(!entity.move(step, delta))

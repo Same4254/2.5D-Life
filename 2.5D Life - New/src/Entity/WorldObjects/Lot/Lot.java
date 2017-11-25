@@ -41,12 +41,12 @@ public class Lot {
 		editMode.update(delta);
 	}
 	
-	public void render(Camera camera) {
+	public void render() {
 		for(Tile[] t : tiles)
 		for(Tile tile : t)
-			tile.render(camera);
+			tile.render();
 		
-		editMode.render(camera);
+		editMode.render();
 	}
 	
 	public void enableEdit() { editMode.setEnabled(true); }

@@ -42,6 +42,7 @@ public class Assets {
 		tableModel = new WrapperModel(ImageLoader.MODEL_PATH + "Table.obj", defaultShader);
 		tableTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Table.png");
 		
+//		boxModel = new WrapperModel(ImageLoader.MODEL_PATH + "Physics/VectorTop.obj", defaultShader);
 		boxModel = new WrapperModel(ImageLoader.MODEL_PATH + "Box.obj", defaultShader);
 		boxTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Box.png");
 	}
