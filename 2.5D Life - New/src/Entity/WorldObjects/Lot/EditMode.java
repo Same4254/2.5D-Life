@@ -1,11 +1,8 @@
 package Entity.WorldObjects.Lot;
 
-import java.util.ArrayList;
-
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.SubTileObject;
@@ -14,15 +11,14 @@ import Entity.WorldObjects.FullObjects.Table;
 import Entity.WorldObjects.MultiTileObjects.Box;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Handler;
-import Utils.Util;
 import World.Tiles.Tile;
 
 public class EditMode {
 	private Handler handler;
 	private Lot lot;
 	
-	private ArrayList<WorldObject> heldObjects;
-	private int x, y;
+	private WorldObject heldObject;
+	private DragList dragList;
 	
 	private boolean enabled;
 	
@@ -30,192 +26,66 @@ public class EditMode {
 		this.handler = handler;
 		this.lot = lot;
 		
-		heldObjects = new ArrayList<>();
+		dragList = new DragList();
 	}
 	
-	public void update(float delta) { // TODO When walls are dragged, they're 2D pos changes but not they're sub coordinates!!!! <- fix that
+	public void update(float delta) { 
 		if(enabled) {
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1)) {
-				for(WorldObject heldObject : heldObjects) 
+				if(heldObject != null)
 					heldObject.cleanUp();
-				
-				heldObjects.clear();
-				heldObjects.add(new Wall(handler));
+				heldObject = new Wall(handler);
+				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_2)) {
-				for(WorldObject heldObject : heldObjects) 
+				if(heldObject != null)
 					heldObject.cleanUp();
-				
-				heldObjects.clear();
-				heldObjects.add(new Table(handler));
+				heldObject = new Table(handler);
+				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_3)) {
-				for(WorldObject heldObject : heldObjects) 
+				if(heldObject != null)
 					heldObject.cleanUp();
-				
-				heldObjects.clear();
-				heldObjects.add(new Box(handler));
+				heldObject = new Box(handler);
+				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
-				for(WorldObject heldObject : heldObjects) 
+				if(heldObject != null)
 					heldObject.cleanUp();
-				
-				heldObjects.clear();
+				heldObject = null;
+				dragList.setOriginal(heldObject);
 			}
 			
-			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RETURN)) {
-				if(!heldObjects.isEmpty()) {
-					for(WorldObject heldObject : heldObjects) {
-						heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
-					}
-					
-					heldObjects.clear();
-				}
-			}
-
-			if(handler.getMouseManager().keyJustPressed(0)) {
+			if(handler.getMouseManager().keyJustReleased(0)) { //In the physics engine there's a sort that I commented out <- fix that (causes tiles to be clicked rather than objects)
 				handler.getMouseManager().updatePicker(s -> {
-					x = (int) s.getPosition().x;
-					y = (int) s.getPosition().z;
-				}, delta);
-			}
-
-			if(!heldObjects.isEmpty() && Mouse.isButtonDown(0) && (Keyboard.isKeyDown(Keyboard.KEY_Z) || Keyboard.isKeyDown(Keyboard.KEY_X))) {
-				WorldObject original = heldObjects.get(0);
-				
-				if(Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-					handler.getMouseManager().updatePickerForTile(s -> {
-						ArrayList<WorldObject> toAdd = new ArrayList<>();
-						int tempX = (int) s.getPosition().x;
-						
-						if(tempX > x) {
-							for(int i = heldObjects.size() - 1; i >= 0; i--) {
-								WorldObject o = heldObjects.get(i);
-								if(o.getBody().getPosition2D().x < x || o.getBody().getPosition2D().x > tempX) { o.cleanUp(); heldObjects.remove(o); }
-							}
-							
-							for(float i = x; i <= tempX; i += original.getBody().getDimensions().x) {
-								boolean alreadyContained = false;
-								for(WorldObject o : heldObjects) {
-									if(o.getBody().getPosition2D().x == i) {
-										alreadyContained = true;
-										break;
-									}
-								}
-								
-								if(!alreadyContained) {
-									WorldObject temp = original.clone();
-									temp.getBody().setPosition2D(i, y);
-									toAdd.add(temp);
-								}					
-							}
-						} else if(tempX < x) {
-							for(int i = heldObjects.size() - 1; i >= 0; i--) {
-								WorldObject o = heldObjects.get(i);
-								if(o.getBody().getPosition2D().x > x || o.getBody().getPosition2D().x < tempX) { o.cleanUp(); heldObjects.remove(o); }
-							}
-							
-							for(float i = x; i >= tempX; i -= original.getBody().getDimensions().x) {
-								boolean alreadyContained = false;
-								for(WorldObject o : heldObjects) {
-//									System.out.println(o.getBody().getPosition2D().x);
-									if(o.getBody().getPosition2D().x == i) {
-										alreadyContained = true;
-										break;
-									}
-								}
-								
-								if(!alreadyContained) {
-									WorldObject temp = original.clone();
-									temp.getBody().setPosition2D(i, y);
-									toAdd.add(temp);
-								}		
-							}
-						}
-						
-						heldObjects.addAll(toAdd);
-						
-					}, lot, delta);
-				} if(Keyboard.isKeyDown(Keyboard.KEY_X)) {
-					handler.getMouseManager().updatePickerForTile(s -> {
-						ArrayList<WorldObject> toAdd = new ArrayList<>();
-						int tempY = (int) s.getPosition().z;
-						
-						if(tempY > y) {
-							for(int i = heldObjects.size() - 1; i >= 0; i--) {
-								WorldObject o = heldObjects.get(i);
-								if(o.getBody().getPosition2D().y < y || o.getBody().getPosition2D().y > tempY) { o.cleanUp(); heldObjects.remove(o); }
-							}
-
-							for(float i = y; i <= tempY; i += original.getBody().getDimensions().y) {
-								boolean alreadyContained = false;
-								for(WorldObject o : heldObjects) {
-									if(o.getBody().getPosition2D().y == i) {
-										alreadyContained = true;
-										break;
-									}
-								}
-								
-								if(!alreadyContained) {
-									WorldObject temp = original.clone();
-									temp.getBody().setPosition2D(x, i);
-									toAdd.add(temp);
-								}					
-							}
-						} else if(tempY < y) {
-							for(int i = heldObjects.size() - 1; i >= 0; i--) {
-								WorldObject o = heldObjects.get(i);
-								if(o.getBody().getPosition2D().y > y || o.getBody().getPosition2D().y < tempY) { o.cleanUp(); heldObjects.remove(o); }
-							}
-							
-							for(float i = y; i >= tempY; i -= original.getBody().getDimensions().y) {
-								boolean alreadyContained = false;
-								for(WorldObject o : heldObjects) {
-									if(o.getBody().getPosition2D().y == i) {
-										alreadyContained = true;
-										break;
-									}
-								}
-								
-								if(!alreadyContained) {
-									WorldObject temp = original.clone();
-									temp.getBody().setPosition2D(x, i);
-									toAdd.add(temp);
-								}		
-							}
-						}
-						
-						heldObjects.addAll(toAdd);
-						
-					}, lot, delta);
-				}
-			} else if(handler.getMouseManager().keyJustReleased(0)) {
-				handler.getMouseManager().updatePicker(s -> {
-					if(!heldObjects.isEmpty()) {
-						for(WorldObject heldObject : heldObjects) {
-							System.out.println(heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]));
-						}
-						
-						heldObjects.clear();
+					if(heldObject != null) {
+						place();
 					} else {
+//						System.out.println(s);
+//						System.out.println(lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].getBody().getStaticBody());
+						
 						WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s); 
 						if(temp != null) {
 							temp.removeFromTile();
-							heldObjects.add(temp);
+							heldObject = temp;
+							dragList.setOriginal(heldObject);
 						}
 					}
 				}, delta);
-			} else if(heldObjects.size() == 1) {
-				WorldObject heldObject = heldObjects.get(0);
-				
+			} else if(heldObject != null) { //Mouse moving around
 				handler.getMouseManager().updatePickerForTile(s -> {
-					if(s != null && !Mouse.isButtonDown(0)) {
+					if(s != null && !Mouse.isButtonDown(0)) {//Free Moving
 						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 						Vector2f truncated = location.truncate();
 						heldObject.getBody().setPosition2D(truncated);
+					} else if(s != null && Mouse.isButtonDown(0)) { //Dragging
+						if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
+							dragList.fill(DragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+						else
+							dragList.fill(DragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
 					}
 				}, lot, delta);
 				
@@ -255,13 +125,22 @@ public class EditMode {
 	}
 	
 	public void render() {
-		if(enabled && !heldObjects.isEmpty()) {
-			for(WorldObject o : heldObjects) {
-//				if(o instanceof SubTileObject)
-//					System.out.println(((SubTileObject) o).getSubX());
-				
-				o.render();
-			}
+		if(enabled && heldObject != null) {
+			heldObject.render();
+			dragList.render();
+		}
+	}
+	
+	private void place() {
+		if(heldObject != null) {
+			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+			
+			for(WorldObject object : dragList.getList())
+				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
+			
+			heldObject = null;
+			dragList.setOriginal(heldObject);
+			dragList.clear();
 		}
 	}
 	

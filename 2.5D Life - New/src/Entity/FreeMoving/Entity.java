@@ -36,7 +36,7 @@ public abstract class Entity {
 		movementSpeed = new Vector2f();
 	}
 	
-	public void goTo(Lot lot, Vector2f toPosition) {
+	public void goTo(Lot lot, Vector2f toPosition) {//Slight rounding issue, action needs to get the starting location when it's its turn <- Fix Those
 		ArrayList<Vector2f> path = PathFinding.aStar(lot, getGridLocation(), toPosition);
 		Collections.reverse(path);
 		

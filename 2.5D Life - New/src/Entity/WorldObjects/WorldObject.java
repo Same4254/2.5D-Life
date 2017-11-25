@@ -44,6 +44,12 @@ public abstract class WorldObject {
 	public abstract void rotateLeft();
 	public abstract void rotateRight();
 
+	public float getX() { return body.getX(); }
+	public float getZ() { return body.getZ(); }
+	
+	public float getWidth() { return body.getWidth(); }
+	public float getHeight() { return body.getHeight(); }
+	
 	public WrapperStaticBody getBody() { return body; }
 	public void setBody(WrapperStaticBody body) { this.body = body; }
 	
