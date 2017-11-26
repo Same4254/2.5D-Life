@@ -25,20 +25,26 @@ public class DragList {
 	};
 	
 	private WorldObject original;
-	private ArrayList<WorldObject> dragList;
+//	private ArrayList<WorldObject> dragList;
+	private ArrayList<WorldObject> xAxis;
+	private ArrayList<WorldObject> zAxis;
 	
 	public DragList() {
-		dragList = new ArrayList<>();
+		xAxis = new ArrayList<>();
+		zAxis = new ArrayList<>();
 	}
 	
 	public void fill(AXIS axisToFill, Vector2f position) {
 		if(original != null) {
 			if(axisToFill == AXIS.X_AXIS || axisToFill == AXIS.BOTH) {// Least -> Greatest = Remove-- Add__
-				dragList.sort(xAxisComparator);
+				if(axisToFill != AXIS.BOTH)
+					clear(AXIS.Z_AXIS);
+				
+				xAxis.sort(xAxisComparator);
 				
 				for(int i = 0; i < Math.abs(position.x - original.getX()); i++) {
-					if(i >= dragList.size()) {
-						WorldObject temp = add(0);
+					if(i >= xAxis.size()) {
+						WorldObject temp = add(xAxis, 0);
 						if(position.x < original.getX()) 
 							temp.getBody().setPosition2D(original.getX() - original.getWidth(), original.getZ());
 						else
@@ -48,16 +54,16 @@ public class DragList {
 					
 					// X-------O
 					if(position.x < original.getX()) {
-						WorldObject object = dragList.get(i);
+						WorldObject object = xAxis.get(i);
 						
-						if(axisToFill != AXIS.BOTH && dragList.get(i).getZ() != original.getZ()) {
-							remove(object);
-							i--;
-							continue;
-						}
+//						if(axisToFill != AXIS.BOTH && xAxis.get(i).getZ() != original.getZ()) {
+//							remove(xAxis, object);
+//							i--;
+//							continue;
+//						}
 						
 						if(object.getX() >= original.getX() || object.getX() < position.x) {
-							remove(object);
+							remove(xAxis, object);
 							i--;
 							continue;
 						}
@@ -65,20 +71,20 @@ public class DragList {
 						float predictedLocation = original.getX() - (original.getWidth() * (i + 1));
 						
 						if(object.getX() != predictedLocation) {
-							WorldObject add = add(i);
+							WorldObject add = add(xAxis, i);
 							add.getBody().setPosition2D(new Vector2f(predictedLocation, original.getZ()));
 						}
 					} else {// O-------X
-						WorldObject object = dragList.get(dragList.size() - i - 1);
+						WorldObject object = xAxis.get(xAxis.size() - i - 1);
 						
-						if(axisToFill != AXIS.BOTH && dragList.get(i).getZ() != original.getZ()) {
-							remove(object);
-							i--;
-							continue;
-						}
+//						if(axisToFill != AXIS.BOTH && xAxis.get(i).getZ() != original.getZ()) {
+//							remove(xAxis, object);
+//							i--;
+//							continue;
+//						}
 						
 						if(object.getX() <= original.getX() || object.getX() > position.x) {
-							remove(object);
+							remove(xAxis, object);
 							i--;
 							continue;
 						}
@@ -86,7 +92,7 @@ public class DragList {
 						float predictedLocation = original.getX() + (original.getWidth() * (i + 1));
 						
 						if(object.getX() != predictedLocation) {
-							WorldObject add = add(i);
+							WorldObject add = add(xAxis, i);
 							add.getBody().setPosition2D(new Vector2f(predictedLocation, original.getZ()));
 						}
 					}
@@ -94,11 +100,14 @@ public class DragList {
 			}
 			
 			if(axisToFill == AXIS.Z_AXIS || axisToFill == AXIS.BOTH) {
-				dragList.sort(yAxisComparator);
+				if(axisToFill != AXIS.BOTH)
+					clear(AXIS.X_AXIS);
+				
+				zAxis.sort(yAxisComparator);
 				
 				for(int i = 0; i < Math.abs(position.y - original.getZ()); i++) {
-					if(i >= dragList.size()) {
-						WorldObject temp = add(0);
+					if(i >= zAxis.size()) {
+						WorldObject temp = add(zAxis, 0);
 						if(position.y < original.getZ()) 
 							temp.getBody().setPosition2D(original.getX(), original.getZ() - original.getHeight());
 						else
@@ -108,16 +117,16 @@ public class DragList {
 					
 					// X-------O
 					if(position.y < original.getZ()) {
-						WorldObject object = dragList.get(i);
+						WorldObject object = zAxis.get(i);
 						
-						if(axisToFill != AXIS.BOTH && dragList.get(i).getX() != original.getX()) {
-							remove(object);
-							i--;
-							continue;
-						}
+//						if(axisToFill != AXIS.BOTH && zAxis.get(i).getX() != original.getX()) {
+//							remove(zAxis, object);
+//							i--;
+//							continue;
+//						}
 						
 						if(object.getZ() >= original.getZ() || object.getZ() < position.y) {
-							remove(object);
+							remove(zAxis, object);
 							i--;
 							continue;
 						}
@@ -125,20 +134,20 @@ public class DragList {
 						float predictedLocation = original.getZ() - (original.getHeight() * (i + 1));
 						
 						if(object.getZ() != predictedLocation) {
-							WorldObject add = add(i);
+							WorldObject add = add(zAxis, i);
 							add.getBody().setPosition2D(new Vector2f(original.getX(), predictedLocation));
 						}
 					} else {// O-------X
-						WorldObject object = dragList.get(dragList.size() - i - 1);
+						WorldObject object = zAxis.get(zAxis.size() - i - 1);
 						
-						if(axisToFill != AXIS.BOTH && dragList.get(i).getX() != original.getX()) {
-							remove(object);
-							i--;
-							continue;
-						}
+//						if(axisToFill != AXIS.BOTH && zAxis.get(i).getX() != original.getX()) {
+//							remove(zAxis, object);
+//							i--;
+//							continue;
+//						}
 						
 						if(object.getZ() <= original.getZ() || object.getZ() > position.y) {
-							remove(object);
+							remove(zAxis, object);
 							i--;
 							continue;
 						}
@@ -146,7 +155,7 @@ public class DragList {
 						float predictedLocation = original.getZ() + (original.getHeight() * (i + 1));
 						
 						if(object.getZ() != predictedLocation) {
-							WorldObject add = add(i);
+							WorldObject add = add(zAxis, i);
 							add.getBody().setPosition2D(new Vector2f(original.getX(), predictedLocation));
 						}
 					}
@@ -156,33 +165,52 @@ public class DragList {
 	}
 	
 	public void render() {
-		for(WorldObject object : dragList)
+		for(WorldObject object : getAllObjects())
 			object.render();
 	}
 	
-	public WorldObject remove(int index) {
-		WorldObject temp = dragList.get(index);
-		remove(temp);
+	public WorldObject remove(ArrayList<WorldObject> list, int index) {
+		WorldObject temp = list.get(index);
+		remove(list, temp);
 		return temp;
 	}
 	
-	public void remove(WorldObject object) {
+	public void remove(ArrayList<WorldObject> list, WorldObject object) {
 		object.cleanUp();
-		dragList.remove(object);
+		list.remove(object);
 	}
 	
-	public WorldObject add(int index) {
+	public WorldObject add(ArrayList<WorldObject> list, int index) {
 		WorldObject temp = original.clone();
-		dragList.add(index, temp);
+		list.add(index, temp);
 		return temp;
 	}
 	
-	public void clear() {
-		for(WorldObject object : dragList)
-			object.cleanUp();
-		dragList.clear();
+	public void clear(AXIS axis) {
+		if(axis == AXIS.X_AXIS || axis == AXIS.BOTH) {
+			if(!xAxis.isEmpty()) {
+				for(WorldObject object : xAxis)
+					object.cleanUp();
+				xAxis.clear();
+			}
+		}
+		
+		if(axis == AXIS.Z_AXIS || axis == AXIS.BOTH) {
+			if(!zAxis.isEmpty()) {
+				for(WorldObject object : zAxis)
+					object.cleanUp();
+				zAxis.clear();
+			}
+		}
 	}
 	
 	public void setOriginal(WorldObject original) { this.original = original; }
-	public ArrayList<WorldObject> getList() { return dragList; }
+	public ArrayList<WorldObject> getAllObjects() {
+		ArrayList<WorldObject> temp = new ArrayList<>();
+		
+		temp.addAll(xAxis);
+		temp.addAll(zAxis);
+		
+		return temp;
+	}
 }

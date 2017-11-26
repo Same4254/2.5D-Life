@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.FullObjects.Table;
+import Entity.WorldObjects.Lot.DragList.AXIS;
 import Entity.WorldObjects.MultiTileObjects.Box;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Handler;
@@ -64,9 +65,6 @@ public class EditMode {
 					if(heldObject != null) {
 						place();
 					} else {
-//						System.out.println(s);
-//						System.out.println(lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].getBody().getStaticBody());
-						
 						WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s); 
 						if(temp != null) {
 							temp.removeFromTile();
@@ -82,10 +80,13 @@ public class EditMode {
 						Vector2f truncated = location.truncate();
 						heldObject.getBody().setPosition2D(truncated);
 					} else if(s != null && Mouse.isButtonDown(0)) { //Dragging
-						if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
-							dragList.fill(DragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
-						else
-							dragList.fill(DragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+						if(handler.getKeyManager().isPressed(Keyboard.KEY_RSHIFT)) {
+							if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
+								dragList.fill(DragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+							else
+								dragList.fill(DragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+						} else 
+							dragList.fill(DragList.AXIS.BOTH, new Vector2f(s.getPosition().x, s.getPosition().z));
 					}
 				}, lot, delta);
 				
@@ -135,12 +136,12 @@ public class EditMode {
 		if(heldObject != null) {
 			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 			
-			for(WorldObject object : dragList.getList())
+			for(WorldObject object : dragList.getAllObjects())
 				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
 			
 			heldObject = null;
 			dragList.setOriginal(heldObject);
-			dragList.clear();
+			dragList.clear(AXIS.BOTH);
 		}
 	}
 	
