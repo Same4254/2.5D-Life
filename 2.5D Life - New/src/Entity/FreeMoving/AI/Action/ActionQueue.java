@@ -20,5 +20,6 @@ public class ActionQueue {
 		}
 	}
 	
+	public ArrayList<Action> getActions() { return actions; }
 	public boolean add(Action a) { return actions.add(a); }
 }

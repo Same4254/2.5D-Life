@@ -46,34 +46,21 @@ public class Player extends Human {
 		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-				goTo(handler.getWorld().getTestLot(), new Vector2f(s.getPosition().x, s.getPosition().z));
-//				addAction(new GoToAction(this, (int) s.getPosition().x, (int) s.getPosition().z));
+				addAction(new GoToAction(handler.getWorld().getTestLot(), this, (int) s.getPosition().x, (int) s.getPosition().z));
 			}, delta);
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, -movementSpeed.y * delta)))
-//				body.add(0, -movementSpeed.y * delta);
+		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) 
 			move(new Vector2f(0, -movementSpeed.y), delta);
-		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(-movementSpeed.x * delta, 0)))
-//				body.add(-movementSpeed.x * delta, 0);
+		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) 
 			move(new Vector2f(-movementSpeed.x, 0), delta);
-		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(0, movementSpeed.y * delta)))
-//				body.add(0, movementSpeed.y * delta);
+		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) 
 			move(new Vector2f(0, movementSpeed.y), delta);
-		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-//			if(!collide(handler.getWorld().getTestLot(), new Vector2f(movementSpeed.x * delta, 0)))
-//				body.add(movementSpeed.x * delta, 0);
+		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) 
 			move(new Vector2f(movementSpeed.x, 0), delta);
-		}
 	}
 	
 	@Override

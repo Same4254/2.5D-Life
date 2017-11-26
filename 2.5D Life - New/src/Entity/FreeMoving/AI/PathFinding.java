@@ -14,16 +14,23 @@ public class PathFinding {
 		Node startNode = grid.getNode(start);
 		Node endNode = grid.getNode(end);
 		
+		if(!endNode.isWalkable())
+			return null;
+		
 		ArrayList<Node> open = new ArrayList<>();
 		ArrayList<Node> closed = new ArrayList<>();
 		open.add(startNode);
 
 		while(true) {
 			open.sort(Node.COMPARATOR);
+
+			Node currentNode;
+			if(open.isEmpty())//No more tiles (path impossible)
+				return null;
+			else 
+				currentNode = open.remove(0);
 			
-			Node currentNode = open.remove(0);
 			closed.add(currentNode);
-			
 			if(currentNode == endNode) break;
 			
 			for(Node node : grid.getNeighbors(currentNode)) {

@@ -36,14 +36,6 @@ public abstract class Entity {
 		movementSpeed = new Vector2f();
 	}
 	
-	public void goTo(Lot lot, Vector2f toPosition) {//Slight rounding issue, action needs to get the starting location when it's its turn <- Fix Those
-		ArrayList<Vector2f> path = PathFinding.aStar(lot, getGridLocation(), toPosition);
-		Collections.reverse(path);
-		
-		for(Vector2f point : path) 
-			actionQueue.add(new GoToAction(this, point));
-	}
-	
 	public boolean move(Vector2f velocity, float delta) {
 //		if(!collide(handler.getWorld().getTestLot(), velocity.multiply(delta))) {
 //			float angle = (float) Math.toDegrees(Math.acos(new Vector2f(0, 1).dot(velocity.normalize()))) - 90;
@@ -60,9 +52,7 @@ public abstract class Entity {
 		Tile[][] tiles = lot.getTiles();
 		
 		Vector2f currentLocation = body.getPosition2D();
-		
 		Vector2f step = velocity.normalize().divide(Tile.TILE_RESOLUTION);
-
 		Vector2f position = body.getPosition2D();
 		
 		int maxWidth = (int) Math.ceil(body.getWidth());

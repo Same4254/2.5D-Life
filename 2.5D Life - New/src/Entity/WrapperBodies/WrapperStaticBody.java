@@ -79,9 +79,8 @@ public class WrapperStaticBody {
 		setHitBoxCoords(position);
 	}
 
-	public void setPosition2D(float x, float y) {
-		setPosition2D(new Vector2f(x, y));
-	}
+	public void setPosition2D(float x, float y) { setPosition2D(new Vector2f(x, y)); }
+	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
 	
 	private void setHitBoxCoords(float x, float y) {
 		hitBox.x = x;

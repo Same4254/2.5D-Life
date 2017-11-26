@@ -55,7 +55,7 @@ public class World {
 		anothaOne.update(delta);
 		
 		player.update(delta);
-
+		
 		Vector3f thing = new Vector3f(anothaOne.getPosition(), 0).rotate(new Vector3f(0, 0, .1));
 		anothaOne.getPosition().x = thing.x;
 		anothaOne.getPosition().y = thing.y;
