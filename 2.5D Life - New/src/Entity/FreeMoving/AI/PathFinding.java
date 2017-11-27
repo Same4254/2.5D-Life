@@ -1,6 +1,7 @@
 package Entity.FreeMoving.AI;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 import com.Engine.Util.Vectors.Vector2f;
@@ -62,6 +63,7 @@ public class PathFinding {
 			}
 		}
 		
+		Collections.reverse(path);
 		return path;
 	}
 	
@@ -73,6 +75,34 @@ public class PathFinding {
 			field[x][y] = new Node(x, y, !lot.getTiles()[x][y].containsAnything());
 		
 		return new NodeGrid(field);
+	}
+	
+	/*
+	 * Simplifies the path down to the important vertices
+	 * Gets rid of the origin (No need to go to where we already are)
+	 */
+	public static ArrayList<Vector2f> simplifyPath(ArrayList<Vector2f> pathPoints) {
+		if(pathPoints == null)
+			return null;
+		
+		ArrayList<Vector2f> path = new ArrayList<>(pathPoints);
+		
+		Vector2f lastDistance = null;
+		for(int i = 0; i < path.size() - 1; i++) {
+			Vector2f point = path.get(i);
+			Vector2f nextPoint = path.get(i + 1);
+			
+			if(lastDistance == null) { 
+				lastDistance = nextPoint.subtract(point);
+			} else if(nextPoint.subtract(point).equals(lastDistance)) {
+				path.remove(point);
+				i--;
+			} else 
+				lastDistance = nextPoint.subtract(point);
+		}
+		
+		path.remove(0);
+		return path;
 	}
 }
 

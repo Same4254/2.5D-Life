@@ -32,13 +32,11 @@ public class GoToAction extends Action {
 	public void start() {
 		super.start();
 		
-		ArrayList<Vector2f> path = PathFinding.aStar(lot, entity.getLocation(), toGridLocation);
+		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(lot, entity.getLocation(), toGridLocation));
 		if(path == null)
 			return;
 		
-		Collections.reverse(path);
-		
-		for(Vector2f point : path) 
+		for(Vector2f point : path)   
 			movePoints.add(new Move(entity, point));
 	}
 	
