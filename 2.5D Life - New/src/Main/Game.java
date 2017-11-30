@@ -61,6 +61,7 @@ public class Game {
 			handler.getMouseManager().update();
 //			physicsEngine.simulate((float) window.getFrameTime());
 			
+			window.setTitle("2.5D Life: " + window.getFrameTime());
 			world.update((float) window.getFrameTime());
 			world.render();
 			

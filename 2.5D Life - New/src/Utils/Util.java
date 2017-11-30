@@ -59,4 +59,20 @@ public class Util {
 		if(number.lessThen(point.subtract(range)) || number.greaterThen(point.add(range))) return false;
 		return true;
 	}
+	
+//	/****** Sub Tile Value ******/
+//	public int getSubX(float x) {
+//		
+//	}
+	
+	public static void main(String[] args) {
+		Vector2f velocity = new Vector2f(1, -1);
+		
+		float angle = (float) Math.toDegrees(Math.acos((velocity.dot(new Vector2f(1, 0)) / velocity.length())));
+		
+		if(velocity.y < 0)
+			angle += 180;
+		
+		System.out.println(angle);
+	}
 }

@@ -39,7 +39,7 @@ public class World {
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		testLot = new Lot(handler, new Vector2f(), 20, 20);
+		testLot = new Lot(handler, new Vector2f(), 100, 100);
 		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
 
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture);

@@ -1,15 +1,11 @@
 package Entity.FreeMoving;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
+import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.FreeMoving.AI.PathFinding;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.ActionQueue;
-import Entity.FreeMoving.AI.Action.GoToAction;
 import Entity.FreeMoving.AI.Needs.NeedManager;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
@@ -38,10 +34,22 @@ public abstract class Entity {
 	
 	public boolean move(Vector2f velocity, float delta) {
 //		if(!collide(handler.getWorld().getTestLot(), velocity.multiply(delta))) {
-//			float angle = (float) Math.toDegrees(Math.acos(new Vector2f(0, 1).dot(velocity.normalize()))) - 90;
-//			float angle = (float) (90 - Math.atan(velocity.y / velocity.x) * 360 / 2 / Math.PI);
+			float angle = (float) Math.toDegrees(Math.acos((velocity.dot(new Vector2f(1, 0)) / velocity.length())));
+		
+			if(velocity.y > 0 && velocity.x == 0)
+				angle -= 180;
+			else if(velocity.y > 0) {
+				if(velocity.x > 0)
+					angle -= 90;
+				if(velocity.x < 0)
+					angle += 90;
+			} 
 			
-//			body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle - 90, 0));
+//			System.out.println("----------------");
+//			System.out.println("Velocity: " + velocity);
+//			System.out.println("Angle: " + (angle));
+			
+			body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0));
 			body.add(velocity.multiply(delta));
 			return true;
 //		}
