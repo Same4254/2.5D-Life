@@ -1,11 +1,10 @@
 package Entity.WorldObjects.SubObjects;
 
-import Entity.WorldObjects.SubTileObject;
-import Entity.WorldObjects.FullObjects.Table;
+import Entity.WorldObjects.TileObject;
 import Main.Assets;
 import Main.Handler;
 
-public class Wall extends SubTileObject {
+public class Wall extends TileObject {
 
 	public Wall(Handler handler) {
 		super(handler, Assets.wallModel, Assets.wallTexture);
@@ -18,11 +17,6 @@ public class Wall extends SubTileObject {
 		temp.setBody(body.clone());
 		handler.getGame().getPhysicsEngine().add(temp.getBody().getStaticBody());
 
-		temp.setSubX(subX);
-		temp.setSubY(subY);
-		temp.setSubWidth(subWidth);
-		temp.setSubHeight(subHeight);
-		
 		return temp;
 	}
 }

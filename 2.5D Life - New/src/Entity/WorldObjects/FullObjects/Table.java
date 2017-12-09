@@ -1,11 +1,11 @@
 package Entity.WorldObjects.FullObjects;
 
-import Entity.WorldObjects.FullTileObject;
+import Entity.WorldObjects.TileObject;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Assets;
 import Main.Handler;
 
-public class Table extends FullTileObject {
+public class Table extends TileObject {
 
 	public Table(Handler handler) {
 		super(handler, Assets.tableModel, Assets.tableTexture);

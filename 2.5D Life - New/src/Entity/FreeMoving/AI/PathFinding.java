@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.Lot.Lot;
+import Utils.Util;
 
 public class PathFinding {
 	public static ArrayList<Vector2f> aStar(Lot lot, Vector2f start, Vector2f end) {
@@ -16,6 +17,8 @@ public class PathFinding {
 		Node endNode = grid.getNode(end);
 		
 		if(!endNode.isWalkable())
+			endNode = grid.getNode(Util.closest(start, grid.asVectors(grid.getAdjacentNeighborsNoUnWalkables(endNode))));
+		if(endNode == null)
 			return null;
 		
 		ArrayList<Node> open = new ArrayList<>();
@@ -34,7 +37,7 @@ public class PathFinding {
 			closed.add(currentNode);
 			if(currentNode == endNode) break;
 			
-			for(Node node : grid.getNeighbors(currentNode)) {
+			for(Node node : grid.getNeighborsNoCorners(currentNode)) {
 				if(!node.isWalkable() || closed.contains(node)) continue;
 				
 				int newCost = currentNode.getGCost() + Node.getDistance(currentNode, node);
@@ -113,7 +116,75 @@ class NodeGrid {
 		this.nodes = nodes;
 	}
 	
+	public ArrayList<Vector2f> asVectors(ArrayList<Node> nodes) {
+		ArrayList<Vector2f> temp = new ArrayList<>();
+		
+		for(Node node : nodes) 
+			temp.add(node.getPosition());
+		return temp;
+	}
+	
 	public ArrayList<Node> getNeighbors(Node node) {
+		ArrayList<Node> neighbores = new ArrayList<>();
+		
+		for(int x = node.getX() - 1; x <= node.getX() + 1; x++) {
+			for(int y = node.getY() - 1; y <= node.getY() + 1; y++) {
+				Node temp = getNode(x,y);
+				
+				if(temp != null && temp != node)
+					neighbores.add(temp);
+			}
+		}
+		
+		return neighbores;
+	}
+	
+	public ArrayList<Node> getNeighborsNoUnWalkables(Node node) {
+		ArrayList<Node> neighbores = new ArrayList<>();
+		
+		for(int x = node.getX() - 1; x <= node.getX() + 1; x++) {
+			for(int y = node.getY() - 1; y <= node.getY() + 1; y++) {
+				Node temp = getNode(x,y);
+				
+				if(temp != null && temp != node && temp.isWalkable())
+					neighbores.add(temp);
+			}
+		}
+		
+		return neighbores;
+	}
+	
+	public ArrayList<Node> getAdjacentNeighbors(Node node) {
+		ArrayList<Node> nodes = new ArrayList<>();
+		Node node1 = getNode(node.getPosition().add(0, 1));
+		Node node2 = getNode(node.getPosition().add(0, -1));
+		Node node3 = getNode(node.getPosition().add(1, 0));
+		Node node4 = getNode(node.getPosition().add(-1, 0));
+		
+		if(node1 != null)
+			nodes.add(node1);
+		if(node2 != null)
+			nodes.add(node2);
+		if(node3 != null)
+			nodes.add(node3);
+		if(node4 != null)
+			nodes.add(node4);
+		return nodes;
+	}
+	
+	public ArrayList<Node> getAdjacentNeighborsNoUnWalkables(Node node) {
+		ArrayList<Node> nodes = getAdjacentNeighbors(node);
+		
+		for(int i = nodes.size() - 1; i >= 0; i--)
+			if(!nodes.get(i).isWalkable())
+				nodes.remove(i);
+		return nodes;
+	}
+	
+	/**
+	 * Gets all the neighborers, but not the ones that are "technically possible" (can't cut through corners in between objects)
+	 */
+	public ArrayList<Node> getNeighborsNoCorners(Node node) {
 		ArrayList<Node> neighbores = new ArrayList<>();
 		
 		for(int x = node.getX() - 1; x <= node.getX() + 1; x++) {
@@ -123,16 +194,16 @@ class NodeGrid {
 				if(x != node.getX() && y != node.getY()) {
 					if(x > node.getX()) {
 						if(y > node.getY()) { 
-							if(!getNode(x - 1, y).isWalkable() || !getNode(x, y - 1).isWalkable())
+							if(!isWalkable(x - 1, y) || !isWalkable(x, y - 1))
 								continue;
-						} else if(!getNode(x - 1, y).isWalkable() || !getNode(x, y + 1).isWalkable())
+						} else if(!isWalkable(x - 1, y) || !isWalkable(x, y + 1))
 							continue;
 					} else if(x < node.getX()) {
 						if(y > node.getY()) {
-							if(!getNode(x + 1, y).isWalkable() || !getNode(x, y - 1).isWalkable())
+							if(!isWalkable(x + 1, y) || !isWalkable(x, y - 1))
 								continue;
 						} else if(y < node.getY()) {
-							if(!getNode(x + 1, y).isWalkable() || !getNode(x, y + 1).isWalkable())
+							if(!isWalkable(x + 1, y) || !isWalkable(x, y + 1))
 								continue;
 						}
 					}
@@ -150,6 +221,12 @@ class NodeGrid {
 		if(x >= 0 && x < nodes.length && y >= 0 && y < nodes[0].length)
 			return nodes[x][y];
 		return null;
+	}
+	
+	public boolean isWalkable(int x, int y) {
+		Node node = getNode(x, y);
+		if(node == null) return false;
+		return node.isWalkable();
 	}
 	
 	public Node getNode(Vector2f pos) {
@@ -204,6 +281,7 @@ class Node {
 	
 	public boolean isWalkable() { return walkable; }
 	
+	public Vector2f getPosition() { return new Vector2f(x, y); }
 	public int getX() { return x; }
 	public int getY() { return y; }
 }

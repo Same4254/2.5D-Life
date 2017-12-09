@@ -56,39 +56,37 @@ public abstract class Entity {
 //		return false;
 	}
 	
-	public boolean collide(Lot lot, Vector2f velocity) {
-		Tile[][] tiles = lot.getTiles();
-		
-		Vector2f currentLocation = body.getPosition2D();
-		Vector2f step = velocity.normalize().divide(Tile.TILE_RESOLUTION);
-		Vector2f position = body.getPosition2D();
-		
-		int maxWidth = (int) Math.ceil(body.getWidth());
-		int maxHeight = (int) Math.ceil(body.getHeight());
-		
-		try {
-			position = position.add(step);
-			do {
-				body.setPosition2D(position);
-				Vector2f gridPosition = position.subtract(maxWidth / 2f, maxHeight / 2f).truncate();
-				for(int x = (int) gridPosition.x; x < gridPosition.x + maxWidth + 1; x++) { 
-				for(int y = (int) gridPosition.y; y < gridPosition.y + maxHeight + 1; y++) {
-					if(x >= 0 && y >= 0 && x < lot.getWidth() && y < lot.getHeight()) {
-						tiles[x][y].getBody().getModel().setTexture(Assets.redTexture);
-						if(tiles[x][y].collide(this)) return true;
-					}
-				}}
-				position = position.add(step);
-			} while(position.subtract(currentLocation).length() <= velocity.length());
-			return false;
-		} finally {
-			body.setPosition2D(currentLocation);
-		}
-	}
+//	public boolean collide(Lot lot, Vector2f velocity) {
+//		Tile[][] tiles = lot.getTiles();
+//		
+//		Vector2f currentLocation = body.getPosition2D();
+//		Vector2f step = velocity.normalize().divide(Tile.TILE_RESOLUTION);
+//		Vector2f position = body.getPosition2D();
+//		
+//		int maxWidth = (int) Math.ceil(body.getWidth());
+//		int maxHeight = (int) Math.ceil(body.getHeight());
+//		
+//		try {
+//			position = position.add(step);
+//			do {
+//				body.setPosition2D(position);
+//				Vector2f gridPosition = position.subtract(maxWidth / 2f, maxHeight / 2f).truncate();
+//				for(int x = (int) gridPosition.x; x < gridPosition.x + maxWidth + 1; x++) { 
+//				for(int y = (int) gridPosition.y; y < gridPosition.y + maxHeight + 1; y++) {
+//					if(x >= 0 && y >= 0 && x < lot.getWidth() && y < lot.getHeight()) {
+//						tiles[x][y].getBody().getModel().setTexture(Assets.redTexture);
+//						if(tiles[x][y].collide(this)) return true;
+//					}
+//				}}
+//				position = position.add(step);
+//			} while(position.subtract(currentLocation).length() <= velocity.length());
+//			return false;
+//		} finally {
+//			body.setPosition2D(currentLocation);
+//		}
+//	}
 	
-	public void addAction(Action a) {
-		actionQueue.add(a);
-	}
+	public void addAction(Action a) { actionQueue.add(a); }
 	
 	public float getX() { return body.getX(); }
 	public float getY() { return body.getY(); }

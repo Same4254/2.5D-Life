@@ -5,14 +5,12 @@ import org.lwjgl.input.Mouse;
 
 import com.Engine.Util.Vectors.Vector2f;
 
-import Entity.WorldObjects.SubTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.FullObjects.Table;
 import Entity.WorldObjects.Lot.DragList.AXIS;
 import Entity.WorldObjects.MultiTileObjects.Box;
 import Entity.WorldObjects.SubObjects.Wall;
 import Main.Handler;
-import World.Tiles.Tile;
 
 public class EditMode {
 	private Handler handler;
@@ -91,30 +89,6 @@ public class EditMode {
 					}
 				}, lot, delta);
 				
-				if(heldObject instanceof SubTileObject) {
-					SubTileObject temp = (SubTileObject) heldObject;
-					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_I)) {
-						if(temp.getSubY() - 1 >= 0)
-							temp.setSubY(temp.getSubY() - 1);
-					}
-					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_K)) {
-						if(temp.getSubY() + 1 + temp.getSubHeight() <= Tile.TILE_RESOLUTION)
-							temp.setSubY(temp.getSubY() + 1);
-					}
-					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_J)) {
-						if(temp.getSubX() - 1 >= 0)
-							temp.setSubX(temp.getSubX() - 1);
-					}
-					
-					if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_L)) {
-						if(temp.getSubX() + 1 + temp.getSubWidth() <= Tile.TILE_RESOLUTION)
-							temp.setSubX(temp.getSubX() + 1);
-					}
-				}
-				
 				if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_PERIOD)) {
 					heldObject.rotateRight();
 				}
@@ -138,7 +112,7 @@ public class EditMode {
 			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 			
 			for(WorldObject object : dragList.getList(DragList.AXIS.BOTH)) {
-				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
+ 				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
 			}
 			
 			heldObject = null;

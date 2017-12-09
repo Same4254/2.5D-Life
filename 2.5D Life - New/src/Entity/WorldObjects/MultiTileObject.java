@@ -32,7 +32,7 @@ public abstract class MultiTileObject extends WorldObject {
 		
 		for(int x = (int) tile.getBody().getPosition2D().x; x < (int) tile.getBody().getPosition2D().x + body.getWidth(); x++) {
 		for(int y = (int) tile.getBody().getPosition2D().y; y < (int) tile.getBody().getPosition2D().y + body.getHeight(); y++) {
-			if(lot.getTiles()[x][y].collide(this)) {// TODO Check for collision in all the tiles
+			if(lot.getTiles()[x][y].containsAnything()) {// TODO Check for collision in all the tiles
 				noCollide = false;
 			}
 		}}

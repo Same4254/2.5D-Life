@@ -8,9 +8,9 @@ import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import World.Tiles.Tile;
 
-public abstract class FullTileObject extends WorldObject {
+public abstract class TileObject extends WorldObject {
 	
-	public FullTileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
+	public TileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		super(handler, wrapperModel, texture);
 	}
 
@@ -26,7 +26,7 @@ public abstract class FullTileObject extends WorldObject {
 	
 	@Override
 	public boolean addToTile(Tile tile) {
-		if(!tile.collide(this)) {
+		if(!tile.containsAnything()) {
 			if(this.tile != null) 
 				this.tile.remove(this);
 			tile.add(this);

@@ -1,7 +1,12 @@
 package Utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
+
+import World.Tiles.Tile;
 
 public class Util {
 	
@@ -59,20 +64,35 @@ public class Util {
 		if(number.lessThen(point.subtract(range)) || number.greaterThen(point.add(range))) return false;
 		return true;
 	}
+
+	/****** Within Range ******/
+	public static Vector2f closest(Vector2f vector, ArrayList<Vector2f> vectors) {
+		Vector2f closestVector = null;
+		float closestDistance = Float.MAX_VALUE;
+		for(Vector2f v : vectors) {
+			float distance = v.distance(vector); 
+			
+			System.out.println(distance + " : " + v);
+			
+			if(distance < closestDistance) {
+				closestDistance = distance;
+				closestVector = v;
+			}
+		}
+		
+		System.out.println(closestDistance);
+		return closestVector;
+	}
+	/****** Tiles ******/
+	public static Vector2f toGrid(Vector2f vector) {
+		return roundNearestMultiple(vector, (float) (1.0 / Tile.TILE_RESOLUTION));
+	}
 	
-//	/****** Sub Tile Value ******/
-//	public int getSubX(float x) {
-//		
-//	}
+	public static int getSubCoord(float pos) {
+		return (int) (roundNearestMultiple(pos - (int) pos, (float) (1.0 / Tile.TILE_RESOLUTION)) * Tile.TILE_RESOLUTION);
+	}
 	
 	public static void main(String[] args) {
-		Vector2f velocity = new Vector2f(1, -1);
-		
-		float angle = (float) Math.toDegrees(Math.acos((velocity.dot(new Vector2f(1, 0)) / velocity.length())));
-		
-		if(velocity.y < 0)
-			angle += 180;
-		
-		System.out.println(angle);
+		System.out.println(toGrid(new Vector2f(5.3f, 5.5f)));
 	}
 }
