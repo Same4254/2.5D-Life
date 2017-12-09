@@ -137,13 +137,9 @@ public class EditMode {
 		if(heldObject != null) {
 			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
 			
-			int count = 0;
 			for(WorldObject object : dragList.getList(DragList.AXIS.BOTH)) {
-				System.out.println(object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]));
-				count++;
+				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
 			}
-			
-			System.out.println("Count: " + count);
 			
 			heldObject = null;
 			dragList.setOriginal(heldObject);

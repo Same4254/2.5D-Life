@@ -17,13 +17,14 @@ import org.lwjgl.input.Keyboard;
 import com.Engine.PhysicsEngine.PhysicsEngine;
 import com.Engine.PhysicsEngine.Detection.Intersection.Tests.MovingEllipsoidMeshIntersectionTest;
 import com.Engine.PhysicsEngine.Render.PhysicsShader;
+import com.Engine.RenderEngine.New_Pipeline.FBO.FBO;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Window.Window;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.FreeMoving.Entity;
 import World.World;
 import World.Tiles.Tile;
+import World.Tiles.Render.TileInstanceModel;
 
 public class Game {
 	private Window window;
@@ -56,12 +57,15 @@ public class Game {
 	}
 	
 	public void loop() {
+		double frameTimeAvg = 0.0;
+		int frameAvgCounter = 0;
+		
 		while(!window.isCloseRequested()) {
 			handler.getKeyManager().update();
 			handler.getMouseManager().update();
 //			physicsEngine.simulate((float) window.getFrameTime());
 			
-			window.setTitle("2.5D Life: " + window.getFrameTime());
+//			window.setTitle("2.5D Life: " + window.getFrameTime());
 			world.update((float) window.getFrameTime());
 			world.render();
 			
@@ -74,6 +78,9 @@ public class Game {
 			glFrontFace(GL_CCW);
 			glCullFace(GL_BACK);
 			glEnable(GL_DEPTH_TEST);
+			
+			TileInstanceModel.TILE_SHADER.getRenderer().render(world.getCamera());
+			TileInstanceModel.TILE_SHADER.getRenderer().clear();
 			
 			Assets.defaultShader.getRenderer().render(world.getCamera());
 			Assets.defaultShader.getRenderer().clear();
@@ -91,10 +98,22 @@ public class Game {
 			window.update();
 			
 			if(window.wasResized()) {
+			    FBO.SCREEN_FBO.screenResized(window);
 				world.getCamera().setAspect(window.getAspectRatio());
 			    world.getCamera().recalculate();
 			    
 				Shader.unbind(); 
+			}
+			
+			if (frameAvgCounter >= 50) {
+				frameTimeAvg /= (double) frameAvgCounter;
+				window.setTitle("Life 2.5D | FPS: " + (int) (1.0 / frameTimeAvg) + "\t FrameTime: " + (float) frameTimeAvg);
+
+				frameTimeAvg = 0.0;
+				frameAvgCounter = 0;
+			} else {
+				frameTimeAvg += window.getFrameTime();
+				frameAvgCounter++;
 			}
 		}
 	}

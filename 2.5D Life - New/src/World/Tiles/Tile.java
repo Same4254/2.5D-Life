@@ -4,8 +4,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
+import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
@@ -18,6 +18,7 @@ import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
+import World.Tiles.Render.TileInstanceModel;
 
 public class Tile {
 	public static final int TILE_RESOLUTION = 4;
@@ -52,11 +53,12 @@ public class Tile {
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
-	public void render() {
+	public void render(TileInstanceModel model) {
 		Vector2f temp = body.getPosition2D().add(lot.getPosition());
 		
 		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-		body.render();
+//		body.render();
+		model.render((DefaultRenderProperties) body.getRenderProperties());
 		
 //		if(fullObject != null) {
 //			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));

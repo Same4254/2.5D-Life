@@ -1,12 +1,11 @@
 package Entity.WorldObjects.Lot;
 
-import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Main.Assets;
 import Main.Handler;
-import Utils.ImageLoader;
 import World.Tiles.Tile;
+import World.Tiles.Render.TileInstanceModel;
 
 public class Lot {
 	private Handler handler;
@@ -41,10 +40,14 @@ public class Lot {
 		editMode.update(delta);
 	}
 	
+	TileInstanceModel model = new TileInstanceModel();
+	
 	public void render() {
+		
+		
 		for(Tile[] t : tiles)
 		for(Tile tile : t)
-			tile.render();
+			tile.render(model);
 		
 		editMode.render();
 	}

@@ -119,6 +119,25 @@ class NodeGrid {
 		for(int x = node.getX() - 1; x <= node.getX() + 1; x++) {
 			for(int y = node.getY() - 1; y <= node.getY() + 1; y++) {
 				Node temp = getNode(x,y);
+				
+				if(x != node.getX() && y != node.getY()) {
+					if(x > node.getX()) {
+						if(y > node.getY()) { 
+							if(!getNode(x - 1, y).isWalkable() || !getNode(x, y - 1).isWalkable())
+								continue;
+						} else if(!getNode(x - 1, y).isWalkable() || !getNode(x, y + 1).isWalkable())
+							continue;
+					} else if(x < node.getX()) {
+						if(y > node.getY()) {
+							if(!getNode(x + 1, y).isWalkable() || !getNode(x, y - 1).isWalkable())
+								continue;
+						} else if(y < node.getY()) {
+							if(!getNode(x + 1, y).isWalkable() || !getNode(x, y + 1).isWalkable())
+								continue;
+						}
+					}
+				}
+				
 				if(temp != null && temp != node)
 					neighbores.add(temp);
 			}

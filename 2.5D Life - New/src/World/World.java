@@ -14,6 +14,8 @@ import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
 import Main.Handler;
+import World.Tiles.Render.TileInstanceModel;
+import World.Tiles.Render.TileShader;
 
 public class World {
 	private Handler handler;
@@ -39,7 +41,7 @@ public class World {
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		testLot = new Lot(handler, new Vector2f(), 100, 100);
+		testLot = new Lot(handler, new Vector2f(), 200, 200);
 		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
 
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture);
@@ -65,12 +67,14 @@ public class World {
 	
 	public void render() {
 		testLot.render();
-		anothaOne.render();
+//		anothaOne.render();
 		
 		player.render();
 		
 		Assets.defaultShader.bind();
 		Assets.defaultShader.loadLights(sun);
+		TileInstanceModel.TILE_SHADER.bind();
+		TileInstanceModel.TILE_SHADER.loadLights(sun);
 	}
 
 	public Camera getCamera() { return camera; }
