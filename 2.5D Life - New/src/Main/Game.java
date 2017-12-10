@@ -88,11 +88,11 @@ public class Game {
 			physicsShader.getRenderer().render(world.getCamera());
 			physicsShader.getRenderer().clear();
 			
-			Tile[][] tiles = world.getTestLot().getTiles();
+//			Tile[][] tiles = world.getTestLot().getTiles();
 			
-			for(Tile[] t : tiles)
-			for(Tile temp : t)
-				temp.getBody().getModel().setTexture(Assets.goldTexture);
+//			for(Tile[] t : tiles)
+//			for(Tile temp : t)
+//				temp.getBody().getModel().setTexture(Assets.goldTexture);
 			
 			//Last
 			window.update();

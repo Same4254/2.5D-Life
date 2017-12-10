@@ -1,11 +1,14 @@
 package Utils;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Wall;
+import Main.Handler;
 import World.Tiles.Tile;
 
 public class Util {
@@ -83,6 +86,12 @@ public class Util {
 		System.out.println(closestDistance);
 		return closestVector;
 	}
+	
+	public static Vector2f swap(Vector2f vector) {
+		float x = vector.x;
+		float y = vector.y;
+		return new Vector2f(y, x);
+	}
 	/****** Tiles ******/
 	public static Vector2f toGrid(Vector2f vector) {
 		return roundNearestMultiple(vector, (float) (1.0 / Tile.TILE_RESOLUTION));
@@ -92,7 +101,26 @@ public class Util {
 		return (int) (roundNearestMultiple(pos - (int) pos, (float) (1.0 / Tile.TILE_RESOLUTION)) * Tile.TILE_RESOLUTION);
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(toGrid(new Vector2f(5.3f, 5.5f)));
+	public static void placeHouse(Handler handler, Lot lot, BufferedImage image, int x, int y) {
+		int width = image.getWidth();
+		int height = image.getHeight();
+		
+		ArrayList<Vector2f> points = new ArrayList<>();
+		
+		for(int hx = 0; hx < width; hx++) {
+			for(int hy = 0; hy < height; hy++) {
+				if(image.getRGB(hx, hy) == -16777216)
+					points.add(new Vector2f(hx + x, hy + y));
+			}
+		}
+		
+		for(Vector2f v : points) {
+			Wall wall = new Wall(handler);
+			wall.addToTile(lot.getTiles()[(int)v.x] [(int) v.y]);
+		}
 	}
+	
+//	public static void main(String[] args) {
+//		System.out.println(toGrid(new Vector2f(5.3f, 5.5f)));
+//	}
 }

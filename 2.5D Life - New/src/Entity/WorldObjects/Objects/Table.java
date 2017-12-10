@@ -1,7 +1,6 @@
-package Entity.WorldObjects.FullObjects;
+package Entity.WorldObjects.Objects;
 
 import Entity.WorldObjects.TileObject;
-import Entity.WorldObjects.SubObjects.Wall;
 import Main.Assets;
 import Main.Handler;
 

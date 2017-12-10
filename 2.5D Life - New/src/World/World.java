@@ -14,8 +14,8 @@ import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
 import Main.Handler;
+import Utils.Util;
 import World.Tiles.Render.TileInstanceModel;
-import World.Tiles.Render.TileShader;
 
 public class World {
 	private Handler handler;
@@ -24,8 +24,7 @@ public class World {
 	private CameraMovement cameraMovement;
 	
 	private ArrayList<Light> sun;
-	
-	private Lot testLot, anothaOne;
+	private ArrayList<Lot> lots;
 	
 	private Player player;
 	
@@ -36,38 +35,32 @@ public class World {
 		cameraMovement = new CameraMovement(handler, camera, new Vector3f(7, 20, 24), 10, 10, .15f);
 		
 		sun = new ArrayList<>();
+		lots = new ArrayList<>();
 	}
 	
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		testLot = new Lot(handler, new Vector2f(), 50, 50);
-		anothaOne = new Lot(handler, new Vector2f(-25, 0), 5, 6);
+		lots.add(new Lot(handler, new Vector2f(), 200, 200));
 
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture);
 		player.getBody().setPosition2D(2, 2);
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
-
-		testLot.enableEdit();
+		Util.placeHouse(handler, lots.get(0), Assets.maze, 0, 0);
 	}
 	
 	public void update(float delta) {
-		testLot.update(delta);
-		anothaOne.update(delta);
+		for(Lot lot : lots)
+			lot.update(delta);
 		
 		player.update(delta);
-		
-		Vector3f thing = new Vector3f(anothaOne.getPosition(), 0).rotate(new Vector3f(0, 0, .1));
-		anothaOne.getPosition().x = thing.x;
-		anothaOne.getPosition().y = thing.y;
-		
 		cameraMovement.update(delta);
 	}
 	
 	public void render() {
-		testLot.render();
-//		anothaOne.render();
+		for(Lot lot : lots)
+			lot.render();
 		
 		player.render();
 		
@@ -77,8 +70,21 @@ public class World {
 		TileInstanceModel.TILE_SHADER.loadLights(sun);
 	}
 
+	public Lot getLot(Vector2f position) {
+		return getLot((int) position.x, (int) position.y);
+	}
+	
+	public Lot getLot(int x, int y) {
+		for(Lot lot : lots) {
+			if(x >= lot.getPosition().x && x <= lot.getPosition().x + lot.getWidth()) {
+				if(y >= lot.getPosition().y && y <= lot.getPosition().y + lot.getHeight()) {
+					return lot;
+				}
+			}
+		}
+		return null;
+	}
+	
 	public Camera getCamera() { return camera; }
 	public CameraMovement getCameraMovement() { return cameraMovement; }
-	
-	public Lot getTestLot() { return testLot; }
 }

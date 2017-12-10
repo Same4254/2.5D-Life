@@ -46,7 +46,7 @@ public class Player extends Human {
 		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-				addAction(new GoToAction(handler.getWorld().getTestLot(), this, (int) s.getPosition().x, (int) s.getPosition().z));
+				addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) s.getPosition().x, (int) s.getPosition().z));
 			}, delta);
 		}
 		

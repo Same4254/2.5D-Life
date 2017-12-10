@@ -1,8 +1,7 @@
 package Entity.WorldObjects;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.RenderEngine.Util.Camera;
-import com.Engine.Util.Vectors.Vector2f;
+import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
@@ -22,6 +21,7 @@ public abstract class WorldObject {
 	}
 	
 	public void render() {
+		body.getRenderProperties().getTransform().setScale(new Vector3f(1, .1, 1));
 		body.render();
 	}
 	

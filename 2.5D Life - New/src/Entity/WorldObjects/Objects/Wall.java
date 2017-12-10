@@ -1,4 +1,4 @@
-package Entity.WorldObjects.SubObjects;
+package Entity.WorldObjects.Objects;
 
 import Entity.WorldObjects.TileObject;
 import Main.Assets;

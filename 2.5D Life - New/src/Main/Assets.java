@@ -1,5 +1,7 @@
 package Main;
 
+import java.awt.image.BufferedImage;
+
 import com.Engine.RenderEngine.Shaders.Default.DefaultShader;
 import com.Engine.RenderEngine.Textures.Texture2D;
 
@@ -25,7 +27,12 @@ public class Assets {
 	public static Texture2D goldTexture;
 	public static Texture2D redTexture;
 	
+	public static BufferedImage house, maze;
+	
 	public static void init() {
+		house = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "House.png");
+		maze = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "Maze.png");
+		
 		defaultShader = new DefaultShader();
 		defaultShader.getRenderer().usingFrustumCulling(false);
 		

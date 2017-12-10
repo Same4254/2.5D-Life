@@ -1,10 +1,6 @@
-package Entity.WorldObjects.MultiTileObjects;
-
-import com.Engine.Util.Vectors.Vector2f;
+package Entity.WorldObjects.Objects;
 
 import Entity.WorldObjects.MultiTileObject;
-import Entity.WorldObjects.FullObjects.Table;
-import Entity.WorldObjects.SubObjects.Wall;
 import Main.Assets;
 import Main.Handler;
 

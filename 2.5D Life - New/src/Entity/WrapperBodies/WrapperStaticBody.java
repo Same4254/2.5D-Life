@@ -95,6 +95,7 @@ public class WrapperStaticBody {
 	public float getHeight() { return hitBox.height; } 
 	public void setHeight(float height) { hitBox.height = height; }
 	
+	public void setDimensions(Vector2f dimensions) { setWidth(dimensions.x); setHeight(dimensions.y); }
 	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
 	
 	public float getX() { return staticBody.getPosition().x; }

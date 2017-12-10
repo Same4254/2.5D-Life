@@ -43,8 +43,6 @@ public class Lot {
 	TileInstanceModel model = new TileInstanceModel();
 	
 	public void render() {
-		
-		
 		for(Tile[] t : tiles)
 		for(Tile tile : t)
 			tile.render(model);
