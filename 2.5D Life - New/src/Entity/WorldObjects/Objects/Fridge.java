@@ -1,18 +1,18 @@
 package Entity.WorldObjects.Objects;
 
+import Entity.FreeMoving.AI.Living.Needs.Hunger;
 import Entity.WorldObjects.MultiTileObject;
 import Main.Assets;
 import Main.Handler;
 
-public class Box extends MultiTileObject {
+public class Fridge extends MultiTileObject {
 
-	public Box(Handler handler) {
+	public Fridge(Handler handler) {
 		super(handler, Assets.boxModel, Assets.boxTexture);
-
 	}
 
 	@Override
-	public Box clone() {
-		return new Box(handler);
+	public Fridge clone() {
+		return new Fridge(handler);
 	}
 }

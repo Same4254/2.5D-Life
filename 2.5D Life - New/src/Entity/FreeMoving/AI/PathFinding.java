@@ -6,20 +6,25 @@ import java.util.Comparator;
 
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.Lot.Lot;
-import Utils.Util;
 
 public class PathFinding {
-	public static ArrayList<Vector2f> aStar(Lot lot, Vector2f start, Vector2f end) {
+	public static ArrayList<Vector2f> aStar(Entity e, Lot lot, Vector2f start, Vector2f end) {
 		NodeGrid grid = generateNodeGrid(lot);
 		
 		Node startNode = grid.getNode(start);
 		Node endNode = grid.getNode(end);
 		
-		if(!endNode.isWalkable())
-			endNode = grid.getNode(Util.closest(start, grid.asVectors(grid.getAdjacentNeighborsNoUnWalkables(endNode))));
-		if(endNode == null)
-			return null;
+		boolean endUnWalkable = !endNode.isWalkable();
+		if(endUnWalkable)
+			endNode.setWalkable(true);
+		
+		System.out.println("----------");
+		System.out.println("A Start Path Finding");
+		System.out.println("Entity: " + e);
+		System.out.println("Start: " + startNode.getPosition());
+		System.out.println("End: " + endNode.getPosition());
 		
 		ArrayList<Node> open = new ArrayList<>();
 		ArrayList<Node> closed = new ArrayList<>();
@@ -65,6 +70,9 @@ public class PathFinding {
 				path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
 			}
 		}
+		
+		if(endUnWalkable)
+			path.remove(0);
 		
 		Collections.reverse(path);
 		return path;
@@ -137,48 +145,6 @@ class NodeGrid {
 		}
 		
 		return neighbores;
-	}
-	
-	public ArrayList<Node> getNeighborsNoUnWalkables(Node node) {
-		ArrayList<Node> neighbores = new ArrayList<>();
-		
-		for(int x = node.getX() - 1; x <= node.getX() + 1; x++) {
-			for(int y = node.getY() - 1; y <= node.getY() + 1; y++) {
-				Node temp = getNode(x,y);
-				
-				if(temp != null && temp != node && temp.isWalkable())
-					neighbores.add(temp);
-			}
-		}
-		
-		return neighbores;
-	}
-	
-	public ArrayList<Node> getAdjacentNeighbors(Node node) {
-		ArrayList<Node> nodes = new ArrayList<>();
-		Node node1 = getNode(node.getPosition().add(0, 1));
-		Node node2 = getNode(node.getPosition().add(0, -1));
-		Node node3 = getNode(node.getPosition().add(1, 0));
-		Node node4 = getNode(node.getPosition().add(-1, 0));
-		
-		if(node1 != null)
-			nodes.add(node1);
-		if(node2 != null)
-			nodes.add(node2);
-		if(node3 != null)
-			nodes.add(node3);
-		if(node4 != null)
-			nodes.add(node4);
-		return nodes;
-	}
-	
-	public ArrayList<Node> getAdjacentNeighborsNoUnWalkables(Node node) {
-		ArrayList<Node> nodes = getAdjacentNeighbors(node);
-		
-		for(int i = nodes.size() - 1; i >= 0; i--)
-			if(!nodes.get(i).isWalkable())
-				nodes.remove(i);
-		return nodes;
 	}
 	
 	/**
@@ -279,6 +245,7 @@ class Node {
 	public int getHCost() { return hCost; }
 	public void setHCost(int hCost) { this.hCost = hCost; }
 	
+	public void setWalkable(boolean walkable) { this.walkable = walkable; }
 	public boolean isWalkable() { return walkable; }
 	
 	public Vector2f getPosition() { return new Vector2f(x, y); }

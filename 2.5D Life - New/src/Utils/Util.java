@@ -75,7 +75,7 @@ public class Util {
 		for(Vector2f v : vectors) {
 			float distance = v.distance(vector); 
 			
-			System.out.println(distance + " : " + v);
+//			System.out.println(distance + " : " + v);
 			
 			if(distance < closestDistance) {
 				closestDistance = distance;
@@ -83,7 +83,7 @@ public class Util {
 			}
 		}
 		
-		System.out.println(closestDistance);
+//		System.out.println(closestDistance);
 		return closestVector;
 	}
 	

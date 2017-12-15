@@ -50,6 +50,7 @@ public abstract class MultiTileObject extends WorldObject {
 				lot.getTiles()[x][y].add(this);
 			}}
 			
+			body.setPosition2D(tile.getBody().getPosition2D());
 			return true;
 		}
 		

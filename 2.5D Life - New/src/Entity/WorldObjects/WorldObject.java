@@ -1,7 +1,8 @@
 package Entity.WorldObjects;
 
+import java.util.HashMap;
+
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
@@ -21,7 +22,7 @@ public abstract class WorldObject {
 	}
 	
 	public void render() {
-		body.getRenderProperties().getTransform().setScale(new Vector3f(1, .1, 1));
+//		body.getRenderProperties().getTransform().setScale(new Vector3f(1, .1, 1));
 		body.render();
 	}
 	

@@ -11,17 +11,16 @@ public class Lot {
 	private Handler handler;
 	private Tile[][] tiles;
 	private Vector2f position;
-	private int width, height;
+	private Vector2f dimensions;
 	
 	private EditMode editMode;
 	
-	public Lot(Handler handler, Vector2f position, int width, int height) {
+	public Lot(Handler handler, Vector2f position, Vector2f dimensions) {
 		this.handler = handler;
 		this.position = position;
-		this.width = width;
-		this.height = height;
+		this.dimensions = dimensions;
 		
-		tiles = new Tile[width][height];
+		tiles = new Tile[(int) dimensions.x][(int) dimensions.y];
 		
 		for(int x = 0; x < tiles.length; x++) {
 		for(int y = 0; y < tiles[x].length; y++) {
@@ -57,6 +56,7 @@ public class Lot {
 	
 	public Tile[][] getTiles() { return tiles; }
 	public Vector2f getPosition() { return position; }
-	public int getWidth() { return width; }
-	public int getHeight() { return height; }
+	public Vector2f getDimensions() { return dimensions; }
+	public int getWidth() { return (int) dimensions.x; }
+	public int getHeight() { return (int) dimensions.y; }
 }

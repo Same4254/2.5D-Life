@@ -74,8 +74,25 @@ public class MouseManager {
 		
 		ArrayList<PhysicsBody> all = picker.getAllTargets();
 		for(PhysicsBody p : all)
-			if(lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody() == p)
+			if(lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody() == p) {
 				picked.pick(lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody());
+				break;
+			}
+	}
+	
+	public void updatePickerForObject(OnPicked picked, Lot lot, float delta) {
+		MousePicker picker = new MousePicker(camera.getPosition(), camera.getRotation(), new Vector2f((float)Mouse.getX() / handler.getWidth(), (float) Mouse.getY() / handler.getHeight()));
+		handler.getGame().getPhysicsEngine().add(picker);
+		picker.update(delta);
+		
+		ArrayList<PhysicsBody> all = picker.getAllTargets();
+		for(PhysicsBody p : all) {
+			Tile t = lot.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z];
+			if(t.getObject() != null) {
+				picked.pick(t.getObject().getBody().getStaticBody());
+				break;
+			}
+		}
 	}
 	
 	public void clearKeys(){

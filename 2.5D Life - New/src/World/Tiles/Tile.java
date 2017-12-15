@@ -89,7 +89,7 @@ public class Tile {
 	}
 	
 	public WorldObject findObject(PhysicsBody body) {
-		if(object.getBody().getStaticBody() == body)
+		if(object != null && object.getBody().getStaticBody() == body)
 			return object;
 		return null;
 	}

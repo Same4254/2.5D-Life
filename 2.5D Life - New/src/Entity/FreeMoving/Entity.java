@@ -6,13 +6,10 @@ import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.ActionQueue;
-import Entity.FreeMoving.AI.Needs.NeedManager;
-import Entity.WorldObjects.Lot.Lot;
+import Entity.FreeMoving.AI.Living.Needs.NeedManager;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
-import Main.Assets;
 import Main.Handler;
-import World.Tiles.Tile;
 
 public abstract class Entity {
 	protected Handler handler;
@@ -100,7 +97,7 @@ public abstract class Entity {
 	
 	public void update(float delta) {
 		actionQueue.update(delta);
-		needManager.update();
+		needManager.update(delta);
 	}
 	
 	public void render() {

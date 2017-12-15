@@ -173,20 +173,28 @@ public class DragList {
 	
 	public void clear(AXIS axis) {
 		if(axis == AXIS.X_AXIS || axis == AXIS.BOTH) {
-			if(!xAxis.isEmpty()) {
-				for(WorldObject object : xAxis)
-					object.cleanUp();
-				xAxis.clear();
-			}
+			xAxis.clear();
 		}
 		
 		if(axis == AXIS.Z_AXIS || axis == AXIS.BOTH) {
-			if(!zAxis.isEmpty()) {
-				for(WorldObject object : zAxis)
-					object.cleanUp();
-				zAxis.clear();
-			}
+			zAxis.clear();
 		}
+		
+//		if(axis == AXIS.X_AXIS || axis == AXIS.BOTH) {
+//			if(!xAxis.isEmpty()) {
+//				for(WorldObject object : xAxis)
+//					object.cleanUp();
+//				xAxis.clear();
+//			}
+//		}
+//		
+//		if(axis == AXIS.Z_AXIS || axis == AXIS.BOTH) {
+//			if(!zAxis.isEmpty()) {
+//				for(WorldObject object : zAxis)
+//					object.cleanUp();
+//				zAxis.clear();
+//			}
+//		}
 	}
 	
 	public void setOriginal(WorldObject original) { this.original = original; }

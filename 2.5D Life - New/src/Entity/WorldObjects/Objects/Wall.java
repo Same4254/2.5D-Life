@@ -12,11 +12,6 @@ public class Wall extends TileObject {
 
 	@Override
 	public Wall clone() {
-		Wall temp = new Wall(handler);
-		temp.cleanUp();
-		temp.setBody(body.clone());
-		handler.getGame().getPhysicsEngine().add(temp.getBody().getStaticBody());
-
-		return temp;
+		return new Wall(handler);
 	}
 }

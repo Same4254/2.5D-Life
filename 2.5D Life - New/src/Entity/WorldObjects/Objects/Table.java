@@ -13,11 +13,6 @@ public class Table extends TileObject {
 
 	@Override
 	public Table clone() {
-		Table temp = new Table(handler);
-		temp.cleanUp();
-		temp.setBody(body.clone());
-		handler.getGame().getPhysicsEngine().add(temp.getBody().getStaticBody());
-		
-		return temp;
+		return new Table(handler);
 	}
 }

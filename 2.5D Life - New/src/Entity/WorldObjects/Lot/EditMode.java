@@ -59,19 +59,28 @@ public class EditMode {
 				dragList.clear(AXIS.BOTH);
 			}
 			
-			if(handler.getMouseManager().keyJustReleased(0)) { //In the physics engine there's a sort that I commented out <- fix that (causes tiles to be clicked rather than objects)
-				handler.getMouseManager().updatePicker(s -> {
-					if(heldObject != null) {
-						place();
-					} else {
-						WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s); 
+			if(handler.getMouseManager().keyJustReleased(0)) { 
+				if(heldObject != null) {
+					place();
+				} else {
+//					handler.getMouseManager().updatePickerForTile(s -> {
+//						WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].getObject(); 
+//						if(temp != null) {
+//							System.out.println(temp.getBody().getStaticBody());
+//						} else {
+//							System.out.println("None");
+//						}
+//					}, lot, delta);
+					
+					handler.getMouseManager().updatePicker(s -> {
+						WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].getObject(); 
 						if(temp != null) {
 							temp.removeFromTile();
 							heldObject = temp;
 							dragList.setOriginal(heldObject);
 						}
-					}
-				}, delta);
+					}, delta);
+				}
 			} else if(heldObject != null) { //Mouse moving around
 				handler.getMouseManager().updatePickerForTile(s -> {
 					if(s != null && !Mouse.isButtonDown(0)) {//Free Moving
@@ -106,10 +115,13 @@ public class EditMode {
 	
 	private void place() {
 		if(heldObject != null) {
+//			System.out.println("----------");
 			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+//			System.out.println(heldObject.getBody().getStaticBody());
 			
 			for(WorldObject object : dragList.getList(DragList.AXIS.BOTH)) {
  				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
+ 				System.out.println(object.getBody().getStaticBody().getBodies());
 			}
 			
 			heldObject = null;

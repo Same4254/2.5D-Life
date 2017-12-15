@@ -32,7 +32,7 @@ public class GoToAction extends Action {
 	public void start() {
 		super.start();
 		
-		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(lot, entity.getLocation(), toGridLocation));
+		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(entity, lot, entity.getLocation(), toGridLocation));
 		if(path == null)
 			return;
 		
@@ -53,6 +53,7 @@ class Move extends Action {
 	private Entity entity;
 	
 	private Vector2f toGridLocation;
+	private Vector2f startLocation;
 	private Vector2f step;
 	
 	public Move(Entity entity, Vector2f toGridLocation) {
@@ -68,19 +69,18 @@ class Move extends Action {
 	public void start() {
 		super.start();
 		
-		Vector2f location = entity.getLocation();
+		startLocation = entity.getLocation();
 		
-		step = toGridLocation.subtract(location).divide(toGridLocation.subtract(location).length()).multiply(entity.getMovementSpeed());
+		step = toGridLocation.subtract(startLocation).divide(toGridLocation.subtract(startLocation).length()).multiply(entity.getMovementSpeed());
 	}
 	
 	@Override
 	public void update(float delta) {
-		if(Util.withinRange(entity.getLocation(), toGridLocation, .1f)) {
+		if(Util.withinRange(entity.getLocation(), toGridLocation, .2f)) {
 			complete = true;
 			entity.getBody().setPosition2D(entity.getBody().roundPosToGrid());
 		} else {
-			if(!entity.move(step, delta))
-				complete = true;
+			entity.move(step, delta);
 		}
 	}
 }
