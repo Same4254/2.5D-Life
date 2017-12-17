@@ -10,6 +10,7 @@ import Entity.FreeMoving.AI.Living.Needs.NeedManager;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
+import Utils.Util;
 
 public abstract class Entity {
 	protected Handler handler;
@@ -31,20 +32,26 @@ public abstract class Entity {
 	
 	public boolean move(Vector2f velocity, float delta) {
 //		if(!collide(handler.getWorld().getTestLot(), velocity.multiply(delta))) {
-			float angle = (float) Math.toDegrees(Math.acos((velocity.dot(new Vector2f(1, 0)) / velocity.length())));
+//			float angle = (float) Math.toDegrees(Math.acos((velocity.dot(new Vector2f(1, 0)) / velocity.length())));
+			float angle = (float) Math.toDegrees(Math.atan2(velocity.x, velocity.y));
 		
-			if(velocity.y > 0 && velocity.x == 0)
-				angle -= 180;
-			else if(velocity.y > 0) {
-				if(velocity.x > 0)
-					angle -= 90;
-				if(velocity.x < 0)
-					angle += 90;
-			} 
+//			if(velocity.y > 0 && velocity.x == 0)
+//				angle -= 180;
 			
-//			System.out.println("----------------");
-//			System.out.println("Velocity: " + velocity);
-//			System.out.println("Angle: " + (angle));
+//			if(velocity.y > 0) {
+//				if(velocity.x > 0)
+//					angle -= 90;
+//				if(velocity.x < 0)
+//					angle += 90;
+//			} 
+			
+			angle -= 90;
+			System.out.print(velocity + " " + angle + " ");
+			
+			if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 45), 5))
+				angle = Util.roundNearestMultiple(angle, 45);
+
+			System.out.println(angle);
 			
 			body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0));
 			body.add(velocity.multiply(delta));

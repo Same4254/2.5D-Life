@@ -20,11 +20,11 @@ public class PathFinding {
 		if(endUnWalkable)
 			endNode.setWalkable(true);
 		
-		System.out.println("----------");
-		System.out.println("A Start Path Finding");
-		System.out.println("Entity: " + e);
-		System.out.println("Start: " + startNode.getPosition());
-		System.out.println("End: " + endNode.getPosition());
+//		System.out.println("----------");
+//		System.out.println("A Start Path Finding");
+//		System.out.println("Entity: " + e);
+//		System.out.println("Start: " + startNode.getPosition());
+//		System.out.println("End: " + endNode.getPosition());
 		
 		ArrayList<Node> open = new ArrayList<>();
 		ArrayList<Node> closed = new ArrayList<>();

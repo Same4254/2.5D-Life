@@ -64,6 +64,7 @@ public class World {
 		player.update(delta);
 //		human.update(delta);
 		cameraMovement.update(delta);
+		cameraMovement.centerOnEntity(player);
 	}
 	
 	public void render() {

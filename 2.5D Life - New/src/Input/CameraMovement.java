@@ -3,11 +3,10 @@ package Input;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.RenderEngine.Util.Camera;
-import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.Entity;
 import Main.Handler;
 
 public class CameraMovement {
@@ -22,8 +21,6 @@ public class CameraMovement {
 	private float mouseSensetivity;
 	private float angleToWorld;
 	
-	private boolean escapeLastFrame, rLastFrame;
-	
 	public CameraMovement(Handler handler, Camera camera, Vector3f spawn, float movementSpeed, float jumpSpeed, float mouseSensitivity) {
 		this.handler = handler;
 		this.camera = camera;
@@ -32,7 +29,7 @@ public class CameraMovement {
 		this.jumpSpeed = jumpSpeed;
 		this.mouseSensetivity = mouseSensitivity;
 
-		angleToWorld = 45;
+		angleToWorld = 60;
 		
 		camera.setPosition(spawn);
 		
@@ -40,16 +37,16 @@ public class CameraMovement {
 		point(rotationToWorld);
 	}
 	
-	public void point(Vector3f angle){
+	public void point(Vector3f angle) {
 		camera.setRotation(angle);
 	}
 	
-//	public void centerOnEntity(Entity e) {
-//		camera.setZ((float) (e.getY() + (camera.getY() / Math.tan(angleToWorld))));
-//		camera.setX(e.getX());
-//		point(rotationToWorld);
-//	}
-//	
+	public void centerOnEntity(Entity e) {
+		camera.setZ(e.getZ() + 10);
+		camera.setX(e.getX());
+		point(rotationToWorld);
+	}
+	
 	public void update(float delta) {
 		Vector3f caped = camera.getRotation().capMax(100).capMin(-100);
 		camera.setRotX(caped.x);

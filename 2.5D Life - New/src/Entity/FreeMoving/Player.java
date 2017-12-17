@@ -1,19 +1,12 @@
 package Entity.FreeMoving;
 
-import org.lwjgl.input.Keyboard;
+import java.util.Random;
 
-import com.Engine.PhysicsEngine.Render.PhysicsRenderProperties;
-import com.Engine.RenderEngine.Models.ModelData.ModelData;
-import com.Engine.RenderEngine.Shaders.Shader;
-import com.Engine.RenderEngine.Shaders.Default.Model;
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.RenderEngine.Util.RenderStructs.Transform;
-import com.Engine.Util.Vectors.Vector2f;
-import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.AI.Action.GoToAction;
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
-import Main.Game;
 import Main.Handler;
 
 public class Player extends Human {
@@ -42,24 +35,30 @@ public class Player extends Human {
 	public void update(float delta) {
 		super.update(delta);
 		
+		if(actionQueue.getActions().isEmpty()) {
+			Random random = new Random();
+			
+			Lot lot = handler.getWorld().getLot(getLocation());
+			addAction(new GoToAction(lot, this, random.nextInt(lot.getWidth()), random.nextInt(lot.getHeight())));
+		}
+		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-//				System.out.println("X: " + (int) s.getPosition().x + " Y: " + (int) s.getPosition().z);
 				addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) s.getPosition().x, (int) s.getPosition().z));
 			}, delta);
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) 
-			move(new Vector2f(0, -movementSpeed.y), delta);
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) 
-			move(new Vector2f(-movementSpeed.x, 0), delta);
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) 
-			move(new Vector2f(0, movementSpeed.y), delta);
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) 
-			move(new Vector2f(movementSpeed.x, 0), delta);
+//		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) 
+//			move(new Vector2f(0, -movementSpeed.y), delta);
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) 
+//			move(new Vector2f(-movementSpeed.x, 0), delta);
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) 
+//			move(new Vector2f(0, movementSpeed.y), delta);
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) 
+//			move(new Vector2f(movementSpeed.x, 0), delta);
 	}
 	
 	@Override
