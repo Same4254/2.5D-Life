@@ -79,12 +79,12 @@ public class WrapperStaticBody {
 		setHitBoxCoords(position);
 	}
 
-	public void setPosition2D(float x, float y) { setPosition2D(new Vector2f(x, y)); }
+	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
 	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
 	
-	private void setHitBoxCoords(float x, float y) {
+	private void setHitBoxCoords(float x, float z) {
 		hitBox.x = x;
-		hitBox.y = y;
+		hitBox.y = z;
 	}
 	
 	private void setHitBoxCoords(Vector2f position) { setHitBoxCoords(position.x, position.y); }
@@ -98,7 +98,7 @@ public class WrapperStaticBody {
 	public void setDimensions(Vector2f dimensions) { setWidth(dimensions.x); setHeight(dimensions.y); }
 	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
 	
-	public float getX() { return staticBody.getPosition().x; }
+	public float getX() { return (float) hitBox.getX(); }
 	public void addX(float amount) { setX(getX() + amount); }
 	
 	public void setX(float x) {
@@ -114,7 +114,7 @@ public class WrapperStaticBody {
 		renderProperties.getTransform().setTranslation(new Vector3f(renderProperties.getTransform().getTranslation().x, y, renderProperties.getTransform().getTranslation().z));
 	}
 	
-	public float getZ() { return staticBody.getPosition().z; }
+	public float getZ() { return (float) hitBox.getY(); }
 	public void addZ(float amount) { setZ(getZ() + amount); }
 	
 	public void setZ(float z) {

@@ -22,6 +22,9 @@ public class Assets {
 	
 	public static WrapperModel boxModel;
 	public static Texture2D boxTexture;
+
+	public static WrapperModel fridgeModel;
+	public static Texture2D fridgeTexture;
 	
 	public static WrapperModel tileModel;
 	public static Texture2D goldTexture;
@@ -35,6 +38,9 @@ public class Assets {
 		
 		defaultShader = new DefaultShader();
 		defaultShader.getRenderer().usingFrustumCulling(false);
+		
+		fridgeModel = new WrapperModel(ImageLoader.MODEL_PATH + "Fridge.obj", defaultShader);
+		fridgeTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Fridge.png");
 		
 		playerModel = new WrapperModel(ImageLoader.MODEL_PATH + "Cube Person.obj", defaultShader);
 		playerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Cube Person.png");

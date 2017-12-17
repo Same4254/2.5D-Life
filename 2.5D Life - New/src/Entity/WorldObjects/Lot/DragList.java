@@ -36,7 +36,7 @@ public class DragList {
 	
 	public void fill(AXIS axisToFill, Vector2f position) {
 		if(original != null) {
-			if(original.getBody().getPosition2D().equals(position)) {
+			if(original.getPosition2D().equals(position)) {
 				clear(AXIS.X_AXIS);
 				clear(AXIS.Z_AXIS);
 				return;
@@ -52,9 +52,9 @@ public class DragList {
 					if(i >= xAxis.size()) {
 						WorldObject temp = add(AXIS.X_AXIS, i);
 						if(position.x < original.getX()) 
-							temp.getBody().setPosition2D(original.getX() - (original.getWidth() * (i + 1)), original.getZ());
+							temp.setPosition2D(original.getX() - (original.getWidth() * (i + 1)), original.getZ());
 						else
-							temp.getBody().setPosition2D(original.getX() + (original.getWidth() * (i + 1)), original.getZ());
+							temp.setPosition2D(original.getX() + (original.getWidth() * (i + 1)), original.getZ());
 						continue;
 					}
 					
@@ -72,7 +72,7 @@ public class DragList {
 						
 						if(object.getX() != predictedLocation) {
 							WorldObject add = add(AXIS.X_AXIS, i);
-							add.getBody().setPosition2D(new Vector2f(predictedLocation, original.getZ()));
+							add.setPosition2D(new Vector2f(predictedLocation, original.getZ()));
 						}
 					} else {// O-------X
 						WorldObject object = xAxis.get(xAxis.size() - i - 1);
@@ -87,7 +87,7 @@ public class DragList {
 						
 						if(object.getX() != predictedLocation) {
 							WorldObject add = add(AXIS.X_AXIS, i);
-							add.getBody().setPosition2D(new Vector2f(predictedLocation, original.getZ()));
+							add.setPosition2D(new Vector2f(predictedLocation, original.getZ()));
 						}
 					}
 				}
@@ -103,9 +103,9 @@ public class DragList {
 					if(i >= zAxis.size()) {
 						WorldObject temp = add(AXIS.Z_AXIS, i);
 						if(position.y < original.getZ()) 
-							temp.getBody().setPosition2D(original.getX(), original.getZ() - (original.getHeight() * (i + 1)));
+							temp.setPosition2D(original.getX(), original.getZ() - (original.getHeight() * (i + 1)));
 						else
-							temp.getBody().setPosition2D(original.getX(), original.getZ() + (original.getHeight() * (i + 1)));
+							temp.setPosition2D(original.getX(), original.getZ() + (original.getHeight() * (i + 1)));
 						continue;
 					}
 					
@@ -123,7 +123,7 @@ public class DragList {
 						
 						if(object.getX() != predictedLocation) {
 							WorldObject add = add(AXIS.Z_AXIS, i);
-							add.getBody().setPosition2D(new Vector2f(original.getX(), predictedLocation));
+							add.setPosition2D(new Vector2f(original.getX(), predictedLocation));
 						}
 					} else {// O-------X
 						WorldObject object = zAxis.get(zAxis.size() - i - 1);
@@ -138,7 +138,7 @@ public class DragList {
 						
 						if(object.getX() != predictedLocation) {
 							WorldObject add = add(AXIS.Z_AXIS, i);
-							add.getBody().setPosition2D(new Vector2f(original.getX(), predictedLocation));
+							add.setPosition2D(new Vector2f(original.getX(), predictedLocation));
 						}
 					}
 				}

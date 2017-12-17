@@ -37,9 +37,11 @@ public class Tile {
 	public void render(TileInstanceModel model) {
 		Vector2f temp = body.getPosition2D().add(lot.getPosition());
 		
-		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-//		body.render();
-		model.render((DefaultRenderProperties) body.getRenderProperties());
+//		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+		
+		body.render();
+		
+//		model.render((DefaultRenderProperties) body.getRenderProperties());
 		
 //		if(fullObject != null) {
 //			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
@@ -48,11 +50,11 @@ public class Tile {
 		if(object != null) {
 			if(object instanceof MultiTileObject)  {
 				if(!((MultiTileObject)object).getTiles().isEmpty() && ((MultiTileObject)object).getTiles().get(0) == this) {
-					object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+//					object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
 					object.render();
 				}
 			} else {
-				object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+//				object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
 				object.render();
 			}
 		}

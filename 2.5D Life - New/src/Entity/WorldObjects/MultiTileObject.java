@@ -50,7 +50,7 @@ public abstract class MultiTileObject extends WorldObject {
 				lot.getTiles()[x][y].add(this);
 			}}
 			
-			body.setPosition2D(tile.getBody().getPosition2D());
+			setPosition2D(tile.getBody().getPosition2D());
 			return true;
 		}
 		
@@ -72,6 +72,7 @@ public abstract class MultiTileObject extends WorldObject {
 	@Override
 	public void render() {
 //		System.out.println(body.getRenderProperties().getTransform().getTranslation());
+//		body.getRenderProperties().getTransform().getTranslation().set(body.getRenderProperties().getTransform().getTranslation().add(.5, 0, .5));
 		body.render();
 	}
 	
@@ -97,6 +98,17 @@ public abstract class MultiTileObject extends WorldObject {
 		body.setHeight(width);
 	}
 	
+//	@Override
+//	public void setPosition2D(Vector2f position) {
+//		body.setPosition2D(position);
+//		body.getStaticBody().setPosition(new Vector3f(position.x + .5f, 0, position.y + .5f));
+//	}
+//	
+//	@Override
+//	public void setPosition2D(float x, float z) {
+//		setPosition2D(new Vector2f(x, z));
+//	}
+//	
 	@Override
 	public void clearTile() {
 		tiles.clear();

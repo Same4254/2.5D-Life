@@ -8,7 +8,7 @@ import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Entity.FreeMoving.Human;
+import Entity.FreeMoving.Player;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Fridge;
 import Input.CameraMovement;
@@ -27,8 +27,8 @@ public class World {
 	private ArrayList<Light> sun;
 	private ArrayList<Lot> lots;
 	
-//	private Player player;
-	private Human human;
+	private Player player;
+//	private Human human;
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -45,14 +45,14 @@ public class World {
 		
 		lots.add(new Lot(handler, new Vector2f(), new Vector2f(60)));
 
-//		player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
-//		player.getBody().setPosition2D(2, 2);
+		player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
+		player.getBody().setPosition2D(2, 2);
 		
-		human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
+//		human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
-		new Fridge(handler).addToTile(lots.get(0).getTiles()[10][10]);
+		new Fridge(handler).addToTile(lots.get(0).getTiles()[0][0]);
 		
 		lots.get(0).enableEdit();
 	}
@@ -61,8 +61,8 @@ public class World {
 		for(Lot lot : lots)
 			lot.update(delta);
 		
-//		player.update(delta);
-		human.update(delta);
+		player.update(delta);
+//		human.update(delta);
 		cameraMovement.update(delta);
 	}
 	
@@ -70,8 +70,8 @@ public class World {
 		for(Lot lot : lots)
 			lot.render();
 		
-//		player.render();
-		human.render();
+		player.render();
+//		human.render();
 		Assets.defaultShader.bind();
 		Assets.defaultShader.loadLights(sun);
 		TileInstanceModel.TILE_SHADER.bind();

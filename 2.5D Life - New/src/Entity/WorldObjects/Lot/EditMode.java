@@ -86,7 +86,7 @@ public class EditMode {
 					if(s != null && !Mouse.isButtonDown(0)) {//Free Moving
 						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 						Vector2f truncated = location.truncate();
-						heldObject.getBody().setPosition2D(truncated);
+						heldObject.setPosition2D(truncated);
 					} else if(s != null && Mouse.isButtonDown(0)) { //Dragging
 						if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
 							dragList.fill(DragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
@@ -116,11 +116,11 @@ public class EditMode {
 	private void place() {
 		if(heldObject != null) {
 //			System.out.println("----------");
-			heldObject.addToTile(lot.getTiles()[(int) heldObject.getBody().getX()][(int) heldObject.getBody().getZ()]);
+			heldObject.addToTile(lot.getTiles()[(int) heldObject.getX()][(int) heldObject.getZ()]);
 //			System.out.println(heldObject.getBody().getStaticBody());
 			
 			for(WorldObject object : dragList.getList(DragList.AXIS.BOTH)) {
- 				object.addToTile(lot.getTiles()[(int) object.getBody().getX()][(int) object.getBody().getZ()]);
+ 				object.addToTile(lot.getTiles()[(int) object.getX()][(int) object.getZ()]);
  				System.out.println(object.getBody().getStaticBody().getBodies());
 			}
 			
