@@ -46,12 +46,12 @@ public abstract class Entity {
 //			} 
 			
 			angle -= 90;
-			System.out.print(velocity + " " + angle + " ");
+//			System.out.print(velocity + " " + angle + " ");
 			
 			if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 45), 5))
 				angle = Util.roundNearestMultiple(angle, 45);
 
-			System.out.println(angle);
+//			System.out.println(angle);
 			
 			body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0));
 			body.add(velocity.multiply(delta));

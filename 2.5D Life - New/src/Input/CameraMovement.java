@@ -15,11 +15,11 @@ public class CameraMovement {
 	private Vector3f rotationToWorld;
 	
 	private Handler handler;
+	private boolean followPlayer;
 	
 	private float movementSpeed;
 	private float jumpSpeed;
 	private float mouseSensetivity;
-	private float angleToWorld;
 	
 	public CameraMovement(Handler handler, Camera camera, Vector3f spawn, float movementSpeed, float jumpSpeed, float mouseSensitivity) {
 		this.handler = handler;
@@ -29,7 +29,7 @@ public class CameraMovement {
 		this.jumpSpeed = jumpSpeed;
 		this.mouseSensetivity = mouseSensitivity;
 
-		angleToWorld = 60;
+		float angleToWorld = 50;
 		
 		camera.setPosition(spawn);
 		
@@ -42,8 +42,9 @@ public class CameraMovement {
 	}
 	
 	public void centerOnEntity(Entity e) {
-		camera.setZ(e.getZ() + 10);
+		camera.setZ(e.getZ() + 20);
 		camera.setX(e.getX());
+		camera.setY(30);
 		point(rotationToWorld);
 	}
 	
@@ -79,24 +80,30 @@ public class CameraMovement {
 //			centerOnEntity(handler.getWorld().getEntityManager().getEntities().get(0));
 //		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) 
-			camera.moveForward(movementSpeed * delta);
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) 
-			camera.moveRight(-movementSpeed * delta);
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) 
-			camera.moveForward(-movementSpeed * delta);
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) 
-			camera.moveRight(movementSpeed * delta);
-		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) 
-			camera.moveUp(jumpSpeed * delta);
-		if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) 
-			camera.moveUp(-jumpSpeed * delta);
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_TAB))
+			followPlayer = !followPlayer;
 		
-		if(Mouse.isGrabbed()) {
-			if(Math.abs(camera.getRotX()) <= 100)
-				camera.rotateX(-Mouse.getDY() * mouseSensetivity);
-			camera.rotateY(Mouse.getDX() * mouseSensetivity);
-		}
+		if(!followPlayer) {
+			if(Mouse.isGrabbed()) {
+				if(Math.abs(camera.getRotX()) <= 100)
+					camera.rotateX(-Mouse.getDY() * mouseSensetivity);
+				camera.rotateY(Mouse.getDX() * mouseSensetivity);
+			}
+			
+			if(Keyboard.isKeyDown(Keyboard.KEY_W)) 
+				camera.moveForward(movementSpeed * delta);
+			if(Keyboard.isKeyDown(Keyboard.KEY_A)) 
+				camera.moveRight(-movementSpeed * delta);
+			if(Keyboard.isKeyDown(Keyboard.KEY_S)) 
+				camera.moveForward(-movementSpeed * delta);
+			if(Keyboard.isKeyDown(Keyboard.KEY_D)) 
+				camera.moveRight(movementSpeed * delta);
+			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) 
+				camera.moveUp(jumpSpeed * delta);
+			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) 
+				camera.moveUp(-jumpSpeed * delta);
+		} else 
+			centerOnEntity(handler.getWorld().getPlayer());
 	}
 
 	public float getMovementSpeed(){return movementSpeed;}

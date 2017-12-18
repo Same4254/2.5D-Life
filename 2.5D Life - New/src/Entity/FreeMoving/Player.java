@@ -35,12 +35,12 @@ public class Player extends Human {
 	public void update(float delta) {
 		super.update(delta);
 		
-		if(actionQueue.getActions().isEmpty()) {
-			Random random = new Random();
-			
-			Lot lot = handler.getWorld().getLot(getLocation());
-			addAction(new GoToAction(lot, this, random.nextInt(lot.getWidth()), random.nextInt(lot.getHeight())));
-		}
+//		if(actionQueue.getActions().isEmpty()) {
+//			Random random = new Random();
+//			
+//			Lot lot = handler.getWorld().getLot(getLocation());
+//			addAction(new GoToAction(lot, this, random.nextInt(lot.getWidth()), random.nextInt(lot.getHeight())));
+//		}
 		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {

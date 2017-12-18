@@ -64,7 +64,7 @@ public class World {
 		player.update(delta);
 //		human.update(delta);
 		cameraMovement.update(delta);
-		cameraMovement.centerOnEntity(player);
+//		cameraMovement.centerOnEntity(player);
 	}
 	
 	public void render() {
@@ -94,6 +94,7 @@ public class World {
 		return null;
 	}
 	
+	public Player getPlayer() { return player; }
 	public Camera getCamera() { return camera; }
 	public CameraMovement getCameraMovement() { return cameraMovement; }
 }

@@ -3,8 +3,6 @@ package Entity.WorldObjects;
 import java.util.ArrayList;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.RenderEngine.Util.Camera;
-import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.Lot.Lot;
@@ -71,8 +69,6 @@ public abstract class MultiTileObject extends WorldObject {
 	
 	@Override
 	public void render() {
-//		System.out.println(body.getRenderProperties().getTransform().getTranslation());
-//		body.getRenderProperties().getTransform().getTranslation().set(body.getRenderProperties().getTransform().getTranslation().add(.5, 0, .5));
 		body.render();
 	}
 	
