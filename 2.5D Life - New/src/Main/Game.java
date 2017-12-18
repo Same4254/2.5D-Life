@@ -66,7 +66,9 @@ public class Game {
 //			physicsEngine.simulate((float) window.getFrameTime());
 			
 //			window.setTitle("2.5D Life: " + window.getFrameTime());
-			world.update((float) window.getFrameTime());
+			float delta = (float) window.getFrameTime();
+			if(delta < 2 && delta != 0)
+				world.update((float) window.getFrameTime());
 			world.render();
 			
 			//Rendering

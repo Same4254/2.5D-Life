@@ -9,6 +9,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Player;
+import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Fridge;
 import Input.CameraMovement;
@@ -30,6 +31,8 @@ public class World {
 	private Player player;
 //	private Human human;
 	
+	private Viewer needViewer;
+	
 	public World(Handler handler) {
 		this.handler = handler;
 		
@@ -47,6 +50,8 @@ public class World {
 
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
 		player.getBody().setPosition2D(2, 2);
+		
+		needViewer = new Viewer(handler);
 		
 //		human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
@@ -71,6 +76,7 @@ public class World {
 		for(Lot lot : lots)
 			lot.render();
 		
+		needViewer.repaint();
 		player.render();
 //		human.render();
 		Assets.defaultShader.bind();

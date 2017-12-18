@@ -23,5 +23,6 @@ public class NeedManager {
 		return lowest;
 	}
 	
+	public Need[] getNeeds() { return needs; }
 	public Hunger getHunger() { return (Hunger) needs[0]; }
 }
