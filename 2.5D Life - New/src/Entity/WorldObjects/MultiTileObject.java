@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector3f;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
+import Utils.Util;
 import World.Tiles.Tile;
 
 public abstract class MultiTileObject extends WorldObject {
@@ -81,6 +82,10 @@ public abstract class MultiTileObject extends WorldObject {
 		
 		body.setWidth(height);
 		body.setHeight(width);
+		
+		rotateFront(90);
+		
+		System.out.println(front);
 	}
 
 	@Override
@@ -92,6 +97,30 @@ public abstract class MultiTileObject extends WorldObject {
 		
 		body.setWidth(height);
 		body.setHeight(width);
+		
+		rotateFront(-90);
+		
+		System.out.println(front);
+	}
+	
+	@Override
+	public void rotateFront(float angle) {
+		if(front.x > 1)
+			front.x = 1;
+		if(front.x < -1)
+			front.x = -1;
+		
+		if(front.y > 1)
+			front.y = 1;
+		if(front.y < -1)
+			front.y = -1;
+		
+		front = Util.rotate(front, angle);
+	
+		if(front.y == 1)
+			front.y = body.getHeight();
+		if(front.x == 1)
+			front.x = body.getWidth();
 	}
 	
 //	@Override

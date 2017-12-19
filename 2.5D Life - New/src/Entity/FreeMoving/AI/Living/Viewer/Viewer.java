@@ -30,12 +30,19 @@ public class Viewer extends JPanel {
 		}));
 	}
 	
+	public void update() {
+		barGraph.update();
+	}
+	
+	public void render() {
+		repaint();
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 		
-		barGraph.update();
 		barGraph.render(g2D);
 	}
 }

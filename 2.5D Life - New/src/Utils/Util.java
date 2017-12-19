@@ -75,15 +75,12 @@ public class Util {
 		for(Vector2f v : vectors) {
 			float distance = v.distance(vector); 
 			
-//			System.out.println(distance + " : " + v);
-			
 			if(distance < closestDistance) {
 				closestDistance = distance;
 				closestVector = v;
 			}
 		}
 		
-//		System.out.println(closestDistance);
 		return closestVector;
 	}
 	
@@ -92,6 +89,30 @@ public class Util {
 		float y = vector.y;
 		return new Vector2f(y, x);
 	}
+	
+	/****** Rotate ******/
+	public static Vector2f rotate(Vector2f vector, float angle) {
+		Vector2f rotated = vector.rotate(angle);
+		if(Math.abs(rotated.x) < .001)
+			rotated.x = 0;
+		if(Math.abs(rotated.y) < .001)
+			rotated.y = 0;
+		return rotated;
+	}
+	
+	/****** Angle ******/
+	public static float getAngle(Vector2f velocity) {
+		float angle = (float) Math.toDegrees(Math.atan2(velocity.x, velocity.y));
+		angle -= 90;
+		return angle;
+	}
+	
+	public static float getAngle(Vector2f current, Vector2f target) {
+		float angle = (float) Math.toDegrees(Math.atan2(target.x - current.x, target.y - current.y));
+		angle -= 90;
+		return angle;
+	}
+	
 	/****** Tiles ******/
 	public static Vector2f toGrid(Vector2f vector) {
 		return roundNearestMultiple(vector, (float) (1.0 / Tile.TILE_RESOLUTION));

@@ -31,12 +31,12 @@ public abstract class Entity {
 	}
 	
 	public void move(Vector2f velocity, float delta) {
-		float angle = (float) Math.toDegrees(Math.atan2(velocity.x, velocity.y));
-		angle -= 90;
+		float angle = Util.getAngle(velocity);
+		
 		if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 45), 5))
 			angle = Util.roundNearestMultiple(angle, 45);
 			
-		body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0));
+		setRotation(angle);
 		body.add(velocity.multiply(delta));
 	}
 	
@@ -59,6 +59,8 @@ public abstract class Entity {
 	public Vector2f getCenterLocation() { return new Vector2f(body.getHitBox().getCenterX(), body.getHitBox().getCenterY()); }
 	public Vector2f getLocation() { return body.getPosition2D(); }
 	public Vector2f getGridLocation() { return body.getPosition2D().truncate(); }
+	
+	public void setRotation(float angle) { body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
 	
 	public WrapperStaticBody getBody() { return body; }
 }

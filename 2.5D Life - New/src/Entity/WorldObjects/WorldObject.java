@@ -6,6 +6,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
+import Utils.Util;
 import World.Tiles.Tile;
 
 public abstract class WorldObject {
@@ -13,11 +14,15 @@ public abstract class WorldObject {
 	protected WrapperStaticBody body;
 	protected Tile tile;
 	
+	protected Vector2f front;
+	
 	public WorldObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		this.handler = handler;
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
+		
+		front = new Vector2f(0, -1);
 	}
 	
 	public void render() {
@@ -43,6 +48,7 @@ public abstract class WorldObject {
 	public abstract void clearTile();
 	public abstract void rotateLeft();
 	public abstract void rotateRight();
+	public abstract void rotateFront(float angle);
 
 	public float getX() { return body.getX(); }
 	public float getZ() { return body.getZ(); }
@@ -51,6 +57,7 @@ public abstract class WorldObject {
 	public float getHeight() { return body.getHeight(); }
 	
 	public Vector2f getPosition2D() { return body.getPosition2D(); }
+	public Vector2f getFront() { return front; }
 	
 	public void setPosition2D(Vector2f position) {
 		if(body.getWidth() > 1 || body.getHeight() > 1) {

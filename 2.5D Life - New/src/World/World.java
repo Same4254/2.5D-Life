@@ -31,7 +31,7 @@ public class World {
 	private Player player;
 //	private Human human;
 	
-	private Viewer needViewer;
+//	private Viewer needViewer;
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -51,7 +51,7 @@ public class World {
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
 		player.getBody().setPosition2D(2, 2);
 		
-		needViewer = new Viewer(handler);
+//		needViewer = new Viewer(handler);
 		
 //		human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
@@ -70,13 +70,14 @@ public class World {
 //		human.update(delta);
 		cameraMovement.update(delta);
 //		cameraMovement.centerOnEntity(player);
+//		needViewer.update();
 	}
 	
 	public void render() {
 		for(Lot lot : lots)
 			lot.render();
 		
-		needViewer.repaint();
+//		needViewer.render();
 		player.render();
 //		human.render();
 		Assets.defaultShader.bind();

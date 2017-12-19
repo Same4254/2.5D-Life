@@ -40,6 +40,11 @@ public abstract class TileObject extends WorldObject {
 		
 		return false;
 	}
+	
+	@Override
+	public void rotateFront(float angle) {
+		front = Util.rotate(front, angle);
+	}
 
 	@Override
 	public void clearTile() {

@@ -1,10 +1,10 @@
 package Entity.FreeMoving;
 
-import java.util.Random;
-
 import com.Engine.RenderEngine.Textures.Texture2D;
 
 import Entity.FreeMoving.AI.Action.GoToAction;
+import Entity.FreeMoving.AI.Action.TurnToAction;
+import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
@@ -44,21 +44,16 @@ public class Player extends Human {
 		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-				addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) s.getPosition().x, (int) s.getPosition().z));
+				Lot lot = handler.getWorld().getLot(getLocation());
+				WorldObject object = lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject();
+				if(object != null) {
+ 					addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
+ 					addAction(new TurnToAction(this, object.getPosition2D()));
+				} else {
+					addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) s.getPosition().x, (int) s.getPosition().z));
+				}
 			}, delta);
 		}
-		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) 
-//			move(new Vector2f(0, -movementSpeed.y), delta);
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) 
-//			move(new Vector2f(-movementSpeed.x, 0), delta);
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) 
-//			move(new Vector2f(0, movementSpeed.y), delta);
-//		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) 
-//			move(new Vector2f(movementSpeed.x, 0), delta);
 	}
 	
 	@Override
