@@ -22,7 +22,10 @@ public class Assets {
 	
 	public static WrapperModel boxModel;
 	public static Texture2D boxTexture;
-
+	
+	public static WrapperModel bedModel;
+	public static Texture2D bedTexture;
+	
 	public static WrapperModel fridgeModel;
 	public static Texture2D fridgeTexture;
 	
@@ -47,6 +50,9 @@ public class Assets {
 		
 		tvModel = new WrapperModel(ImageLoader.MODEL_PATH + "TV.obj", defaultShader);
 		tvTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "TV.png");
+		
+		bedModel = new WrapperModel(ImageLoader.MODEL_PATH + "Bed.obj", defaultShader);
+		bedTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Bed.png");
 		
 		playerModel = new WrapperModel(ImageLoader.MODEL_PATH + "Cube Person.obj", defaultShader);
 		playerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Cube Person.png");

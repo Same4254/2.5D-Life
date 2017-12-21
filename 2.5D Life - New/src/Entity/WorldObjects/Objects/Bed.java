@@ -13,12 +13,13 @@ import Main.Assets;
 import Main.Game;
 import Main.Handler;
 
-public class TV extends MultiTileObject {
+public class Bed extends MultiTileObject {
+
 	private Model model;
 	
-	public TV(Handler handler) {//Need to rotate the position
-		super(handler, Assets.tvModel, Assets.tvTexture);
-
+	public Bed(Handler handler) {
+		super(handler, Assets.bedModel, Assets.bedTexture);
+		
 		ModelData modelData = new ModelData();
 		model = new Model(modelData);
 		
@@ -37,12 +38,12 @@ public class TV extends MultiTileObject {
 
 	@Override
 	public WorldObject clone() {
-		return new TV(handler);
+		return new Bed(handler);
 	}
 	
 	@Override
 	public void render() {
 		body.render();
-		model.render(new PhysicsRenderProperties(new Transform(body.getPosition3D(), new Vector3f(0), new Vector3f(1)), new Vector3f(1, 0, 0), true));
+		model.render(new PhysicsRenderProperties(new Transform(body.getPosition3D().subtract(new Vector3f(body.getWidth() / 2, 0, body.getHeight() / 2)), new Vector3f(0), new Vector3f(1)), new Vector3f(1, 0, 0), true));
 	}
 }
