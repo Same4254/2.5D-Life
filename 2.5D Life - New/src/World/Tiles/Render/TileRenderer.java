@@ -1,16 +1,11 @@
 package World.Tiles.Render;
 
-import static org.lwjgl.opengl.GL11.GL_ONE_MINUS_SRC_ALPHA;
-import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
-import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glDepthMask;
 import static org.lwjgl.opengl.GL31.glDrawElementsInstanced;
 
 import com.Engine.RenderEngine.Instancing.InstanceRenderer;
 import com.Engine.RenderEngine.Instancing.InstanceVBO;
-import com.Engine.RenderEngine.Particles.Texture.ParticleTexture;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Textures.Texture2D;

@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 public class BarGraph {
 	private DataSeries[] series;
 	
-	private int screenHeight = 450;
 	private int screenWidth = 400;
 	
 	private int translateX = 40, graphHeight = 400;

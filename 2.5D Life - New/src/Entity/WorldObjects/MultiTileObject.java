@@ -76,6 +76,7 @@ public abstract class MultiTileObject extends WorldObject {
 	@Override
 	public void rotateLeft() {
 		body.getRenderProperties().rotate(new Vector3f(0, 90, 0));
+		body.getStaticBody().setRotation(body.getStaticBody().getRotation().add(new Vector3f(0, 90, 0)));
 		
 		float width = body.getWidth();
 		float height = body.getHeight();
@@ -91,6 +92,7 @@ public abstract class MultiTileObject extends WorldObject {
 	@Override
 	public void rotateRight() {
 		body.getRenderProperties().rotate(new Vector3f(0, -90, 0));
+		body.getStaticBody().setRotation(body.getStaticBody().getRotation().add(new Vector3f(0, -90, 0)));
 		
 		float width = body.getWidth();
 		float height = body.getHeight();

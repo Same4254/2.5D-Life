@@ -5,15 +5,14 @@ import java.awt.geom.Rectangle2D.Float;
 
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
-import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMeshLoader;
 import com.Engine.RenderEngine.Shaders.RenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.Model;
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Input.CameraMovement;
 import Utils.Util;
 import World.Tiles.Tile;
 

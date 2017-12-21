@@ -67,6 +67,16 @@ public class MouseManager {
 			picked.pick(selected);
 	}
 	
+	public void updatePicker(OnPicked picked, Vector2f pos, float delta) {
+//		System.out.println("MouseX: " + Mouse.getX() + ", MouseY: " + Mouse.getY());
+		MousePicker picker = new MousePicker(camera.getPosition(), camera.getRotation(), new Vector2f((float)pos.x / handler.getWidth(), (float) pos.y / handler.getHeight()));
+		handler.getGame().getPhysicsEngine().add(picker);
+		picker.update(delta);
+		PhysicsBody selected = picker.getTarget();
+		
+		picked.pick(selected);
+	}
+	
 	public void updatePickerForTile(OnPicked picked, Lot lot, float delta) {
 		MousePicker picker = new MousePicker(camera.getPosition(), camera.getRotation(), new Vector2f((float)Mouse.getX() / handler.getWidth(), (float) Mouse.getY() / handler.getHeight()));
 		handler.getGame().getPhysicsEngine().add(picker);

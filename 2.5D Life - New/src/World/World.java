@@ -9,9 +9,8 @@ import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Player;
-import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.Objects.Fridge;
+import Entity.WorldObjects.Objects.TV;
 import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
@@ -57,18 +56,19 @@ public class World {
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
-		new Fridge(handler).addToTile(lots.get(0).getTiles()[0][0]);
+		new TV(handler).addToTile(lots.get(0).getTiles()[0][0]);
 		
 		lots.get(0).enableEdit();
 	}
 	
 	public void update(float delta) {
+		cameraMovement.update(delta);
+		
 		for(Lot lot : lots)
 			lot.update(delta);
 		
 		player.update(delta);
 //		human.update(delta);
-		cameraMovement.update(delta);
 //		cameraMovement.centerOnEntity(player);
 //		needViewer.update();
 	}

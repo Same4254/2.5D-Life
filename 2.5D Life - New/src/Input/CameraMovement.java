@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.Engine.RenderEngine.Util.Camera;
+import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Entity;
@@ -20,7 +21,7 @@ public class CameraMovement {
 	private float movementSpeed;
 	private float jumpSpeed;
 	private float mouseSensetivity;
-	
+
 	public CameraMovement(Handler handler, Camera camera, Vector3f spawn, float movementSpeed, float jumpSpeed, float mouseSensitivity) {
 		this.handler = handler;
 		this.camera = camera;
@@ -104,7 +105,7 @@ public class CameraMovement {
 				camera.moveUp(-jumpSpeed * delta);
 		} else 
 			centerOnEntity(handler.getWorld().getPlayer());
-	}
+	}		
 
 	public float getMovementSpeed(){return movementSpeed;}
 	public void setMovementSpeed(float movementSpeed){this.movementSpeed = movementSpeed;}

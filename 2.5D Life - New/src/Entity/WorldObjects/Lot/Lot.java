@@ -8,7 +8,6 @@ import World.Tiles.Tile;
 import World.Tiles.Render.TileInstanceModel;
 
 public class Lot {
-	private Handler handler;
 	private Tile[][] tiles;
 	private Vector2f position;
 	private Vector2f dimensions;
@@ -16,7 +15,6 @@ public class Lot {
 	private EditMode editMode;
 	
 	public Lot(Handler handler, Vector2f position, Vector2f dimensions) {
-		this.handler = handler;
 		this.position = position;
 		this.dimensions = dimensions;
 		

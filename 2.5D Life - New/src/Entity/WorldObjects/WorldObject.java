@@ -6,7 +6,6 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
-import Utils.Util;
 import World.Tiles.Tile;
 
 public abstract class WorldObject {

@@ -1,10 +1,8 @@
 package World.Tiles;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
-import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
-import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.TileObject;
@@ -18,14 +16,12 @@ import World.Tiles.Render.TileInstanceModel;
 public class Tile {
 	public static final int TILE_RESOLUTION = 4;
 	
-	private Handler handler;
 	private Lot lot;
 
 	private WorldObject object;
 	private WrapperStaticBody body;
 
 	public Tile(Handler handler, Lot lot, Vector2f position, WrapperModel wrapperModel, Texture2D texture) {
-		this.handler = handler;
 		this.lot = lot;
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
@@ -35,36 +31,25 @@ public class Tile {
 	}
 	
 	public void render(TileInstanceModel model) {
-		Vector2f temp = body.getPosition2D().add(lot.getPosition());
-		
-//		body.getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-		
 		body.render();
-		
-//		model.render((DefaultRenderProperties) body.getRenderProperties());
-		
-//		if(fullObject != null) {
-//			fullObject.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
-//			fullObject.render(camera);
-//		}
+
 		if(object != null) {
 			if(object instanceof MultiTileObject)  {
-				if(!((MultiTileObject)object).getTiles().isEmpty() && ((MultiTileObject)object).getTiles().get(0) == this) {
-//					object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+				if(!((MultiTileObject) object).getTiles().isEmpty() && ((MultiTileObject)object).getTiles().get(0) == this) 
 					object.render();
-				}
-			} else {
-//				object.getBody().getRenderProperties().getTransform().setTranslation(new Vector3f(temp.x, 0, temp.y));
+			} else 
 				object.render();
-			}
 		}
 	}
 	
 	public void update() {
 		if(object != null) {
-			if(object instanceof MultiTileObject) 
-				if(!((MultiTileObject) object).getTiles().isEmpty() && ((MultiTileObject) object).getTiles().get(0) == this)
+			if(object instanceof MultiTileObject) { 
+				if(!((MultiTileObject) object).getTiles().isEmpty() && ((MultiTileObject) object).getTiles().get(0) == this) {
 					object.update();
+					return;
+				}
+			}
 			object.update();
 		}
 	}

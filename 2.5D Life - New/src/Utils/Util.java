@@ -67,6 +67,20 @@ public class Util {
 		if(number.lessThen(point.subtract(range)) || number.greaterThen(point.add(range))) return false;
 		return true;
 	}
+	
+	public static boolean isInBetween(float number, Vector2f vector) {
+		if(vector.x > vector.y) {
+			if(number > vector.y && number < vector.x)
+				return true;
+			return false;
+		} else if(vector.x < vector.y) {
+			if(number < vector.y && number > vector.x)
+				return true;
+			return false;
+		}
+		
+		return false;
+	}
 
 	/****** Within Range ******/
 	public static Vector2f closest(Vector2f vector, ArrayList<Vector2f> vectors) {
@@ -142,6 +156,6 @@ public class Util {
 	}
 	
 //	public static void main(String[] args) {
-//		System.out.println(toGrid(new Vector2f(5.3f, 5.5f)));
+//		System.out.println(isInBetween(5, new Vector2f(10, 9)));
 //	}
 }

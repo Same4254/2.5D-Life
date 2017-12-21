@@ -1,19 +1,10 @@
 package Entity.FreeMoving;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 
-import Entity.FreeMoving.AI.Action.GoToAction;
-import Entity.FreeMoving.AI.Living.Needs.Need;
-import Entity.WorldObjects.WorldObject;
-import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
-import World.Tiles.Tile;
 
 public class Human extends Entity {
 	private String name;
