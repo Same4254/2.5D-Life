@@ -1,7 +1,6 @@
 package Entity.WrapperBodies;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Float;
 
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
@@ -12,7 +11,6 @@ import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import Input.CameraMovement;
 import Utils.Util;
 import World.Tiles.Tile;
 
@@ -21,7 +19,7 @@ public class WrapperStaticBody {
 	private Model model;
 	private RenderProperties renderProperties;
 	private StaticBody staticBody;
-	private Rectangle2D.Float hitBox;
+	private WrapperRectangle hitBox;
 	
 	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, RenderProperties renderProperties) {
 		this.wrapperModel = wrapperModel;
@@ -41,7 +39,7 @@ public class WrapperStaticBody {
 //		dimensions = dimensions.divide(1 / Tile.TILE_RESOLUTION).round().multiply(1 / Tile.TILE_RESOLUTION);
 //		Math.round(number / roundTo) * roundTo
 		
-		hitBox = new Rectangle2D.Float(0, 0, dimensions.x, dimensions.y);
+		hitBox = new WrapperRectangle(0, 0, dimensions.x, dimensions.y);
 		setPosition2D(0, 0);
 	}
 	
@@ -49,13 +47,13 @@ public class WrapperStaticBody {
 		this(wrapperModel, texture2D, new DefaultRenderProperties());
 	}
 	
-	private WrapperStaticBody(Model model, CollisionMesh col, Rectangle2D.Float hitBox, RenderProperties renderProperties) {
+	private WrapperStaticBody(Model model, CollisionMesh col, WrapperRectangle hitBox, RenderProperties renderProperties) {
 		this.model = new Model(model.getModelData());
 		this.model.setTexture(model.getTexture());
 		this.model.setShader(model.getShader());
 		
 		this.staticBody = new StaticBody(col);
-		this.hitBox = (Float) hitBox.clone();
+		this.hitBox = hitBox.clone();
 		this.renderProperties = renderProperties.clone();
 	}
 
@@ -130,5 +128,5 @@ public class WrapperStaticBody {
 	public Model getModel() { return model; }
 	public StaticBody getStaticBody() { return staticBody; }
 	public RenderProperties getRenderProperties() { return renderProperties; }
-	public Rectangle2D.Float getHitBox() { return hitBox; }
+	public WrapperRectangle getHitBox() { return hitBox; }
 }

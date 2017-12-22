@@ -78,6 +78,8 @@ public abstract class MultiTileObject extends WorldObject {
 		body.getRenderProperties().rotate(new Vector3f(0, 90, 0));
 		body.getStaticBody().setRotation(body.getStaticBody().getRotation().add(new Vector3f(0, 90, 0)));
 		
+//		body.getHitBox().rotateLeft();
+		
 		float width = body.getWidth();
 		float height = body.getHeight();
 		
@@ -85,14 +87,14 @@ public abstract class MultiTileObject extends WorldObject {
 		body.setHeight(width);
 		
 		rotateFront(90);
-		
-		System.out.println(front);
 	}
 
 	@Override
 	public void rotateRight() {
 		body.getRenderProperties().rotate(new Vector3f(0, -90, 0));
 		body.getStaticBody().setRotation(body.getStaticBody().getRotation().add(new Vector3f(0, -90, 0)));
+
+		body.getHitBox().rotateRight();
 		
 		float width = body.getWidth();
 		float height = body.getHeight();
@@ -101,8 +103,6 @@ public abstract class MultiTileObject extends WorldObject {
 		body.setHeight(width);
 		
 		rotateFront(-90);
-		
-		System.out.println(front);
 	}
 	
 	@Override
