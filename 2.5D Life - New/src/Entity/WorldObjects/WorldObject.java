@@ -22,7 +22,7 @@ public abstract class WorldObject {
 		body = new WrapperStaticBody(wrapperModel, texture);
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 		
-		front = new Vector2f(0, -1);
+		front = new Vector2f(getWidth(), 0);
 	}
 	
 	public void render() {
@@ -61,7 +61,18 @@ public abstract class WorldObject {
 	public void setPosition2D(Vector2f position) { body.setRotationPosition2D(position); }
 	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
 
-	public void setAngle(float angle) { body.setAngle(angle); }
+	public void setAngle(float angle) {
+		if(angle == 0) 
+			front = new Vector2f(getWidth(), 0);
+		if(angle == 90) 
+			front = new Vector2f(0, -getHeight());
+		if(angle == 180)
+			front = new Vector2f(-getWidth(), 0);
+		if(angle == 270)
+			front = new Vector2f(0, getHeight());
+		
+		body.setAngle(angle); 
+	}
 	
 	public WrapperStaticBody getBody() { return body; }
 	

@@ -99,12 +99,12 @@ public class EditMode {
 				}
 			} else if(heldObject != null) { //Mouse moving around
 				handler.getMouseManager().updatePickerForTile(s -> {
-					if(s != null && !Mouse.isButtonDown(0)) {//Free Moving
+					if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
 						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 						Vector2f truncated = location.truncate();
 //						System.out.println(heldObject.getBody().getHitBox());
 						heldObject.setPosition2D(truncated);
-					} else if(s != null && Mouse.isButtonDown(0)) { 
+					} else if(s != null && Mouse.isButtonDown(1)) { 
 						if(heldObject instanceof Wall) {//Dragging
 							if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
 								dragList.fill(DragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
