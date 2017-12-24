@@ -16,7 +16,7 @@ public class TurnToAction extends Action {
 	
 	@Override
 	public void update(float delta) {
-		entity.setRotation(Util.getAngle(entity.getLocation(), target));
+		entity.setAngle(Util.getAngle(entity.getPosition(), target));
 		complete = true;
 	}
 }

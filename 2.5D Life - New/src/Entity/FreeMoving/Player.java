@@ -44,13 +44,13 @@ public class Player extends Human {
 		
 		if(handler.getMouseManager().keyJustReleased(1)) {
 			handler.getMouseManager().updatePicker(s -> {
-				Lot lot = handler.getWorld().getLot(getLocation());
+				Lot lot = handler.getWorld().getLot(getPosition());
 				WorldObject object = lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject();
 				if(object != null) {
- 					addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
+ 					addAction(new GoToAction(handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
  					addAction(new TurnToAction(this, object.getPosition2D()));
 				} else {
-					addAction(new GoToAction(handler.getWorld().getLot(getLocation()), this, (int) s.getPosition().x, (int) s.getPosition().z));
+					addAction(new GoToAction(handler.getWorld().getLot(getPosition()), this, (int) s.getPosition().x, (int) s.getPosition().z));
 				}
 			}, delta);
 		}

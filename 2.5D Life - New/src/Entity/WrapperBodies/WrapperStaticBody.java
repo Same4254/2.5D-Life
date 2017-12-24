@@ -1,7 +1,5 @@
 package Entity.WrapperBodies;
 
-import java.awt.geom.Rectangle2D;
-
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
 import com.Engine.RenderEngine.Shaders.RenderProperties;
@@ -19,7 +17,9 @@ public class WrapperStaticBody {
 	private Model model;
 	private RenderProperties renderProperties;
 	private StaticBody staticBody;
-	private WrapperRectangle hitBox;
+	
+	private Vector3f min, max;
+	private Vector3f size, position;
 	
 	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, RenderProperties renderProperties) {
 		this.wrapperModel = wrapperModel;
@@ -36,10 +36,14 @@ public class WrapperStaticBody {
 		Vector2f dimensions = new Vector2f(radius.x, radius.z);
 		dimensions = Util.roundNearestMultiple(dimensions, 1f / Tile.TILE_RESOLUTION);
 		
-//		dimensions = dimensions.divide(1 / Tile.TILE_RESOLUTION).round().multiply(1 / Tile.TILE_RESOLUTION);
-//		Math.round(number / roundTo) * roundTo
+		min = new Vector3f(dimensions.x, 0, dimensions.y).subtract(1).divide(-2).truncate().subtract(.5).setY(0);
+		max = min.add(dimensions.x, 0, dimensions.y);
 		
-		hitBox = new WrapperRectangle(0, 0, dimensions.x, dimensions.y);
+		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
+		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
+		
+		size = tempMin.difference(tempMax).round();
+		
 		setPosition2D(0, 0);
 	}
 	
@@ -47,77 +51,63 @@ public class WrapperStaticBody {
 		this(wrapperModel, texture2D, new DefaultRenderProperties());
 	}
 	
-	private WrapperStaticBody(Model model, CollisionMesh col, WrapperRectangle hitBox, RenderProperties renderProperties) {
+	private WrapperStaticBody(Model model, CollisionMesh col, Vector3f size, Vector3f position, RenderProperties renderProperties) {
 		this.model = new Model(model.getModelData());
 		this.model.setTexture(model.getTexture());
 		this.model.setShader(model.getShader());
 		
 		this.staticBody = new StaticBody(col);
-		this.hitBox = hitBox.clone();
 		this.renderProperties = renderProperties.clone();
 	}
 
 	public WrapperStaticBody clone() {
-		return new WrapperStaticBody(model, wrapperModel.getCollisionMesh(), hitBox, renderProperties);
+		return new WrapperStaticBody(model, wrapperModel.getCollisionMesh(), size, position, renderProperties);
 	}
 	
 	public Vector3f getPosition3D() { return staticBody.getPosition(); }
 	public Vector2f getPosition2D() { return new Vector2f(getX(), getZ()); }
 	
-	public void setPosition3D(Vector3f position) {
-		staticBody.setPosition(position);
-		renderProperties.getTransform().setTranslation(position);
-		setHitBoxCoords(position.getX(), position.getZ());
+	public void setRotationPosition2D(Vector2f position) {
+		staticBody.setPosition(new Vector3f(position.getX(), 0, position.getY()));
+		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), 0, position.getY()));
+		
+		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
+		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
+		
+		this.size = tempMin.difference(tempMax).round();
+		this.position = tempMin.capMax(tempMax).add(.5);
 	}
 	
 	public void setPosition2D(Vector2f position) {
-		staticBody.setPosition(new Vector3f(position.getX(), getY(), position.getY()));
-		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), getY(), position.getY()));
-		setHitBoxCoords(position);
+		staticBody.setPosition(new Vector3f(position.getX(), 0, position.getY()));
+		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), 0, position.getY()));
+		this.position = new Vector3f(position.x, 0, position.y);
 	}
-
-	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
+	
+	public void setPosition2D(float x, float z) {setPosition2D(new Vector2f(x, z)); }
 	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
-	
-	private void setHitBoxCoords(float x, float z) {
-		hitBox.x = x;
-		hitBox.y = z;
-	}
-	
-	private void setHitBoxCoords(Vector2f position) { setHitBoxCoords(position.x, position.y); }
-	
-	public float getWidth() { return hitBox.width; }
-	public void setWidth(float width) { hitBox.width = width; } 
-	
-	public float getHeight() { return hitBox.height; } 
-	public void setHeight(float height) { hitBox.height = height; }
-	
-	public void setDimensions(Vector2f dimensions) { setWidth(dimensions.x); setHeight(dimensions.y); }
+
 	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
+	public float getWidth() { return size.x; } 
+	public float getHeight() { return size.z; } 
 	
-	public float getX() { return (float) hitBox.getX(); }
+	public float getX() { return position.x; }
 	public void addX(float amount) { setX(getX() + amount); }
+	public void setX(float x) { setPosition2D(x, getZ()); }
 	
-	public void setX(float x) {
-		staticBody.setPosition(new Vector3f(x, staticBody.getPosition().y, staticBody.getPosition().z));
-		renderProperties.getTransform().setTranslation(new Vector3f(x, renderProperties.getTransform().getTranslation().y, renderProperties.getTransform().getTranslation().z));
-		hitBox.x = x;
-	}
-	
-	public float getY() { return staticBody.getPosition().y; }
-	
-	public void setY(float y) {
-		staticBody.setPosition(new Vector3f(staticBody.getPosition().x, y, staticBody.getPosition().z));
-		renderProperties.getTransform().setTranslation(new Vector3f(renderProperties.getTransform().getTranslation().x, y, renderProperties.getTransform().getTranslation().z));
-	}
-	
-	public float getZ() { return (float) hitBox.getY(); }
+	public float getZ() { return position.z; }
 	public void addZ(float amount) { setZ(getZ() + amount); }
+	public void setZ(float z) { setPosition2D(getX(), z); }
 	
-	public void setZ(float z) {
-		staticBody.setPosition(new Vector3f(staticBody.getPosition().x, staticBody.getPosition().y, z));
-		renderProperties.getTransform().setTranslation(new Vector3f(renderProperties.getTransform().getTranslation().x, renderProperties.getTransform().getTranslation().y, z));
-		hitBox.y = z;
+	public void setAngle(float angle) {
+		renderProperties.getTransform().setRotation(new Vector3f(0, angle, 0));
+		staticBody.setRotation(new Vector3f(0, angle, 0));
+		
+		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
+		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
+		
+		size = tempMin.difference(tempMax).round();
+		position = tempMin.capMax(tempMax).add(.5);
 	}
 	
 	public void add(float x, float z) { addX(x); addZ(z); }
@@ -128,5 +118,4 @@ public class WrapperStaticBody {
 	public Model getModel() { return model; }
 	public StaticBody getStaticBody() { return staticBody; }
 	public RenderProperties getRenderProperties() { return renderProperties; }
-	public WrapperRectangle getHitBox() { return hitBox; }
 }

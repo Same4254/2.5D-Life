@@ -36,7 +36,7 @@ public abstract class Entity {
 		if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 45), 5))
 			angle = Util.roundNearestMultiple(angle, 45);
 			
-		setRotation(angle);
+		setAngle(angle);
 		body.add(velocity.multiply(delta));
 	}
 	
@@ -51,16 +51,18 @@ public abstract class Entity {
 	public void addAction(Action a) { actionQueue.add(a); }
 	
 	public float getX() { return body.getX(); }
-	public float getY() { return body.getY(); }
 	public float getZ() { return body.getZ(); }
 	
 	public Vector2f getMovementSpeed() { return movementSpeed; }
 	
-	public Vector2f getCenterLocation() { return new Vector2f(body.getHitBox().getCenterX(), body.getHitBox().getCenterY()); }
-	public Vector2f getLocation() { return body.getPosition2D(); }
-	public Vector2f getGridLocation() { return body.getPosition2D().truncate(); }
+	public Vector2f getPosition() { return body.getPosition2D(); }
+	public Vector2f getGridPosition() { return body.getPosition2D().truncate(); }
 	
-	public void setRotation(float angle) { body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
+	public void setPosition2D(Vector2f position) { body.setPosition2D(position); }
+	public void setPosition2D(float x, float z) { body.setPosition2D(x, z); }
 	
-	public WrapperStaticBody getBody() { return body; }
+	public Vector2f roundPosToGrid() { return body.roundPosToGrid(); }
+	public void setAngle(float angle) { body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
+	
+//	public WrapperStaticBody getBody() { return body; }
 }

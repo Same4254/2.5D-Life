@@ -48,7 +48,7 @@ public class World {
 		lots.add(new Lot(handler, new Vector2f(), new Vector2f(60)));
 
 		player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
-		player.getBody().setPosition2D(2, 2);
+		player.setPosition2D(2, 2);
 		
 //		needViewer = new Viewer(handler);
 		
@@ -99,6 +99,10 @@ public class World {
 			}
 		}
 		return null;
+	}
+	
+	public Lot getTestLot() {
+		return lots.get(0);
 	}
 	
 	public Player getPlayer() { return player; }

@@ -127,6 +127,20 @@ public class Util {
 		return angle;
 	}
 	
+	public static float getPosAngle(Vector2f current, Vector2f target) {
+		float angle = (float) Math.toDegrees(Math.atan2(target.x - current.x, target.y - current.y));
+		angle -= 90;
+		
+		if(angle < 0)
+			angle += 360;
+		return angle;
+	}
+	
+	/****** Vectors ******/
+	public static Vector2f to2D(Vector3f vector) {
+		return new Vector2f(vector.x, vector.z);
+	}
+	
 	/****** Tiles ******/
 	public static Vector2f toGrid(Vector2f vector) {
 		return roundNearestMultiple(vector, (float) (1.0 / Tile.TILE_RESOLUTION));
