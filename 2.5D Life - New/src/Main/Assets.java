@@ -29,6 +29,9 @@ public class Assets {
 	public static WrapperModel fridgeModel;
 	public static Texture2D fridgeTexture;
 	
+	public static WrapperModel chairModel;
+	public static Texture2D chairTexture;
+	
 	public static WrapperModel tvModel;
 	public static Texture2D tvTexture;
 	
@@ -47,6 +50,9 @@ public class Assets {
 		
 		fridgeModel = new WrapperModel(ImageLoader.MODEL_PATH + "Fridge.obj", defaultShader);
 		fridgeTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Fridge.png");
+		
+		chairModel = new WrapperModel(ImageLoader.MODEL_PATH + "Chair.obj", defaultShader);
+		chairTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Chair.png");
 		
 		tvModel = new WrapperModel(ImageLoader.MODEL_PATH + "TV.obj", defaultShader);
 		tvTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "TV.png");

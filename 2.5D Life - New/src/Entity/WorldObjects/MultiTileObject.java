@@ -3,7 +3,6 @@ package Entity.WorldObjects;
 import java.util.ArrayList;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
-import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
@@ -47,6 +46,7 @@ public abstract class MultiTileObject extends WorldObject {
 				tiles.add(lot.getTiles()[x][y]);
 				lot.getTiles()[x][y].add(this);
 			}}
+
 			return true;
 		} 
 		

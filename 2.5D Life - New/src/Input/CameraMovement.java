@@ -103,8 +103,9 @@ public class CameraMovement {
 				camera.moveUp(jumpSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) 
 				camera.moveUp(-jumpSpeed * delta);
-		} else 
-			centerOnEntity(handler.getWorld().getPlayer());
+		}
+//		} else 
+//			centerOnEntity(handler.getWorld().getPlayer());
 	}		
 
 	public float getMovementSpeed(){return movementSpeed;}

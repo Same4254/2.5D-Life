@@ -1,11 +1,15 @@
 package Entity.FreeMoving.AI.Action;
 
+import Main.Handler;
+
 public abstract class Action {
+	protected Handler handler;
+	
 	protected boolean started;
 	protected boolean complete;
 	
-	public Action() {
-		
+	public Action(Handler handler) {
+		this.handler = handler;
 	}
 
 	public void start() {

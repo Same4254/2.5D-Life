@@ -9,6 +9,7 @@ import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.DragList.AXIS;
 import Entity.WorldObjects.Objects.Bed;
 import Entity.WorldObjects.Objects.Box;
+import Entity.WorldObjects.Objects.Chair;
 import Entity.WorldObjects.Objects.Fridge;
 import Entity.WorldObjects.Objects.TV;
 import Entity.WorldObjects.Objects.Table;
@@ -75,6 +76,14 @@ public class EditMode {
 				heldObject = new Bed(handler);
 				dragList.setOriginal(heldObject);
 			}
+			
+			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_7)) {
+				if(heldObject != null)
+					heldObject.cleanUp();
+				heldObject = new Chair(handler);
+				dragList.setOriginal(heldObject);
+			}
+			
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
 				if(heldObject != null)

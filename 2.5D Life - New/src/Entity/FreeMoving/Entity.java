@@ -13,9 +13,14 @@ import Main.Handler;
 import Utils.Util;
 
 public abstract class Entity {
+	public static enum Living {
+		Hunger
+	};
+	
 	protected Handler handler;
 	protected ActionQueue actionQueue;
 	protected NeedManager needManager;
+	protected Inventory inventory;
 	
 	protected WrapperStaticBody body;
 	protected Vector2f movementSpeed;
@@ -28,6 +33,8 @@ public abstract class Entity {
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		movementSpeed = new Vector2f();
+		
+		inventory = new Inventory(handler, this);
 	}
 	
 	public void move(Vector2f velocity, float delta) {
@@ -63,6 +70,8 @@ public abstract class Entity {
 	
 	public Vector2f roundPosToGrid() { return body.roundPosToGrid(); }
 	public void setAngle(float angle) { body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
+	
+	public Inventory getInventory() { return inventory; }
 	
 //	public WrapperStaticBody getBody() { return body; }
 }

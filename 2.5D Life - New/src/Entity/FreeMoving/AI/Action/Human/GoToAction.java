@@ -1,4 +1,4 @@
-package Entity.FreeMoving.AI.Action;
+package Entity.FreeMoving.AI.Action.Human;
 
 import java.util.ArrayList;
 
@@ -6,25 +6,27 @@ import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.AI.PathFinding;
+import Entity.FreeMoving.AI.Action.Action;
+import Entity.FreeMoving.AI.Action.MultiAction;
 import Entity.WorldObjects.Lot.Lot;
+import Main.Handler;
 import Utils.Util;
 
-public class GoToAction extends Action {
-	private ActionQueue movePoints;
-	private Lot lot;
-	private Entity entity;
-	private Vector2f toGridLocation;
+public class GoToAction extends MultiAction {
+	protected Lot lot;
+	protected Entity entity;
+	protected Vector2f toGridLocation;
 	
-	public GoToAction(Lot lot, Entity entity, Vector2f toGridLocation) {
+	public GoToAction(Handler handler, Lot lot, Entity entity, Vector2f toGridLocation) {
+		super(handler);
+		
 		this.lot = lot;
 		this.entity = entity;
 		this.toGridLocation = toGridLocation;
-		
-		movePoints = new ActionQueue();
 	}
 	
-	public GoToAction(Lot lot, Entity entity, int x, int z) {
-		this(lot, entity, new Vector2f(x, z));
+	public GoToAction(Handler handler, Lot lot, Entity entity, int x, int z) {
+		this(handler, lot, entity, new Vector2f(x, z));
 	}
 
 	@Override
@@ -36,15 +38,7 @@ public class GoToAction extends Action {
 			return;
 		
 		for(Vector2f point : path)   
-			movePoints.add(new Move(entity, point));
-	}
-	
-	@Override
-	public void update(float delta) {
-		if(started && movePoints.getActions().isEmpty())
-			complete = true;
-		else
-			movePoints.update(delta);
+			subActions.add(new Move(handler, entity, point));
 	}
 }
 
@@ -55,13 +49,15 @@ class Move extends Action {
 	private Vector2f startLocation;
 	private Vector2f step;
 	
-	public Move(Entity entity, Vector2f toGridLocation) {
+	public Move(Handler handler, Entity entity, Vector2f toGridLocation) {
+		super(handler);
+		
 		this.entity = entity;
 		this.toGridLocation = toGridLocation;
 	}
 	
-	public Move(Entity entity, int x, int z) {
-		this(entity, new Vector2f(x, z));
+	public Move(Handler handler, Entity entity, int x, int z) {
+		this(handler, entity, new Vector2f(x, z));
 	}
 
 	@Override

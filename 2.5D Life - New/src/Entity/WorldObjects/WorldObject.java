@@ -1,9 +1,16 @@
 package Entity.WorldObjects;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.Entity;
+import Entity.FreeMoving.Entity.Living;
+import Entity.WorldObjects.Items.Item;
+import Entity.FreeMoving.AI.Action.Action;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
@@ -13,6 +20,9 @@ public abstract class WorldObject {
 	protected Handler handler;
 	protected WrapperStaticBody body;
 	protected Tile tile;
+
+	protected ArrayList<Item> inventory;
+	protected HashMap<Living, Integer> needs, skills;
 	
 	protected Vector2f front;
 	
@@ -21,8 +31,11 @@ public abstract class WorldObject {
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
-		
 		front = new Vector2f(getWidth(), 0);
+		
+		inventory = new ArrayList<>();
+		needs = new HashMap<>();
+		skills = new HashMap<>();
 	}
 	
 	public void render() {
@@ -32,6 +45,8 @@ public abstract class WorldObject {
 	
 	public void update() {	}
 	
+	public abstract Action getAction(Entity entity, Living reason);
+	public abstract Item searchForItem(Entity entity, Living reason);
 	public abstract WorldObject clone();
 	public abstract boolean addToTile(Tile tile);
 	
@@ -65,16 +80,19 @@ public abstract class WorldObject {
 		if(angle == 0) 
 			front = new Vector2f(getWidth(), 0);
 		if(angle == 90) 
-			front = new Vector2f(0, -getHeight());
+			front = new Vector2f(0, -1);
 		if(angle == 180)
-			front = new Vector2f(-getWidth(), 0);
+			front = new Vector2f(-1, 0);
 		if(angle == 270)
 			front = new Vector2f(0, getHeight());
 		
 		body.setAngle(angle); 
 	}
+
+	public HashMap<Living, Integer> getNeeds() { return needs; }
+	public HashMap<Living, Integer> getSkills() { return skills; } 
+	public ArrayList<Item> getInventory() { return inventory; } 
 	
 	public WrapperStaticBody getBody() { return body; }
-	
 	public void setTile(Tile tile) { this.tile = tile; }
 }

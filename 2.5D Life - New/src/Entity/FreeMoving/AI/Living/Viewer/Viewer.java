@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Entity.FreeMoving.Player;
+import Entity.FreeMoving.Human;
 import Main.Handler;
 
 public class Viewer extends JPanel {
@@ -15,7 +15,7 @@ public class Viewer extends JPanel {
 	private JFrame frame;
 	private BarGraph barGraph;
 	
-	public Viewer(Handler handler) {
+	public Viewer(Handler handler, Human human) {
 		frame = new JFrame("Character Viewer");
 		frame.setSize(400, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,10 +23,8 @@ public class Viewer extends JPanel {
 		frame.add(this);
 		frame.setVisible(true);
 		
-		Player player = handler.getWorld().getPlayer();
-		
 		barGraph = new BarGraph(new DataSeries("Hunger", () -> {
-			return player.getNeedManager().getHunger().getValue();
+			return human.getNeedManager().getHunger().getValue();
 		}));
 	}
 	
