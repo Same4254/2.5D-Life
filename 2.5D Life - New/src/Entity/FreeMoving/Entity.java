@@ -14,7 +14,7 @@ import Utils.Util;
 
 public abstract class Entity {
 	public static enum Living {
-		Hunger
+		Hunger, Entertainment
 	};
 	
 	protected Handler handler;

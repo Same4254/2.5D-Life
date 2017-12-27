@@ -1,6 +1,9 @@
 package Entity.FreeMoving.AI.Action.Human;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.AI.Action.MultiAction;
@@ -11,11 +14,16 @@ import Main.Handler;
 
 public class FindPlaceToSitAction extends MultiAction {
 	private Entity entity;
+	private ArrayList<Vector2f> points;
 	
 	public FindPlaceToSitAction(Handler handler, Entity entity) {
 		super(handler);
-		
 		this.entity = entity;
+	}
+	
+	public FindPlaceToSitAction(Handler handler, Entity entity, ArrayList<Vector2f> points) {
+		this(handler, entity);
+		this.points = points;
 	}
 	
 	@Override
@@ -40,9 +48,28 @@ public class FindPlaceToSitAction extends MultiAction {
 			return 1;
 		});
 		
-		if(!chairs.isEmpty())
-			subActions.add(new MoveToAction(handler, lot, chairs.get(0), entity));
-		else 
+		if(!chairs.isEmpty()) {
+			if(points != null) {
+				Iterator<WorldObject> iterator = chairs.iterator();
+				WorldObject worldObject = null;
+				
+				while(iterator.hasNext()) {
+					WorldObject temp = iterator.next();
+					if(points.contains(temp.getPosition2D())) {
+						worldObject = temp;
+						break;
+					}
+				}
+				
+				if(worldObject != null)
+					subActions.add(new MoveToAction(handler, lot, worldObject, entity));
+				else { 
+					complete = true;
+					return;
+				}
+			} else 
+				subActions.add(new MoveToAction(handler, lot, chairs.get(0), entity));
+		} else 
 			complete = true;
 	}
 }

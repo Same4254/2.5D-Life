@@ -9,8 +9,9 @@ import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
-import Entity.WorldObjects.Items.Item;
 import Entity.FreeMoving.AI.Action.Action;
+import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;

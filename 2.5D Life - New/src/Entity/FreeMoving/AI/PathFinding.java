@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Wall;
 
 public class PathFinding {
 	public static ArrayList<Vector2f> aStar(Entity e, Lot lot, Vector2f start, Vector2f end) {
@@ -19,12 +20,6 @@ public class PathFinding {
 		boolean endUnWalkable = !endNode.isWalkable();
 		if(endUnWalkable)
 			endNode.setWalkable(true);
-		
-//		System.out.println("----------");
-//		System.out.println("A Start Path Finding");
-//		System.out.println("Entity: " + e);
-//		System.out.println("Start: " + startNode.getPosition());
-//		System.out.println("End: " + endNode.getPosition());
 		
 		ArrayList<Node> open = new ArrayList<>();
 		ArrayList<Node> closed = new ArrayList<>();
@@ -76,6 +71,39 @@ public class PathFinding {
 		
 		Collections.reverse(path);
 		return path;
+	}
+
+//	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, WorldObject worldObject, int radius, boolean frontOnly) {
+//		
+//	}
+	
+	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, int px, int py, int radius) {
+		Node[][] tempNodes = new Node[(radius * 2) + 1][(radius * 2) + 1];
+		
+		for(int x = px - radius; x <= radius + px; x++) {
+			for(int y = py - radius; y <= radius + py; y++) {
+				if(x > 0 && x < lot.getWidth()) {
+					if(lot.getTiles()[x][y].getObject() instanceof Wall) {
+						tempNodes[x - px + radius][y - py + radius] = new Node(x, y, false);
+					} else {
+						tempNodes[x - px + radius][y - py + radius] = new Node(x, y, true);
+					}
+				}
+			}
+		}
+		
+		NodeGrid grid = new NodeGrid(tempNodes);
+		
+ 	}
+	
+	private static ArrayList<Node> addNeighbores(NodeGrid grid, Node node, ArrayList<Node> toAdd, int px, int py, int radius) {
+		ArrayList<Node> temp = grid.checkNeighbores(node);
+		toAdd.addAll(temp);
+		
+		for(Node tempNode : temp) 
+			addNeighbores(grid, tempNode, toAdd, px, py, radius);
+		
+		return temp;
 	}
 	
 	private static NodeGrid generateNodeGrid(Lot lot) {
@@ -147,6 +175,13 @@ class NodeGrid {
 		return neighbores;
 	}
 	
+	public ArrayList<Node> checkNeighbores(Node node) {
+		ArrayList<Node> temp = getAdjacentNeighbores(node);
+		for(int i = temp.size() - 1; i >= 0; i--) 
+			if(!temp.get(i).isWalkable()) temp.remove(i);
+		return temp;
+	}
+	
 	/**
 	 * Gets all the neighborers, but not the ones that are "technically possible" (can't cut through corners in between objects)
 	 */
@@ -181,6 +216,22 @@ class NodeGrid {
 		}
 		
 		return neighbores;
+	}
+	
+	/**
+	 * Get only the 4 directly adjacent nodes
+	 */
+	public ArrayList<Node> getAdjacentNeighbores(Node node) {
+		ArrayList<Node> temp = new ArrayList<>();
+		
+		temp.add(getNode(node.getPosition().add(1, 0)));
+		temp.add(getNode(node.getPosition().add(-1, 0)));
+		temp.add(getNode(node.getPosition().add(0, 1)));
+		temp.add(getNode(node.getPosition().add(0, -1)));
+		
+		for(int i = temp.size() - 1 ; i >= 0; i--)
+			if(temp.get(i) == null) temp.remove(i);
+		return temp;
 	}
 	
 	public Node getNode(int x, int y) {

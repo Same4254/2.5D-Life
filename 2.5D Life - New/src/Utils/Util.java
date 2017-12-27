@@ -2,6 +2,8 @@ package Utils;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
@@ -150,6 +152,7 @@ public class Util {
 		return (int) (roundNearestMultiple(pos - (int) pos, (float) (1.0 / Tile.TILE_RESOLUTION)) * Tile.TILE_RESOLUTION);
 	}
 	
+	/****** World Functions ******/
 	public static void placeHouse(Handler handler, Lot lot, BufferedImage image, int x, int y) {
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -168,8 +171,42 @@ public class Util {
 			wall.addToTile(lot.getTiles()[(int)v.x] [(int) v.y]);
 		}
 	}
+
+	public static void getEffectiveArea(int px, int py, int radius, int[][] field) {
+		for(int x = 0; x < field.length; x++) {
+			for(int y = 0; y < field[0].length; y++) {
+				System.out.print(field[x][y] + " ");
+			}
+			System.out.println();
+		}
+		
+		for(int x = px - radius; x <= px + radius; x++) {
+			for(int y = py - radius; y <= py + radius; y++) {
+				field[x][y] = 2;
+			}
+		}
+		
+		field[px][py] = 1;
+		
+		System.out.println("-----------");
+		
+		for(int x = 0; x < field.length; x++) {
+			for(int y = 0; y < field[0].length; y++) {
+				System.out.print(field[x][y] + " ");
+			}
+			System.out.println();
+		}
+	}
 	
-//	public static void main(String[] args) {
-//		System.out.println(isInBetween(5, new Vector2f(10, 9)));
-//	}
+	public static void main(String[] args) {
+		int[][] field = new int[7][7];
+		
+		for(int x = 0; x < field.length; x++) {
+			for(int y = 0; y < field[0].length; y++) {
+				field[x][y] = 0;
+			}
+		}
+		
+		getEffectiveArea(3, 3, 2, field);
+	}
 }
