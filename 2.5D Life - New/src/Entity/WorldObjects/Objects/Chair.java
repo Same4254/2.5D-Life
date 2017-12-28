@@ -27,7 +27,15 @@ public class Chair extends TileObject {
 	}
 
 	@Override
-	public WorldObject clone() {
-		return new Chair(handler);
+	protected void initSkillsAndNeeds() {
+		
 	}
+
+	@Override
+	protected void initInventory() {
+
+	}
+	
+	@Override
+	public WorldObject clone() { return new Chair(handler); }
 }

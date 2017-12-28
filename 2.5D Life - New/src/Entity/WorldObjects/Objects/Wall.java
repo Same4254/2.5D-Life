@@ -15,11 +15,6 @@ public class Wall extends TileObject {
 	}
 
 	@Override
-	public Wall clone() {
-		return new Wall(handler);
-	}
-
-	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
 	}
@@ -28,4 +23,17 @@ public class Wall extends TileObject {
 	public Item searchForItem(Entity entity, Living reason) {
 		return null;
 	}
+
+	@Override
+	protected void initSkillsAndNeeds() {
+		
+	}
+
+	@Override
+	protected void initInventory() {
+		
+	}
+	
+	@Override
+	public Wall clone() { return new Wall(handler); }
 }

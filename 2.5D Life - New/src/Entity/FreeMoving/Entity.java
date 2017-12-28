@@ -55,7 +55,7 @@ public abstract class Entity {
 	public void render() { body.render(); }
 	
 	public NeedManager getNeedManager() { return needManager; }
-	public void addAction(Action a) { actionQueue.add(a); }
+	public void addAction(Action a) { if(a != null) actionQueue.add(a); }
 	
 	public float getX() { return body.getX(); }
 	public float getZ() { return body.getZ(); }

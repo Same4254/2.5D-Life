@@ -16,11 +16,6 @@ public class Table extends TileObject {
 	}
 
 	@Override
-	public Table clone() {
-		return new Table(handler);
-	}
-
-	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
 	}
@@ -29,4 +24,17 @@ public class Table extends TileObject {
 	public Item searchForItem(Entity entity, Living reason) {
 		return null;
 	}
+
+	@Override
+	protected void initSkillsAndNeeds() {
+		
+	}
+
+	@Override
+	protected void initInventory() {
+		
+	}
+	
+	@Override
+	public Table clone() { return new Table(handler); }
 }

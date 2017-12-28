@@ -37,6 +37,9 @@ public abstract class WorldObject {
 		inventory = new ArrayList<>();
 		needs = new HashMap<>();
 		skills = new HashMap<>();
+		
+		initSkillsAndNeeds();
+		initInventory();
 	}
 	
 	public void render() {
@@ -49,6 +52,10 @@ public abstract class WorldObject {
 	public abstract Action getAction(Entity entity, Living reason);
 	public abstract Item searchForItem(Entity entity, Living reason);
 	public abstract WorldObject clone();
+	
+	protected abstract void initSkillsAndNeeds();
+	protected abstract void initInventory();
+	
 	public abstract boolean addToTile(Tile tile);
 	
 	public WorldObject removeFromTile() {

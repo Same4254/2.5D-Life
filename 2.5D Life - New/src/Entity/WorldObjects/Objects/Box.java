@@ -16,11 +16,6 @@ public class Box extends MultiTileObject {
 	}
 
 	@Override
-	public Box clone() {
-		return new Box(handler);
-	}
-
-	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
 	}
@@ -29,4 +24,17 @@ public class Box extends MultiTileObject {
 	public Item searchForItem(Entity entity, Living reason) {
 		return null;
 	}
+
+	@Override
+	protected void initSkillsAndNeeds() {
+		
+	}
+
+	@Override
+	protected void initInventory() {
+		
+	}
+	
+	@Override
+	public Box clone() { return new Box(handler); }
 }

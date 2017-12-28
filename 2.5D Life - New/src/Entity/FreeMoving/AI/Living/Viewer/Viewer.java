@@ -25,6 +25,8 @@ public class Viewer extends JPanel {
 		
 		barGraph = new BarGraph(new DataSeries("Hunger", () -> {
 			return human.getNeedManager().getHunger().getValue();
+		}), new DataSeries("Entertainment", () -> {
+			return human.getNeedManager().getEntertainment().getValue();
 		}));
 	}
 	

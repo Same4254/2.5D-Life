@@ -20,11 +20,6 @@ public class Fridge extends MultiTileObject {
 	}
 
 	@Override
-	public Fridge clone() {
-		return new Fridge(handler);
-	}
-
-	@Override
 	public Action getAction(Entity entity, Living reason) {
 		if(reason == Living.Hunger) {
 			
@@ -45,4 +40,17 @@ public class Fridge extends MultiTileObject {
 		
 		return null;
 	}
+
+	@Override
+	protected void initSkillsAndNeeds() {
+		
+	}
+
+	@Override
+	protected void initInventory() {
+		
+	}
+	
+	@Override
+	public Fridge clone() { return new Fridge(handler); }
 }

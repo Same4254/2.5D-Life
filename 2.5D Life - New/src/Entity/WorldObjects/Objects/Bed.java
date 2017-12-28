@@ -17,11 +17,6 @@ public class Bed extends MultiTileObject {
 	}
 
 	@Override
-	public WorldObject clone() {
-		return new Bed(handler);
-	}
-
-	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
 	}
@@ -30,4 +25,17 @@ public class Bed extends MultiTileObject {
 	public Item searchForItem(Entity entity, Living reason) {
 		return null;
 	}
+
+	@Override
+	protected void initSkillsAndNeeds() {
+		
+	}
+
+	@Override
+	protected void initInventory() {
+		
+	}
+	
+	@Override
+	public WorldObject clone() { return new Bed(handler); }
 }
