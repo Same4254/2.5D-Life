@@ -7,8 +7,10 @@ import java.util.Comparator;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
+import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Wall;
+import Utils.Vector4I;
 
 public class PathFinding {
 	public static ArrayList<Vector2f> aStar(Entity e, Lot lot, Vector2f start, Vector2f end) {
@@ -73,36 +75,105 @@ public class PathFinding {
 		return path;
 	}
 
-//	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, WorldObject worldObject, int radius, boolean frontOnly) {
-//		
-//	}
 	
-	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, int px, int py, int radius) {
-		Node[][] tempNodes = new Node[(radius * 2) + 1][(radius * 2) + 1];
+	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, WorldObject worldObject, Vector2f radius, boolean pointSource) {
+		if(pointSource) {
+			return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
+		} else {
+			Vector2f front = worldObject.getFront();
+			if(front.x > 0) {//right
+				return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(0, radius.y, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
+			} else if(front.x < 0) {//Left
+				return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, radius.y + worldObject.getHeight() - 1, worldObject.getHeight() - 1));
+			} else if(front.y < 0) {//Up
+				return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
+			} else {//Down
+				return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(radius.x, 0, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
+			}
+		}
+	}
+	
+	/**
+	 *      Y
+	 *    X   W
+	 *      Z
+	 */
+	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, Vector2f position, Vector4I radius) {
+		int px = (int) position.x;
+		int py = (int) position.y;
 		
-		for(int x = px - radius; x <= radius + px; x++) {
-			for(int y = py - radius; y <= radius + py; y++) {
-				if(x > 0 && x < lot.getWidth()) {
-					if(lot.getTiles()[x][y].getObject() instanceof Wall) {
-						tempNodes[x - px + radius][y - py + radius] = new Node(x, y, false);
-					} else {
-						tempNodes[x - px + radius][y - py + radius] = new Node(x, y, true);
-					}
-				}
+		Node[][] tempNodes = new Node[radius.x + radius.w + 1][radius.y + radius.z + 1];
+		
+		for(int x = px - radius.x; x <= radius.w + px; x++) {
+			for(int y = py - radius.y; y <= radius.z + py; y++) {
+				if(lot.getTiles()[x][y].getObject() instanceof Wall) 
+					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, false);
+				else 
+					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, true);
 			}
 		}
 		
 		NodeGrid grid = new NodeGrid(tempNodes);
+		ArrayList<Node> nodes = new ArrayList<>();
+		addNeighbores(lot, grid, grid.getNode(new Vector2f(radius.x, radius.y)), nodes);
 		
+		//**********************
+		//		  TEST
+		System.out.println("Nodes: " + grid.getNodes());
+		for(Node[] nodeArray : grid.getNodes()) {
+			for(Node n : nodeArray) {
+				if(n.isWalkable())
+					System.out.print("0 ");
+				else
+					System.out.print("1 ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("------");
+		
+		for(Node[] nodeArray : grid.getNodes()) {
+			for(Node n : nodeArray) {
+				boolean contains = false;
+				for(Node node : nodes) {
+					if(node.getPosition().x == n.getPosition().x && node.getPosition().y == n.getPosition().y) {
+						contains = true;
+						break;
+					}
+				}
+				
+				if(contains) {
+					System.out.print("2 ");
+				} else {
+					System.out.print("0 ");
+				}
+			}
+			System.out.println();
+		}
+		
+		//**********************
+		
+		return toVector(nodes, new Vector2f(px - radius.x, py - radius.y));
  	}
 	
-	private static ArrayList<Node> addNeighbores(NodeGrid grid, Node node, ArrayList<Node> toAdd, int px, int py, int radius) {
+	private static ArrayList<Node> addNeighbores(Lot lot, NodeGrid grid, Node node, ArrayList<Node> toAdd) {
 		ArrayList<Node> temp = grid.checkNeighbores(node);
 		toAdd.addAll(temp);
 		
 		for(Node tempNode : temp) 
-			addNeighbores(grid, tempNode, toAdd, px, py, radius);
+			addNeighbores(lot, grid, tempNode, toAdd);
 		
+		return temp;
+	}
+	
+	private static ArrayList<Vector2f> toVector(ArrayList<Node> nodes, Vector2f translate) {
+		ArrayList<Vector2f> temp = new ArrayList<>();
+		for(Node n : nodes) {
+			if(translate != null)
+				temp.add(n.getPosition().add(translate));
+			else
+				temp.add(n.getPosition());
+		}
 		return temp;
 	}
 	
@@ -177,8 +248,12 @@ class NodeGrid {
 	
 	public ArrayList<Node> checkNeighbores(Node node) {
 		ArrayList<Node> temp = getAdjacentNeighbores(node);
-		for(int i = temp.size() - 1; i >= 0; i--) 
-			if(!temp.get(i).isWalkable()) temp.remove(i);
+		for(int i = temp.size() - 1; i >= 0; i--) {
+			if(!temp.get(i).isWalkable() || temp.get(i).isChecked()) 
+				temp.remove(i);
+			else 
+				temp.get(i).setChecked(true);
+		}
 		return temp;
 	}
 	
@@ -249,6 +324,8 @@ class NodeGrid {
 	public Node getNode(Vector2f pos) {
 		return getNode((int) pos.x, (int) pos.y);
 	}
+	
+	public Node[][] getNodes() { return nodes; }
 }
 
 class Node {
@@ -271,6 +348,7 @@ class Node {
 	private int x, y;
 	private int gCost, hCost;
 	private boolean walkable;
+	private boolean checked;
 	
 	public Node(int x, int y, boolean walkable) {
 		this.x = x; 
@@ -302,5 +380,10 @@ class Node {
 	public Vector2f getPosition() { return new Vector2f(x, y); }
 	public int getX() { return x; }
 	public int getY() { return y; }
+	
+	public boolean isChecked() { return checked; }
+	public void setChecked(boolean checked) { this.checked = checked; }
+	
+	@Override
+	public boolean equals(Object other) { return getPosition().equals(((Node) other).getPosition()); }
 }
-

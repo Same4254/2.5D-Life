@@ -34,6 +34,76 @@ public class Game {
 	
 	public static PhysicsShader physicsShader;
 	
+	/** TODO
+	 * Systems: 
+	 * 	Frustrum Culling -> Wrapper Bodies
+	 * 	Instance rendering tiles -> Textures
+	 * 	
+	 * Acutal Game:
+	 * 	Make actual textures for the models
+	 * 
+	 * 	TV effective radius improvments
+	 * 		- Can't watch TV through a wall
+	 * 		- Recursive algorithm can't go into an empty room next to the TV
+	 * 
+	 * 	Multiple Floors
+	 * 		- Lot can have floor levels that are all at different levels, and have different tiles
+	 * 		- Stairs need to be implemented to get between the different floors
+	 *  
+	 *  Lot to Lot travel 
+	 *  	- Roads will act as a median
+	 *  		- Sidewalk
+	 *  		- Cars
+	 *  			- Traffic system <- Oh Boy that's going to be fun <- Keep that simple
+	 *  
+	 * 	Getting on an object
+	 * 		- Rotate and translate the player to fit (Ex. Bed)
+	 * 		- Animations?
+	 * 
+	 * 	Actions
+	 * 		- Multiple Actions At Once
+	 * 			- No conflictions
+	 * 				- Can't walk in two different directions at the same time
+	 * 			- Effectiveness
+	 * 				- Homework and TV at the same time results in homework taking longer
+	 * 		- Interupts
+	 * 			- A Very low need level may take priority over the current action, and interupt the current to take care of that low level need
+	 * 		- Re-Order them (Slight UI)
+	 * 			- Be able to reorder the actions by sliding them (UI)
+	 * 		- Timed actions 
+	 * 			- Food takes time to eat, not an instant
+	 * 			- Watching TV give entertainment over time
+	 * 		- Synced actions between two entities
+	 * 			- Two people talking
+	 * 			- Back burner action list?
+	 * 		- Within a certian distance (effective radius) -> see TV Effective radius
+	 * 			- Example: walking and talking becomes not possible when the party's involved are far away
+	 * 			- Stop the action when a certain distance away
+	 *		- New General Actions
+	 *			- Finding somewhere to sit
+	 *			- Somewhere to sleep
+	 *			- Where to get entertainment
+	 *		- More models to go with new Actions
+	 * 
+	 * 	Relationships
+	 * 		- Remembering the other people 
+	 * 		- Get to know their skills and traits
+	 * 		- Use traits to determine how much they could get along or dislike each other
+	 * 
+	 * 	Object Inventory
+	 * 		- Render the inventory in some way?
+	 * 		- Each object can have a render method to organize how the inventory can be rendered
+	 * 			- Table can render a certain amount of items, from the inventory, on top of its model
+	 * 
+	 * 	Character Customization
+	 * 		- Separate Models
+	 * 			- Example: Hat, watch, glasses
+	 * 			- Dynamically change the locations of those models based on the coordinates of the player model lie	
+	 * 				- Increased fatness or getting taller or shorter
+	 * 			- Change the textures
+	 * 				- Different color t-shirt
+	 * 			- Add function to wrapper body to add other models, and sync with offset to original model
+	 */
 	public void init() throws LWJGLException {
 		window = new Window();
 		window.setTitle("Life 2.5D");

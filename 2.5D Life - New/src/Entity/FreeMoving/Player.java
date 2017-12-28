@@ -34,7 +34,9 @@ public class Player extends Human {
 
 	@Override
 	public void update(float delta) {
-		super.update(delta);
+//		super.update(delta);
+		needManager.update(delta);
+		actionQueue.update(delta);
 		
 //		if(actionQueue.getActions().isEmpty()) {
 //			Random random = new Random();
