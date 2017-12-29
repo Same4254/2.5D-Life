@@ -32,7 +32,7 @@ public class Human extends Entity {
 		
 		if(actionQueue.getActions().isEmpty()) {
 			Need lowest = needManager.getLowest();
-			if(lowest.getValue() < 80) {
+			if(lowest.getValue() < 89) {
 				Lot lot = handler.getWorld().getLot(body.getPosition2D());
 				
 				ArrayList<WorldObject> objects = new ArrayList<>();

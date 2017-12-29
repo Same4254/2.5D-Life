@@ -4,22 +4,23 @@ import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.MultiTileObject;
+import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
 import Main.Assets;
 import Main.Handler;
 
-public class Box extends MultiTileObject {
+public class Stove extends MultiTileObject {
 
-	public Box(Handler handler) {
-		super(handler, Assets.boxModel, Assets.boxTexture);
+	public Stove(Handler handler) {
+		super(handler, Assets.stoveModel, Assets.stoveTexture);
 
 	}
-	
+
 	@Override
 	public void update(float delta) {
 		
 	}
-
+	
 	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
@@ -32,14 +33,14 @@ public class Box extends MultiTileObject {
 
 	@Override
 	protected void initSkillsAndNeeds() {
-		
+		skills.put(Living.Cooking, 100);
 	}
 
 	@Override
 	protected void initInventory() {
 		
 	}
-	
+
 	@Override
-	public Box clone() { return new Box(handler); }
+	public WorldObject clone() { return new Stove(handler); }
 }

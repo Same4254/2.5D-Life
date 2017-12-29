@@ -3,6 +3,7 @@ package Entity.FreeMoving.AI.Action.Human;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
+import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.PathFinding;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.MultiAction;
@@ -43,12 +44,13 @@ class Watch extends Action {
 
 	@Override
 	public void start() { 
-		entity.getNeedManager().getEntertainment().add(40);
-		complete = true;
+		super.start();
 	}
 	
 	@Override
 	public void update(float delta) {
-		
+		entity.getNeedManager().getEntertainment().add(10 * delta);
+		if(entity.getNeedManager().getLowest().asEnum() != Living.Entertainment) 
+			complete = true;
 	}
 }

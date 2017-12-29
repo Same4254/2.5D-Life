@@ -11,6 +11,7 @@ import Entity.WorldObjects.Objects.Bed;
 import Entity.WorldObjects.Objects.Box;
 import Entity.WorldObjects.Objects.Chair;
 import Entity.WorldObjects.Objects.Fridge;
+import Entity.WorldObjects.Objects.Stove;
 import Entity.WorldObjects.Objects.TV;
 import Entity.WorldObjects.Objects.Table;
 import Entity.WorldObjects.Objects.Wall;
@@ -84,6 +85,12 @@ public class EditMode {
 				dragList.setOriginal(heldObject);
 			}
 			
+			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_8)) {
+				if(heldObject != null)
+					heldObject.cleanUp();
+				heldObject = new Stove(handler);
+				dragList.setOriginal(heldObject);
+			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
 				if(heldObject != null)

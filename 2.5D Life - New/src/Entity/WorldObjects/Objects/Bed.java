@@ -17,6 +17,11 @@ public class Bed extends MultiTileObject {
 	}
 
 	@Override
+	public void update(float delta) {
+
+	}
+	
+	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;
 	}

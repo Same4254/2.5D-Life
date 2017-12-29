@@ -15,6 +15,11 @@ public class Chair extends TileObject {
 		super(handler, Assets.chairModel, Assets.chairTexture);
 		
 	}
+	
+	@Override 
+	public void update(float delta) {
+		
+	}
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {

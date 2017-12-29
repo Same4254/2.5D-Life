@@ -43,6 +43,7 @@ public class WrapperStaticBody {
 		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
 		
 		size = tempMin.difference(tempMax).round();
+		size.y = radius.y;
 		
 		setPosition2D(0, 0);
 	}
@@ -73,8 +74,11 @@ public class WrapperStaticBody {
 		
 		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
 		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
-		
+
+		float height = size.y;
 		this.size = tempMin.difference(tempMax).round();
+		size.y = height;
+		
 		this.position = tempMin.capMax(tempMax).add(.5);
 	}
 	
@@ -87,7 +91,9 @@ public class WrapperStaticBody {
 	public void setPosition2D(float x, float z) {setPosition2D(new Vector2f(x, z)); }
 	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
 
-	public Vector2f getDimensions() { return new Vector2f(getWidth(), getHeight()); }
+	public Vector2f getDimensions() { return new Vector2f(size.x, size.z); }
+	public Vector3f getDimensions3D() { return size; }
+	
 	public float getWidth() { return size.x; } 
 	public float getHeight() { return size.z; } 
 	
@@ -106,7 +112,10 @@ public class WrapperStaticBody {
 		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
 		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
 		
+		float height = size.y;
 		size = tempMin.difference(tempMax).round();
+		size.y = height;
+		
 		position = tempMin.capMax(tempMax).add(.5);
 	}
 	

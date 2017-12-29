@@ -42,15 +42,15 @@ public class Tile {
 		}
 	}
 	
-	public void update() {
+	public void update(float delta) {
 		if(object != null) {
 			if(object instanceof MultiTileObject) { 
 				if(!((MultiTileObject) object).getTiles().isEmpty() && ((MultiTileObject) object).getTiles().get(0) == this) {
-					object.update();
+					object.update(delta);
 					return;
 				}
 			}
-			object.update();
+			object.update(delta);
 		}
 	}
 	

@@ -18,6 +18,11 @@ public class Fridge extends MultiTileObject {
 		inventory.add(new Cereal());
 		needs.put(Living.Hunger, 100);
 	}
+	
+	@Override
+	public void update(float delta) {
+
+	}
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {

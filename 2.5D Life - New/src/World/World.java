@@ -62,15 +62,17 @@ public class World {
 		if(testHuman)
 			human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
-		needViewer = new Viewer(handler, human);
+		if(testHuman)
+			needViewer = new Viewer(handler, human);
+		if(addPlayerToWorld)
+			needViewer = new Viewer(handler, player);
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
-		place(new TV(handler), lots.get(0), new Vector2f(10), 0);
-		place(new Chair(handler), lots.get(0), new Vector2f(9, 10), 0);
-		place(new Chair(handler), lots.get(0), new Vector2f(14, 10), 0);
-		place(new Fridge(handler), lots.get(0), new Vector2f(4), 0);
+		place(new Fridge(handler), lots.get(0), new Vector2f(5), 0);
+		place(new Chair(handler), lots.get(0), new Vector2f(6, 10), 0);
+		place(new TV(handler), lots.get(0), new Vector2f(8 , 10), 0);
 		
 		lots.get(0).enableEdit();
 	}

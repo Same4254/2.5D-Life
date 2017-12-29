@@ -14,6 +14,11 @@ public class Table extends TileObject {
 		super(handler, Assets.tableModel, Assets.tableTexture);
 		
 	}
+	
+	@Override
+	public void update(float delta) {
+		
+	}
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {

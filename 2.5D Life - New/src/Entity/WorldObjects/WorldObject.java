@@ -47,8 +47,7 @@ public abstract class WorldObject {
 		body.render();
 	}
 	
-	public void update() {	}
-	
+	public abstract void update(float delta);
 	public abstract Action getAction(Entity entity, Living reason);
 	public abstract Item searchForItem(Entity entity, Living reason);
 	public abstract WorldObject clone();

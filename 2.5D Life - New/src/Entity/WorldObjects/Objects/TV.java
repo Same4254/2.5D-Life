@@ -15,6 +15,11 @@ public class TV extends MultiTileObject {
 		super(handler, Assets.tvModel, Assets.tvTexture);
 		
 	}
+	
+	@Override
+	public void update(float delta) {
+		
+	}
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {

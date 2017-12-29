@@ -14,7 +14,8 @@ import Utils.Util;
 
 public abstract class Entity {
 	public static enum Living {
-		Hunger, Entertainment
+		Hunger, Entertainment,
+		Cooking
 	};
 	
 	protected Handler handler;
@@ -24,6 +25,7 @@ public abstract class Entity {
 	
 	protected WrapperStaticBody body;
 	protected Vector2f movementSpeed;
+	protected float eatingSpeed;// Abscure variable, will depend on traits of the entities later on
 
 	public Entity(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
 		this.handler = handler;
@@ -33,6 +35,7 @@ public abstract class Entity {
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		movementSpeed = new Vector2f();
+		eatingSpeed = 10;
 		
 		inventory = new Inventory(handler, this);
 	}
@@ -60,6 +63,8 @@ public abstract class Entity {
 	public float getX() { return body.getX(); }
 	public float getZ() { return body.getZ(); }
 	
+	public float getEatingSpeed() { return eatingSpeed; }
+	public void setEatingSpeed(float eatingSpeed) { this.eatingSpeed = eatingSpeed; }
 	public Vector2f getMovementSpeed() { return movementSpeed; }
 	
 	public Vector2f getPosition() { return body.getPosition2D(); }

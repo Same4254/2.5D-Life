@@ -12,8 +12,14 @@ public class Wall extends TileObject {
 
 	public Wall(Handler handler) {
 		super(handler, Assets.wallModel, Assets.wallTexture);
+	
 	}
 
+	@Override
+	public void update(float delta) {
+		
+	}
+	 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
 		return null;

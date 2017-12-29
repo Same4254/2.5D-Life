@@ -35,6 +35,9 @@ public class Assets {
 	public static WrapperModel tvModel;
 	public static Texture2D tvTexture;
 	
+	public static WrapperModel stoveModel;
+	public static Texture2D stoveTexture;
+	
 	public static WrapperModel tileModel;
 	public static Texture2D goldTexture;
 	public static Texture2D redTexture;
@@ -47,6 +50,9 @@ public class Assets {
 		
 		defaultShader = new DefaultShader();
 		defaultShader.getRenderer().usingFrustumCulling(false);
+		
+		stoveModel = new WrapperModel(ImageLoader.MODEL_PATH + "Stove.obj", defaultShader);
+		stoveTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Stove.png");
 		
 		fridgeModel = new WrapperModel(ImageLoader.MODEL_PATH + "Fridge.obj", defaultShader);
 		fridgeTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Fridge.png");

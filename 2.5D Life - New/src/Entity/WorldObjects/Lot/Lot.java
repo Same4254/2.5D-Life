@@ -32,7 +32,7 @@ public class Lot {
 	public void update(float delta) {
 		for(Tile[] t : tiles)
 		for(Tile tile : t)
-			tile.update();
+			tile.update(delta);
 		
 		editMode.update(delta);
 	}

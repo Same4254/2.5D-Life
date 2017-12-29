@@ -3,8 +3,8 @@ package Entity.FreeMoving.AI.Living.Needs;
 import Entity.FreeMoving.Entity.Living;
 
 public abstract class Need {
-	private float value;
-	private float deteriation;
+	protected float value;
+	protected float deteriation;
 	
 	public Need() {
 		value = 100;
