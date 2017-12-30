@@ -56,6 +56,9 @@ public class Human extends Entity {
 					}
 					
 					if(lowest.asEnum() == Living.Hunger) {
+						if(objects.get(0).searchForItem(this, Living.Hunger) == null)
+							
+						
 						addAction(new SearchAction(handler, this, objects.get(0), Living.Hunger));
 						addAction(new FindPlaceToSitAction(handler, this));
 						addAction(new EatHeldItemAction(handler, this));

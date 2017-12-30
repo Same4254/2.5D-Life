@@ -6,13 +6,14 @@ import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.TileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Chair extends TileObject {
 
-	public Chair(Handler handler) {
-		super(handler, Assets.chairModel, Assets.chairTexture);
+	public Chair(Handler handler, Lot lot) {
+		super(handler, lot, Assets.chairModel, Assets.chairTexture);
 		
 	}
 	
@@ -42,5 +43,5 @@ public class Chair extends TileObject {
 	}
 	
 	@Override
-	public WorldObject clone() { return new Chair(handler); }
+	public WorldObject clone() { return new Chair(handler, lot); }
 }

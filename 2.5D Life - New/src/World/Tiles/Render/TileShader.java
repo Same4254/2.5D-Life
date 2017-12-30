@@ -19,6 +19,7 @@ public class TileShader extends Shader {
 	
 	public static final Attribute ATTRIBUTE_LOC_LIGHT_INFO = nextAttribId(TileShader.class);
 	public static final Attribute ATTRIBUTE_LOC_TRANSLATION  = nextAttribId(TileShader.class);
+	public static final Attribute ATTRIBUTE_LOC_OFFSET = nextAttribId(TileShader.class);
 	
 	private static final int LIGHT_COUNT = 4;
 	
@@ -32,7 +33,7 @@ public class TileShader extends Shader {
 //	@Uniform private UniformFloat shineDamper;
 //	@Uniform private UniformFloat reflectivity;
 
-//	@Uniform private UniformFloat numberOfRows;
+	@Uniform private UniformFloat numberOfRows;
 //	@Uniform private UniformVec2 offset;
 	
 	@Uniform private UniformMat4 projectionMatrix;
@@ -51,6 +52,11 @@ public class TileShader extends Shader {
 
 		super.bindAttribute(ATTRIBUTE_LOC_TRANSLATION, "translation");
 		super.bindAttribute(ATTRIBUTE_LOC_LIGHT_INFO, "lightInfo");
+		super.bindAttribute(ATTRIBUTE_LOC_OFFSET, "offset");
+	}
+	
+	public void loadNumberOfRows(int numberOfRows) {
+		this.numberOfRows.load((float) numberOfRows);
 	}
 	
 	public void loadProjectionMatrix(Matrix4f projectionMatrix) {

@@ -11,7 +11,8 @@ public class Lot {
 	private Tile[][] tiles;
 	private Vector2f position;
 	private Vector2f dimensions;
-	
+
+	private TileInstanceModel tileInstanceModel;
 	private EditMode editMode;
 	
 	public Lot(Handler handler, Vector2f position, Vector2f dimensions) {
@@ -22,11 +23,11 @@ public class Lot {
 		
 		for(int x = 0; x < tiles.length; x++) {
 		for(int y = 0; y < tiles[x].length; y++) {
-			tiles[x][y] = new Tile(handler, this, new Vector2f(x, y), Assets.tileModel, Assets.goldTexture);
+			tiles[x][y] = new Tile(handler, this, new Vector2f(x, y));
 		}}
 		
+		tileInstanceModel = new TileInstanceModel();
 		editMode = new EditMode(handler, this);
-//		tiles[0][0].add(new Table(new Vector2f(), new Vector2f(1), "Table", handler.getWorld().getShader()));
 	}
 	
 	public void update(float delta) {
@@ -37,12 +38,10 @@ public class Lot {
 		editMode.update(delta);
 	}
 	
-	TileInstanceModel model = new TileInstanceModel();
-	
 	public void render() {
 		for(Tile[] t : tiles)
 		for(Tile tile : t)
-			tile.render(model);
+			tile.render(tileInstanceModel);
 		
 		editMode.render();
 	}

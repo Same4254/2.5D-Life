@@ -6,13 +6,14 @@ import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Stove extends MultiTileObject {
 
-	public Stove(Handler handler) {
-		super(handler, Assets.stoveModel, Assets.stoveTexture);
+	public Stove(Handler handler, Lot lot) {
+		super(handler, lot, Assets.stoveModel, Assets.stoveTexture);
 
 	}
 
@@ -42,5 +43,5 @@ public class Stove extends MultiTileObject {
 	}
 
 	@Override
-	public WorldObject clone() { return new Stove(handler); }
+	public WorldObject clone() { return new Stove(handler, lot); }
 }

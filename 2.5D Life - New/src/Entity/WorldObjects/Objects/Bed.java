@@ -6,13 +6,14 @@ import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Bed extends MultiTileObject {
 
-	public Bed(Handler handler) {
-		super(handler, Assets.bedModel, Assets.bedTexture);
+	public Bed(Handler handler, Lot lot) {
+		super(handler, lot, Assets.bedModel, Assets.bedTexture);
 
 	}
 
@@ -42,5 +43,5 @@ public class Bed extends MultiTileObject {
 	}
 	
 	@Override
-	public WorldObject clone() { return new Bed(handler); }
+	public WorldObject clone() { return new Bed(handler, lot); }
 }

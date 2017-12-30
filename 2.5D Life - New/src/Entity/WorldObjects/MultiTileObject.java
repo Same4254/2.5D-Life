@@ -14,8 +14,8 @@ public abstract class MultiTileObject extends WorldObject {
 
 	protected ArrayList<Tile> tiles;
 	
-	public MultiTileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
-		super(handler, wrapperModel, texture);
+	public MultiTileObject(Handler handler, Lot lot, WrapperModel wrapperModel, Texture2D texture) {
+		super(handler, lot, wrapperModel, texture);
 		
 		tiles = new ArrayList<>();
 	}

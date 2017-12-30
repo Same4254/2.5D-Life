@@ -9,7 +9,7 @@ import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 
 public class TileInstanceModel implements IRenderableInstance<DefaultRenderProperties> {
 	private static final int INSTANCE_COUNT = 40000;
-	private static final int INSTANCE_SIZE = 4;
+	private static final int INSTANCE_SIZE = 6;
 	public static final TileShader TILE_SHADER = new TileShader();
 	private static ModelData modelData = new ModelData();
 	
@@ -59,5 +59,6 @@ public class TileInstanceModel implements IRenderableInstance<DefaultRenderPrope
 		
 		vbo.nextAttribute(vao, TileShader.ATTRIBUTE_LOC_LIGHT_INFO, 2, 1);
 		vbo.nextAttribute(vao, TileShader.ATTRIBUTE_LOC_TRANSLATION, 2, 1);
+		vbo.nextAttribute(vao, TileShader.ATTRIBUTE_LOC_OFFSET, 2, 1);
 	}
 }

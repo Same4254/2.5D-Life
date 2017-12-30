@@ -27,7 +27,7 @@ public class SearchAction extends MultiAction {
 		super.start();
 		
 		subActions.add(human.getInventory().storeHeldItemAction());
-		subActions.add(new MoveToAction(handler, handler.getWorld().getLot(human.getPosition()), worldObject, human));
+		subActions.add(new MoveToAction(handler, worldObject, human));
 		subActions.add(new Search(handler, human, worldObject, reason));
 	}
 }

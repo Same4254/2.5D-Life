@@ -15,18 +15,30 @@ import World.Tiles.Tile;
 public class WrapperStaticBody {
 	private WrapperModel wrapperModel;
 	private Model model;
-	private RenderProperties renderProperties;
+	private DefaultRenderProperties renderProperties;
 	private StaticBody staticBody;
 	
 	private Vector3f min, max;
 	private Vector3f size, position;
 	
-	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, RenderProperties renderProperties) {
+	public WrapperStaticBody(WrapperModel wrapperModel) {
+		this(wrapperModel, new DefaultRenderProperties());
+	}
+	
+	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D) {
+		this(wrapperModel, texture2D, new DefaultRenderProperties());
+	}
+	
+	private WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D, DefaultRenderProperties renderProperties) {
+		this(wrapperModel, renderProperties);
+		
+		model.setTexture(texture2D);
+	}
+	
+	private WrapperStaticBody(WrapperModel wrapperModel, DefaultRenderProperties renderProperties) {
 		this.wrapperModel = wrapperModel;
 		this.model = wrapperModel.getModel();
 		this.renderProperties = renderProperties;
-		
-		model.setTexture(texture2D);
 		
 		CollisionMesh col = wrapperModel.getCollisionMesh();
 		staticBody = new StaticBody(col);
@@ -48,11 +60,7 @@ public class WrapperStaticBody {
 		setPosition2D(0, 0);
 	}
 	
-	public WrapperStaticBody(WrapperModel wrapperModel, Texture2D texture2D) {
-		this(wrapperModel, texture2D, new DefaultRenderProperties());
-	}
-	
-	private WrapperStaticBody(Model model, CollisionMesh col, Vector3f size, Vector3f position, RenderProperties renderProperties) {
+	private WrapperStaticBody(Model model, CollisionMesh col, Vector3f size, Vector3f position, DefaultRenderProperties renderProperties) {
 		this.model = new Model(model.getModelData());
 		this.model.setTexture(model.getTexture());
 		this.model.setShader(model.getShader());
@@ -126,5 +134,5 @@ public class WrapperStaticBody {
 	
 	public Model getModel() { return model; }
 	public StaticBody getStaticBody() { return staticBody; }
-	public RenderProperties getRenderProperties() { return renderProperties; }
+	public DefaultRenderProperties getRenderProperties() { return renderProperties; }
 }

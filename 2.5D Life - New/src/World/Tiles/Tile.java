@@ -1,15 +1,16 @@
 package World.Tiles;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
-import com.Engine.RenderEngine.Textures.Texture2D;
+import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.TileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
+import Main.Assets;
+import Main.Assets.TileTextureIndecies;
 import Main.Handler;
 import World.Tiles.Render.TileInstanceModel;
 
@@ -21,17 +22,17 @@ public class Tile {
 	private WorldObject object;
 	private WrapperStaticBody body;
 
-	public Tile(Handler handler, Lot lot, Vector2f position, WrapperModel wrapperModel, Texture2D texture) {
+	public Tile(Handler handler, Lot lot, Vector2f position) {
 		this.lot = lot;
 		
-		body = new WrapperStaticBody(wrapperModel, texture);
+		body = new WrapperStaticBody(Assets.tileModel);
 		body.setPosition2D(position);
 		
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
 	
 	public void render(TileInstanceModel model) {
-		body.render();
+		model.render(body.getRenderProperties());
 
 		if(object != null) {
 			if(object instanceof MultiTileObject)  {
@@ -80,6 +81,8 @@ public class Tile {
 			return object;
 		return null;
 	}
+	
+	public void setTextureIndex(TileTextureIndecies index) { body.getRenderProperties().setTextureAtlasIndex(index.getValue()); }
 	
 	public boolean containsAnything() { return object != null; }
 

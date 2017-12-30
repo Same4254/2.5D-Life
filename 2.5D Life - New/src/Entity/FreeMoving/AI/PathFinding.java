@@ -76,7 +76,9 @@ public class PathFinding {
 	}
 
 	
-	public static ArrayList<Vector2f> getEffectiveArea(Lot lot, WorldObject worldObject, Vector2f radius, boolean pointSource) {
+	public static ArrayList<Vector2f> getEffectiveArea(WorldObject worldObject, Vector2f radius, boolean pointSource) {
+		Lot lot = worldObject.getLot();
+		
 		if(pointSource) {
 			return getEffectiveArea(lot, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
 		} else {

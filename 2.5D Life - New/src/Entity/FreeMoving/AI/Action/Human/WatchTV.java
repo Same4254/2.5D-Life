@@ -25,7 +25,7 @@ public class WatchTV extends MultiAction {
 	public void start() {
 		super.start();
 		
-		subActions.add(new FindPlaceToSitAction(handler, entity, PathFinding.getEffectiveArea(handler.getWorld().getLot(entity.getPosition()), tv, new Vector2f(5), false)));
+		subActions.add(new FindPlaceToSitAction(handler, entity, PathFinding.getEffectiveArea(tv, new Vector2f(5), false)));
 		subActions.add(new Watch(handler, entity, tv));
 	}
 }

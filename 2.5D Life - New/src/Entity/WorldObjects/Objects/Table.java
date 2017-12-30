@@ -5,13 +5,14 @@ import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.TileObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Table extends TileObject {
 
-	public Table(Handler handler) {
-		super(handler, Assets.tableModel, Assets.tableTexture);
+	public Table(Handler handler, Lot lot) {
+		super(handler, lot, Assets.tableModel, Assets.tableTexture);
 		
 	}
 	
@@ -41,5 +42,5 @@ public class Table extends TileObject {
 	}
 	
 	@Override
-	public Table clone() { return new Table(handler); }
+	public Table clone() { return new Table(handler, lot); }
 }

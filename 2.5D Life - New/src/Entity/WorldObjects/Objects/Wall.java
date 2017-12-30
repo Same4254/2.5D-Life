@@ -5,13 +5,14 @@ import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.TileObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Wall extends TileObject {
 
-	public Wall(Handler handler) {
-		super(handler, Assets.wallModel, Assets.wallTexture);
+	public Wall(Handler handler, Lot lot) {
+		super(handler, lot, Assets.wallModel, Assets.wallTexture);
 	
 	}
 
@@ -41,5 +42,5 @@ public class Wall extends TileObject {
 	}
 	
 	@Override
-	public Wall clone() { return new Wall(handler); }
+	public Wall clone() { return new Wall(handler, lot); }
 }

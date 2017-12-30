@@ -32,12 +32,12 @@ public class World {
 	private ArrayList<Lot> lots;
 	
 	private Player player;
-	private boolean addPlayerToWorld = false; // Test variable to quickly disable player from the game
+	private boolean addPlayerToWorld = true; // Test variable to quickly disable player from the game
 	
 	private Human human;
-	private boolean testHuman = true; // Test variable to quickly disable test human from the game 
+	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
 	
-	private Viewer needViewer;
+//	private Viewer needViewer;
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -52,7 +52,7 @@ public class World {
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		lots.add(new Lot(handler, new Vector2f(), new Vector2f(60)));
+		lots.add(new Lot(handler, new Vector2f(), new Vector2f(100)));
 
 		if(addPlayerToWorld) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
@@ -62,18 +62,19 @@ public class World {
 		if(testHuman)
 			human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
-		if(testHuman)
-			needViewer = new Viewer(handler, human);
-		if(addPlayerToWorld)
-			needViewer = new Viewer(handler, player);
+//		if(testHuman)
+//			needViewer = new Viewer(handler, human);
+//		if(addPlayerToWorld)
+//			needViewer = new Viewer(handler, player);
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
-		place(new Fridge(handler), lots.get(0), new Vector2f(5), 0);
-		place(new Chair(handler), lots.get(0), new Vector2f(6, 10), 0);
-		place(new TV(handler), lots.get(0), new Vector2f(8 , 10), 0);
+		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
+		place(new Chair(handler, lots.get(0)), new Vector2f(6, 10), 0);
+		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);
 		
+		lots.get(0).getTiles()[0][0].setTextureIndex(Assets.TileTextureIndecies.PURPLE_STONE);
 		lots.get(0).enableEdit();
 	}
 	
@@ -89,14 +90,14 @@ public class World {
 			human.update(delta);
 		
 //		cameraMovement.centerOnEntity(player);
-		needViewer.update();
+//		needViewer.update();
 	}
 	
 	public void render() {
 		for(Lot lot : lots)
 			lot.render();
 		
-		needViewer.render();
+//		needViewer.render();
 		
 		if(addPlayerToWorld)
 			player.render();
@@ -124,10 +125,10 @@ public class World {
 		return null;
 	}
 	
-	public void place(WorldObject worldObject, Lot lot, Vector2f position, float angle) {
+	public void place(WorldObject worldObject, Vector2f position, float angle) {
 		worldObject.setPosition2D(position);
 		worldObject.setAngle(angle);
-		worldObject.addToTile(lot.getTiles()[(int) worldObject.getPosition2D().x][(int) worldObject.getPosition2D().y]);
+		worldObject.addToTile(worldObject.getLot().getTiles()[(int) worldObject.getPosition2D().x][(int) worldObject.getPosition2D().y]);
 	}
  	
 	public Lot getTestLot() {

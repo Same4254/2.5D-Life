@@ -62,13 +62,13 @@ public class FindPlaceToSitAction extends MultiAction {
 				}
 				
 				if(worldObject != null)
-					subActions.add(new MoveToAction(handler, lot, worldObject, entity));
+					subActions.add(new MoveToAction(handler, worldObject, entity));
 				else { 
 					complete = true;
 					return;
 				}
 			} else 
-				subActions.add(new MoveToAction(handler, lot, chairs.get(0), entity));
+				subActions.add(new MoveToAction(handler, chairs.get(0), entity));
 		} else 
 			complete = true;
 	}

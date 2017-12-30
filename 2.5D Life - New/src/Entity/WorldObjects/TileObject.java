@@ -2,6 +2,7 @@ package Entity.WorldObjects;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
 
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 import Utils.Util;
@@ -9,8 +10,8 @@ import World.Tiles.Tile;
 
 public abstract class TileObject extends WorldObject {
 	
-	public TileObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
-		super(handler, wrapperModel, texture);
+	public TileObject(Handler handler, Lot lot, WrapperModel wrapperModel, Texture2D texture) {
+		super(handler, lot, wrapperModel, texture);
 	}
 
 	@Override

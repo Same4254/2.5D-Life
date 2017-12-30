@@ -19,6 +19,7 @@ import World.Tiles.Tile;
 
 public abstract class WorldObject {
 	protected Handler handler;
+	protected Lot lot;
 	protected WrapperStaticBody body;
 	protected Tile tile;
 
@@ -27,8 +28,9 @@ public abstract class WorldObject {
 	
 	protected Vector2f front;
 	
-	public WorldObject(Handler handler, WrapperModel wrapperModel, Texture2D texture) {
+	public WorldObject(Handler handler, Lot lot, WrapperModel wrapperModel, Texture2D texture) {
 		this.handler = handler;
+		this.lot = lot;
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
@@ -96,6 +98,8 @@ public abstract class WorldObject {
 		body.setAngle(angle); 
 	}
 
+	public Lot getLot() { return lot; }
+	
 	public HashMap<Living, Integer> getNeeds() { return needs; }
 	public HashMap<Living, Integer> getSkills() { return skills; } 
 	public ArrayList<Item> getInventory() { return inventory; } 

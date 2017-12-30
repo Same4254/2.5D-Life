@@ -39,8 +39,19 @@ public class Assets {
 	public static Texture2D stoveTexture;
 	
 	public static WrapperModel tileModel;
-	public static Texture2D goldTexture;
-	public static Texture2D redTexture;
+	public static Texture2D sampleFloorTextures;
+
+	public static enum TileTextureIndecies {
+		WHITE_BRICK(0), CRACKED_STONE_BRICK(1), COBBLESTONE(2), STONE_BRICK(3), ORANGE_STONE(4), PURPLE_STONE(5), HARDWOOD(6);
+		
+		private int num;
+		
+		private TileTextureIndecies(int num) {
+			this.num = num;
+		}
+		
+		public int getValue() { return num; }
+	};
 	
 	public static BufferedImage house, maze;
 	
@@ -49,7 +60,7 @@ public class Assets {
 		maze = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "Maze.png");
 		
 		defaultShader = new DefaultShader();
-		defaultShader.getRenderer().usingFrustumCulling(false);
+//		defaultShader.getRenderer().usingFrustumCulling(false);
 		
 		stoveModel = new WrapperModel(ImageLoader.MODEL_PATH + "Stove.obj", defaultShader);
 		stoveTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Stove.png");
@@ -70,8 +81,8 @@ public class Assets {
 		playerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Cube Person.png");
 		
 		tileModel = new WrapperModel(ImageLoader.MODEL_PATH + "Tile.obj", defaultShader);
-		goldTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Gold.png");
-		redTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Bullet.png");
+		sampleFloorTextures = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "SampleFloorTexture.png");
+		sampleFloorTextures.setNumberOfRows(3);
 		
 		wallModel = new WrapperModel(ImageLoader.MODEL_PATH + "Wall.obj", defaultShader);
 		wallTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Wall.png");

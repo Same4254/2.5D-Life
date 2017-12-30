@@ -167,7 +167,7 @@ public class Util {
 		}
 		
 		for(Vector2f v : points) {
-			Wall wall = new Wall(handler);
+			Wall wall = new Wall(handler, lot);
 			wall.addToTile(lot.getTiles()[(int)v.x] [(int) v.y]);
 		}
 	}

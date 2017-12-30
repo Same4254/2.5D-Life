@@ -39,56 +39,56 @@ public class EditMode {
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Wall(handler);
+				heldObject = new Wall(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_2)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Table(handler);
+				heldObject = new Table(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_3)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Box(handler);
+				heldObject = new Box(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_4)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new TV(handler);
+				heldObject = new TV(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_5)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Fridge(handler);
+				heldObject = new Fridge(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_6)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Bed(handler);
+				heldObject = new Bed(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_7)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Chair(handler);
+				heldObject = new Chair(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			
 			if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_8)) {
 				if(heldObject != null)
 					heldObject.cleanUp();
-				heldObject = new Stove(handler);
+				heldObject = new Stove(handler, lot);
 				dragList.setOriginal(heldObject);
 			}
 			

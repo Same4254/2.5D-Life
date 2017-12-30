@@ -24,11 +24,14 @@ public class TileRenderer extends InstanceRenderer<TileInstanceModel, DefaultRen
 	@Override
 	public void prepInstanceVBO(InstanceVBO instanceVBO, TileInstanceModel model, DefaultRenderProperties property) {
 		Vector3f translation = property.getTransform().getTranslation();
-		instanceVBO.putAll(new Vector2f(property.getShineDamper(), property.getReflectivity()), new Vector2f(translation.x, translation.z));
+		instanceVBO.putAll(new Vector2f(property.getShineDamper(), property.getReflectivity()), new Vector2f(translation.x, translation.z), Assets.sampleFloorTextures.getOffset(property.getTextureAtlasIndex()));
 	}
 
 	protected void prepareOpenGL() {
 		shader.bind();
+		
+		shader.loadNumberOfRows(Assets.sampleFloorTextures.getNumberOfRows());
+		
 		shader.loadProjectionMatrix(Shader.getProjectionMatrix());
 		shader.loadViewMatrix(Shader.getViewMatrix());
 		
@@ -41,16 +44,18 @@ public class TileRenderer extends InstanceRenderer<TileInstanceModel, DefaultRen
 
 		TileShader.ATTRIBUTE_LOC_LIGHT_INFO.enable();
 		TileShader.ATTRIBUTE_LOC_TRANSLATION.enable();
+		TileShader.ATTRIBUTE_LOC_OFFSET.enable();
 	}
 
 	public void renderInstance(InstanceVBO vbo, TileInstanceModel model) {
-		Assets.goldTexture.bind(0);
+		Assets.sampleFloorTextures.bind(0);
 		glDrawElementsInstanced(GL_TRIANGLES, model.getIndiceCount(), GL_UNSIGNED_INT, 0, vbo.getRenderCount());
 	}
 	
 	public void unbindModel(TileInstanceModel model) { 
 		TileShader.ATTRIBUTE_LOC_LIGHT_INFO.disable();
 		TileShader.ATTRIBUTE_LOC_TRANSLATION.disable();
+		TileShader.ATTRIBUTE_LOC_OFFSET.disable();
 		
 		model.unbind(); 
 	}

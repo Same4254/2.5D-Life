@@ -50,7 +50,7 @@ public class Player extends Human {
 				Lot lot = handler.getWorld().getLot(getPosition());
 				WorldObject object = lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject();
 				if(object != null) {
-					addAction(new MoveToAction(handler, handler.getWorld().getLot(getPosition()), object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
+					addAction(new MoveToAction(handler, object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
 // 					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
 // 					addAction(new TurnToAction(this, object.getPosition2D()));
 				} else {

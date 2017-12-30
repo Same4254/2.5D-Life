@@ -7,12 +7,13 @@ import Entity.FreeMoving.AI.Action.Human.WatchTV;
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class TV extends MultiTileObject {
-	public TV(Handler handler) {
-		super(handler, Assets.tvModel, Assets.tvTexture);
+	public TV(Handler handler, Lot lot) {
+		super(handler, lot, Assets.tvModel, Assets.tvTexture);
 		
 	}
 	
@@ -46,5 +47,5 @@ public class TV extends MultiTileObject {
 	}
 	
 	@Override
-	public WorldObject clone() { return new TV(handler); }
+	public WorldObject clone() { return new TV(handler, lot); }
 }

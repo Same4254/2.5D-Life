@@ -5,13 +5,14 @@ import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.Items.Item;
+import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
 public class Box extends MultiTileObject {
 
-	public Box(Handler handler) {
-		super(handler, Assets.boxModel, Assets.boxTexture);
+	public Box(Handler handler, Lot lot) {
+		super(handler, lot, Assets.boxModel, Assets.boxTexture);
 
 	}
 	
@@ -41,5 +42,5 @@ public class Box extends MultiTileObject {
 	}
 	
 	@Override
-	public Box clone() { return new Box(handler); }
+	public Box clone() { return new Box(handler, lot); }
 }

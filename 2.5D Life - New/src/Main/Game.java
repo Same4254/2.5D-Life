@@ -18,6 +18,8 @@ import com.Engine.PhysicsEngine.PhysicsEngine;
 import com.Engine.PhysicsEngine.Detection.Intersection.Tests.MovingEllipsoidMeshIntersectionTest;
 import com.Engine.PhysicsEngine.Render.PhysicsShader;
 import com.Engine.RenderEngine.New_Pipeline.FBO.FBO;
+import com.Engine.RenderEngine.New_Pipeline.FBO.FBO_Types.Attachment;
+import com.Engine.RenderEngine.New_Pipeline.FBO.RenderBuffer;
 import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Window.Window;
 import com.Engine.Util.Vectors.Vector3f;
@@ -32,12 +34,17 @@ public class Game {
 	private Handler handler;
 	private World world;
 	
+	private FBO antiAliasing;
+	
 	public static PhysicsShader physicsShader;
 	
 	/** TODO
 	 * Systems: 
-	 * 	Frustrum Culling -> Wrapper Bodies
-	 * 	Instance rendering tiles -> Textures
+	 * 	✔ Frustrum Culling -> Wrapper Bodies 
+	 * 	✔ Anti Aliasing
+	 * 	✔ Instance rendering tiles -> Textures
+	 * 		- ✔ Each Tile have different texture
+	 * 		- ✔ Implement Into Assets
 	 * 	
 	 * Acutal Game:
 	 * 	Make actual textures for the models
@@ -45,6 +52,7 @@ public class Game {
 	 * 	TV effective radius improvments
 	 * 		- Can't watch TV through a wall
 	 * 		- Recursive algorithm can't go into an empty room next to the TV
+	 * 		- Ray Tracing -> Look at mouse picking
 	 * 
 	 * 	Multiple Floors
 	 * 		- Lot can have floor levels that are all at different levels, and have different tiles
@@ -84,6 +92,9 @@ public class Game {
 	 *			- Somewhere to sleep
 	 *			- Where to get entertainment
 	 *		- More models to go with new Actions
+	 * 	
+	 * 	Edit Mode
+	 * 		- Tile Texture choosing and setting
 	 * 
 	 * 	Relationships
 	 * 		- Remembering the other people 
@@ -109,6 +120,11 @@ public class Game {
 		window.setTitle("Life 2.5D");
 		window.setFPS(60);
 		window.initDisplay(800, 600);
+		
+		antiAliasing = new FBO(window.getWidth(), window.getHeight(), 4);
+		antiAliasing.attach(new RenderBuffer(antiAliasing), Attachment.ColourBuffer);
+		antiAliasing.attach(new RenderBuffer(antiAliasing), Attachment.DepthBuffer);
+		FBO.SCREEN_FBO.screenResized(window);
 		
 		physicsEngine = new PhysicsEngine();
 		
@@ -141,6 +157,9 @@ public class Game {
 			world.render();
 			
 			//Rendering
+			antiAliasing.bind();
+			antiAliasing.clear();
+			
 			Shader.setProjectionMatrix(world.getCamera().getPorjectionMatrix());
 			Shader.setViewMatrix(world.getCamera().getViewMatrix());
 			glClear((Keyboard.isKeyDown(Keyboard.KEY_E) ? 0 : GL_COLOR_BUFFER_BIT) | GL_DEPTH_BUFFER_BIT);
@@ -158,12 +177,9 @@ public class Game {
 			
 			physicsShader.getRenderer().render(world.getCamera());
 			physicsShader.getRenderer().clear();
-			
-//			Tile[][] tiles = world.getTestLot().getTiles();
-			
-//			for(Tile[] t : tiles)
-//			for(Tile temp : t)
-//				temp.getBody().getModel().setTexture(Assets.goldTexture);
+
+			FBO.unbind();
+			antiAliasing.resolve();
 			
 			//Last
 			window.update();

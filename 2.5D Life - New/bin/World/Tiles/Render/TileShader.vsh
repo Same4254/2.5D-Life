@@ -6,6 +6,8 @@ in vec2 position;
 in vec2 lightInfo;
 in vec2 translation;
 
+in vec2 offset;
+
 out float visibility; 
 out vec2 textCoord;
 out vec3 surfaceNormal;
@@ -13,6 +15,8 @@ out vec3 toCameraVector;
 out vec3 toLightVector[LIGHT_COUNT];
 out float shineDamper;
 out float reflectivity;
+
+uniform float numberOfRows;
 
 uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
@@ -33,7 +37,8 @@ void main() {
 	visibility = exp(-pow((distanceFromCam*fogDensity), fogGradient));
 	visibility = clamp(visibility, 0.0, 1.0);
 	
-	textCoord = position + .5;
+	textCoord = ((position + .5) / numberOfRows) + offset;
+	
 	surfaceNormal = vec3(0, 1, 0);
 	for(int i = 0; i < LIGHT_COUNT; i++) {
 		toLightVector[i] = lightPosition[i] - worldPosition.xyz;
