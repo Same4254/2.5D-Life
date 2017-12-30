@@ -2,7 +2,8 @@ package Entity.WorldObjects.Lot;
 
 import com.Engine.Util.Vectors.Vector2f;
 
-import Main.Assets;
+import Entity.WorldObjects.Lot.Edit.EditMode;
+import Entity.WorldObjects.Lot.Edit.LotEdit;
 import Main.Handler;
 import World.Tiles.Tile;
 import World.Tiles.Render.TileInstanceModel;
@@ -13,7 +14,7 @@ public class Lot {
 	private Vector2f dimensions;
 
 	private TileInstanceModel tileInstanceModel;
-	private EditMode editMode;
+	private LotEdit lotEdit;
 	
 	public Lot(Handler handler, Vector2f position, Vector2f dimensions) {
 		this.position = position;
@@ -27,7 +28,7 @@ public class Lot {
 		}}
 		
 		tileInstanceModel = new TileInstanceModel();
-		editMode = new EditMode(handler, this);
+		lotEdit = new LotEdit(handler, this);
 	}
 	
 	public void update(float delta) {
@@ -35,7 +36,7 @@ public class Lot {
 		for(Tile tile : t)
 			tile.update(delta);
 		
-		editMode.update(delta);
+		lotEdit.update(delta);
 	}
 	
 	public void render() {
@@ -43,13 +44,13 @@ public class Lot {
 		for(Tile tile : t)
 			tile.render(tileInstanceModel);
 		
-		editMode.render();
+		lotEdit.render();
 	}
 	
-	public void enableEdit() { editMode.setEnabled(true); }
-	public void disableEdit() { editMode.setEnabled(false); }
+	public void enableEdit() { lotEdit.setEnabled(true); }
+	public void disableEdit() { lotEdit.setEnabled(false); }
 	
-	public EditMode getEditMode() { return editMode; }
+	public LotEdit getEditMode() { return lotEdit; }
 	
 	public Tile[][] getTiles() { return tiles; }
 	public Vector2f getPosition() { return position; }

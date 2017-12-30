@@ -94,7 +94,9 @@ public class Game {
 	 *		- More models to go with new Actions
 	 * 	
 	 * 	Edit Mode
-	 * 		- Tile Texture choosing and setting
+	 * 		- Tile Texture 
+	 * 			- choosing and setting
+	 * 			- dragging in a rectangle
 	 * 
 	 * 	Relationships
 	 * 		- Remembering the other people 

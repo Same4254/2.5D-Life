@@ -82,7 +82,8 @@ public class Tile {
 		return null;
 	}
 	
-	public void setTextureIndex(TileTextureIndecies index) { body.getRenderProperties().setTextureAtlasIndex(index.getValue()); }
+	public int getTextureIndex() { return body.getRenderProperties().getTextureAtlasIndex(); }
+	public void setTextureIndex(int index) { body.getRenderProperties().setTextureAtlasIndex(index); }
 	
 	public boolean containsAnything() { return object != null; }
 

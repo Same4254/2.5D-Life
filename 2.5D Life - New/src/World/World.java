@@ -74,7 +74,7 @@ public class World {
 		place(new Chair(handler, lots.get(0)), new Vector2f(6, 10), 0);
 		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);
 		
-		lots.get(0).getTiles()[0][0].setTextureIndex(Assets.TileTextureIndecies.PURPLE_STONE);
+		lots.get(0).getTiles()[0][0].setTextureIndex(Assets.TileTextureIndecies.PURPLE_STONE.getValue());
 		lots.get(0).enableEdit();
 	}
 	

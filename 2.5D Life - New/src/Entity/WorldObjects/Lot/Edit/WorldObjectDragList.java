@@ -1,4 +1,4 @@
-package Entity.WorldObjects.Lot;
+package Entity.WorldObjects.Lot.Edit;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -7,7 +7,7 @@ import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.WorldObject;
 
-public class DragList {
+public class WorldObjectDragList {
 	public static enum AXIS {
 		X_AXIS, Z_AXIS, BOTH
 	}
@@ -29,7 +29,7 @@ public class DragList {
 	private ArrayList<WorldObject> xAxis;
 	private ArrayList<WorldObject> zAxis;
 	
-	public DragList() {
+	public WorldObjectDragList() {
 		xAxis = new ArrayList<>();
 		zAxis = new ArrayList<>();
 	}
