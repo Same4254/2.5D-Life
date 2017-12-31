@@ -19,6 +19,7 @@ public class TileTextureDragList {
 	
 	public void fill(Tile originalTile, Vector2f position) {
 		if(originalTile != null) {
+			clear();
 			
 			boolean inX = true;
 			int x = (int) originalTile.getBody().getPosition2D().x;
