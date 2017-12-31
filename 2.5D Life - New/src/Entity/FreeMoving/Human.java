@@ -32,7 +32,7 @@ public class Human extends Entity {
 		
 		if(actionQueue.getActions().isEmpty()) {
 			Need lowest = needManager.getLowest();
-			if(lowest.getValue() < 89) {
+			if(lowest.getValue() < 85) {
 				Lot lot = handler.getWorld().getLot(body.getPosition2D());
 				
 				ArrayList<WorldObject> objects = new ArrayList<>();
@@ -54,17 +54,19 @@ public class Human extends Entity {
 							}
 						});
 					}
+
+					addAction(objects.get(0).getAction(this, lowest.asEnum()));
 					
-					if(lowest.asEnum() == Living.Hunger) {
-						if(objects.get(0).searchForItem(this, Living.Hunger) == null)
-							
-						
-						addAction(new SearchAction(handler, this, objects.get(0), Living.Hunger));
-						addAction(new FindPlaceToSitAction(handler, this));
-						addAction(new EatHeldItemAction(handler, this));
-					} else if(lowest.asEnum() == Living.Entertainment) {
-						addAction(objects.get(0).getAction(this, Living.Entertainment));
-					}
+//					if(lowest.asEnum() == Living.Hunger) {
+//						if(objects.get(0).searchForItem(this, Living.Hunger) == null)
+//							
+//						
+//						addAction(new SearchAction(handler, this, objects.get(0), Living.Hunger));
+//						addAction(new FindPlaceToSitAction(handler, this));
+//						addAction(new EatHeldItemAction(handler, this));
+//					} else if(lowest.asEnum() == Living.Entertainment) {
+//						addAction(objects.get(0).getAction(this, Living.Entertainment));
+//					}
 				}
 			}
 		}

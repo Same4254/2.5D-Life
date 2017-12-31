@@ -32,12 +32,13 @@ public class World {
 	private ArrayList<Lot> lots;
 	
 	private Player player;
-	private boolean addPlayerToWorld = true; // Test variable to quickly disable player from the game
+	private boolean testPlayer = false; // Test variable to quickly disable player from the game
 	
 	private Human human;
-	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
+	private boolean testHuman = true; // Test variable to quickly disable test human from the game 
 	
-//	private Viewer needViewer;
+	private Viewer needViewer;
+	private boolean viewViewer = true; // Test variable to quickly disable need viewer
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -54,7 +55,7 @@ public class World {
 		
 		lots.add(new Lot(handler, new Vector2f(), new Vector2f(100)));
 
-		if(addPlayerToWorld) {
+		if(testPlayer) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
 			player.setPosition2D(2, 2);
 		}
@@ -62,19 +63,20 @@ public class World {
 		if(testHuman)
 			human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
 		
-//		if(testHuman)
-//			needViewer = new Viewer(handler, human);
-//		if(addPlayerToWorld)
-//			needViewer = new Viewer(handler, player);
+		if(viewViewer) {
+			if(testHuman)
+				needViewer = new Viewer(handler, human);
+			if(testPlayer)
+				needViewer = new Viewer(handler, player);
+		}
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
 		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
-		place(new Chair(handler, lots.get(0)), new Vector2f(6, 10), 0);
+		place(new Chair(handler, lots.get(0)), new Vector2f(4, 10), 0);
 		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);
 		
-		lots.get(0).getTiles()[0][0].setTextureIndex(Assets.TileTextureIndecies.PURPLE_STONE.getValue());
 		lots.get(0).enableEdit();
 	}
 	
@@ -84,22 +86,25 @@ public class World {
 		for(Lot lot : lots)
 			lot.update(delta);
 		
-		if(addPlayerToWorld)
+		if(testPlayer)
 			player.update(delta);
 		if(testHuman)
 			human.update(delta);
 		
 //		cameraMovement.centerOnEntity(player);
-//		needViewer.update();
+		
+		if(viewViewer)
+			needViewer.update();
 	}
 	
 	public void render() {
 		for(Lot lot : lots)
 			lot.render();
+
+		if(viewViewer)
+			needViewer.render();
 		
-//		needViewer.render();
-		
-		if(addPlayerToWorld)
+		if(testPlayer)
 			player.render();
 		if(testHuman)
 			human.render();

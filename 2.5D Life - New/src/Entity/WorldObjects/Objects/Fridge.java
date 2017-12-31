@@ -7,6 +7,8 @@ import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.MultiAction;
+import Entity.FreeMoving.AI.Action.Human.EatHeldItemAction;
+import Entity.FreeMoving.AI.Action.Human.FindPlaceToSitAction;
 import Entity.FreeMoving.AI.Action.Human.MoveToAction;
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.Items.Cereal;
@@ -42,7 +44,7 @@ public class Fridge extends MultiTileObject {
 	@Override
 	public Action getAction(Entity entity, Living reason) {
 		if(reason == Living.Hunger) {
-//			return 
+			return new GetQuickMealAction(handler, entity, this);
 		}
 		
 		return null;
@@ -85,7 +87,39 @@ class GetLeftOversAction extends MultiAction {
 	public void start() {
 		super.start();
 		
-//		FoodItem food = f
+		if(fridge.getInventory().isEmpty()) {
+			complete = true;
+			return;
+		}
+		
+		subActions.add(new MoveToAction(handler, fridge, entity));
+		subActions.add(new SearchForLeftOversAction(handler, entity, fridge));
+		subActions.add(new FindPlaceToSitAction(handler, entity));
+		subActions.add(new EatHeldItemAction(handler, entity));
+	}
+}
+
+class SearchForLeftOversAction extends Action {
+	private Entity entity;
+	private Fridge fridge;
+	
+	public SearchForLeftOversAction(Handler handler, Entity entity, Fridge fridge) {
+		super(handler);
+		
+		this.entity = entity;
+		this.fridge = fridge;
+	}
+	
+	@Override
+	public void start() {
+		if(!fridge.getInventory().isEmpty()) 
+			entity.getInventory().setHeldItem(fridge.getInventory().remove(0));
+		complete = true;
+	}
+	
+	@Override
+	public void update(float delta) {
+		
 	}
 }
 
@@ -105,14 +139,16 @@ class GetQuickMealAction extends MultiAction {
 		super.start();
 		
 		subActions.add(new MoveToAction(handler, fridge, entity));
-		subActions.add(new getQuickMealSubAction(handler, entity));
+		subActions.add(new GetQuickMealSubAction(handler, entity));
+		subActions.add(new FindPlaceToSitAction(handler, entity));
+		subActions.add(new EatHeldItemAction(handler, entity));
 	}
 }
 
-class getQuickMealSubAction extends Action {
+class GetQuickMealSubAction extends Action {
 	private Entity entity;
 
-	public getQuickMealSubAction(Handler handler, Entity entity) {
+	public GetQuickMealSubAction(Handler handler, Entity entity) {
 		super(handler);
 		
 		this.entity = entity;
@@ -122,12 +158,26 @@ class getQuickMealSubAction extends Action {
 	public void start() {
 		super.start();
 		
-		entity.getInventory().addItem(Fridge.quickMeals.get(new Random().nextInt(Fridge.quickMeals.size())).clone());
+		entity.getInventory().setHeldItem(Fridge.quickMeals.get(new Random().nextInt(Fridge.quickMeals.size())).clone());
 		complete = true;
 	}
 	
 	@Override
 	public void update(float delta) {
 
+	}
+}
+
+class MakeMealAction extends MultiAction {
+
+	public MakeMealAction(Handler handler) {
+		super(handler);
+		
+	}
+	
+	@Override
+	public void start() {
+		super.start();
+		
 	}
 }

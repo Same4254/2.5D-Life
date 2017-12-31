@@ -69,6 +69,8 @@ public class Game {
 	 * 		- Animations?
 	 * 
 	 * 	Actions
+	 * 		- Make a meal <- Cooking Skill <- Fridge Class 
+	 * 
 	 * 		- Multiple Actions At Once
 	 * 			- No conflictions
 	 * 				- Can't walk in two different directions at the same time
@@ -87,10 +89,6 @@ public class Game {
 	 * 		- Within a certian distance (effective radius) -> see TV Effective radius
 	 * 			- Example: walking and talking becomes not possible when the party's involved are far away
 	 * 			- Stop the action when a certain distance away
-	 *		- New General Actions
-	 *			- Finding somewhere to sit
-	 *			- Somewhere to sleep
-	 *			- Where to get entertainment
 	 *		- More models to go with new Actions
 	 * 	
 	 * 	Edit Mode
