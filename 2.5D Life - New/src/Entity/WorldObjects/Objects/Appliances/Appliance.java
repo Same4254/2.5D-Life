@@ -18,15 +18,7 @@ public abstract class Appliance extends TileObject {
 	
 	@Override
 	public boolean addToTile(Tile tile) {
-		if(!tile.containsAnything()) {
-			this.tile = null;
-			
-			body.setPosition2D(tile.getBody().getPosition2D());
-			return true;
-		} else if(tile.getObject().getApplicationPosition() != null) {
-			if(this.tile != null) 
-				this.tile.remove(this);
-			tile.add(this);
+		if(tile.containsAnything() && tile.getObject().getApplicationPosition() != null) {
 			this.tile = tile;
 			
 			tile.getObject().addAppliance(this);

@@ -28,6 +28,7 @@ public class ApplianceManager {
 		for(Vector2f vector : locations.keySet()) {
 			if(locations.get(vector) == null) {
 				locations.put(vector, appliance);
+				appliance.setAngle(hostObject.getBody().getRenderProperties().getTransform().getRotation().y);
 				updatePosition(vector);
 				return true;
 			}
@@ -44,15 +45,15 @@ public class ApplianceManager {
 		return null;
 	}
 	
-//	public boolean removeAppliance(Appliance appliance) {
-//		for(Vector2f vector : locations.keySet()) {
-//			if(locations.get(vector) == appliance) {
-//				locations.put(vector, null);
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
+	public boolean removeAppliance(Appliance appliance) {
+		for(Vector2f vector : locations.keySet()) {
+			if(locations.get(vector) == appliance) {
+				locations.put(vector, null);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public void rotate(float angle, float angleDifference) {
 		Collection<Vector2f> vectors = locations.keySet();
@@ -68,17 +69,6 @@ public class ApplianceManager {
 				appliance.setAngle(angle);
 			}
 		}
-		
-		System.out.println(Thread.currentThread().getStackTrace()[3]);
-		System.out.println(hostObject.getPosition2D());
-//		locations.forEach((vector, appliance) -> {
-//			vector = Util.rotate(vector, angle);
-//			
-//			if(appliance != null) {
-//				appliance.setAngle(angle);
-//				updatePosition(vector);
-//			}
-//		});
 	}
 	
 	public void syncPosition() {

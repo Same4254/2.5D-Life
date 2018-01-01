@@ -85,6 +85,7 @@ public abstract class WorldObject {
 
 	public Vector3f getApplicationPosition() { return applianceManager.getAnAvailablePosition(); }
 	public boolean addAppliance(Appliance appliance) { return applianceManager.addAppliance(appliance); }
+	public boolean removeAppliance(Appliance appliance) { return applianceManager.removeAppliance(appliance); }
 //	public void removeAppliance(Appliance appliance) { applianceManager.removeAppliance(appliance); }
 	public Appliance containsApplianceBody(PhysicsBody body) {
 		for(Appliance appliance : applianceManager.getAppliances()) 

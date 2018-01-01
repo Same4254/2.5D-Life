@@ -19,13 +19,13 @@ import Main.Handler;
 
 public class Box extends MultiTileObject {
 
-	private SphereRender sphereRender;
+//	private SphereRender sphereRender;
 	
 	public Box(Handler handler, Lot lot) {
 		super(handler, lot, Assets.boxModel, Assets.boxTexture);
 
-		sphereRender = new SphereRender(new CollisionEllipse(new Vector3f(2, .1, 2)), 30);
-		sphereRender.setShader(Game.physicsShader);
+//		sphereRender = new SphereRender(new CollisionEllipse(new Vector3f(2, .1, 2)), 30);
+//		sphereRender.setShader(Game.physicsShader);
 	}
 	
 	@Override
@@ -58,9 +58,9 @@ public class Box extends MultiTileObject {
 		body.render();
 		applianceManager.render();
 		
-		Transform transform = body.getRenderProperties().getTransform().clone();
-		transform.translate(new Vector3f(0, 2, 0));
-		sphereRender.render(new PhysicsRenderProperties(transform, new Vector3f(0, 1, 0), false));
+//		Transform transform = body.getRenderProperties().getTransform().clone();
+//		transform.translate(new Vector3f(0, 2, 0));
+//		sphereRender.render(new PhysicsRenderProperties(transform, new Vector3f(0, 1, 0), false));
 	}
 	
 	@Override

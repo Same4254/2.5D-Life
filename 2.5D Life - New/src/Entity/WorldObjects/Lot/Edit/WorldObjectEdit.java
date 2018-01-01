@@ -74,48 +74,84 @@ public class WorldObjectEdit extends EditMode {
 				place();
 			} else {
 				handler.getMouseManager().updatePicker(s -> {
-					WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].getObject(); 
+					WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
 					if(temp != null) {
-						temp.removeFromTile();
-						this.heldObject = temp;
-						dragList.setOriginal(heldObject);
+						if(temp instanceof Appliance) {
+							lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject().removeAppliance((Appliance) temp);
+							heldObject = temp;
+							dragList.setOriginal(temp);
+						} else {
+							temp.removeFromTile();
+							this.heldObject = temp;
+							dragList.setOriginal(heldObject);
+						}
 					}
 				}, delta);
 			}
 		} else if(heldObject != null) { //Mouse moving around
-			handler.getMouseManager().updatePickerForTile(s -> {
-				if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
-					int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
-
-					if(heldObject instanceof Appliance && lot.getTiles()[x][z].containsAnything()) {
-						Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
-						if(applianceLocation != null) {
-							heldObject.setPosition3D(applianceLocation);
+			if(heldObject instanceof Appliance) {
+				handler.getMouseManager().updatePicker(s -> {
+					if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
+						int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
+	
+						if(lot.getTiles()[x][z].containsAnything()) {
+							Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
+							if(applianceLocation != null) {
+								heldObject.setPosition3D(applianceLocation);
+								heldObject.setAngle(lot.getTiles()[x][z].getObject().getBody().getRenderProperties().getTransform().getRotation().y);
+							} else {
+								Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+								Vector2f truncated = location.truncate();
+								heldObject.setPosition2D(truncated);
+							}
 						} else {
 							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 							Vector2f truncated = location.truncate();
-							heldObject.setPosition2D(truncated);
+							heldObject.getBody().setY(0);
+							heldObject.setPosition2D(truncated); 
 						}
-					} else {
-						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
-						Vector2f truncated = location.truncate();
-						heldObject.getBody().setY(0);
-						heldObject.setPosition2D(truncated); 
-					}
-				} else if(s != null && Mouse.isButtonDown(1)) { 
-					if(heldObject instanceof Wall) {//Dragging
-						if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
-							dragList.fill(WorldObjectDragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
-						else
-							dragList.fill(WorldObjectDragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
-					} else {//Rotating
-						if(s.getPosition().distance(heldObject.getPosition3D()) > 2) {
+					} else if(s != null && Mouse.isButtonDown(1)) { 
+						if(s.getPosition().distance(heldObject.getPosition3D()) > 2) {//Rotation
 							float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s.getPosition()));
 							heldObject.setAngle(Util.roundNearestMultiple(angle, 90));
 						}
 					}
-				}
-			}, lot, delta);
+				}, delta);
+			} else {
+				handler.getMouseManager().updatePickerForTile(s -> {
+					if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
+						int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
+	
+						if(heldObject instanceof Appliance && lot.getTiles()[x][z].containsAnything()) {
+							Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
+							if(applianceLocation != null) {
+								heldObject.setPosition3D(applianceLocation);
+							} else {
+								Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+								Vector2f truncated = location.truncate();
+								heldObject.setPosition2D(truncated);
+							}
+						} else {
+							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+							Vector2f truncated = location.truncate();
+							heldObject.getBody().setY(0);
+							heldObject.setPosition2D(truncated); 
+						}
+					} else if(s != null && Mouse.isButtonDown(1)) { 
+						if(heldObject instanceof Wall) {//Dragging
+							if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))
+								dragList.fill(WorldObjectDragList.AXIS.X_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+							else
+								dragList.fill(WorldObjectDragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
+						} else {//Rotating
+							if(s.getPosition().distance(heldObject.getPosition3D()) > 2) {
+								float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s.getPosition()));
+								heldObject.setAngle(Util.roundNearestMultiple(angle, 90));
+							}
+						}
+					}
+				}, lot, delta);
+			}
 		} 
 	}
 
@@ -138,10 +174,13 @@ public class WorldObjectEdit extends EditMode {
 	
 	private void place() {
 		if(heldObject != null) {
-			heldObject.addToTile(lot.getTiles()[(int) heldObject.getX()][(int) heldObject.getZ()]);
+			if(!heldObject.addToTile(lot.getTiles()[(int) heldObject.getX()][(int) heldObject.getZ()])) {
+				heldObject.cleanUp();
+			}
 			
 			for(WorldObject object : dragList.getList(WorldObjectDragList.AXIS.BOTH)) 
- 				object.addToTile(lot.getTiles()[(int) object.getX()][(int) object.getZ()]);
+ 				if(!object.addToTile(lot.getTiles()[(int) object.getX()][(int) object.getZ()]))
+ 					object.cleanUp();
 			
 			heldObject = null;
 			dragList.setOriginal(heldObject);
