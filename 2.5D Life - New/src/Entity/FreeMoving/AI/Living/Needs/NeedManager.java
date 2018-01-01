@@ -4,9 +4,10 @@ public class NeedManager {
 	private Need[] needs;
 	
 	public NeedManager() {
-		needs = new Need[2];
+		needs = new Need[3];
 		needs[0] = new Hunger();
 		needs[1] = new Entertainment();
+		needs[2] = new Sleep();
 	}
 	
 	public void update(float delta) {
@@ -27,4 +28,5 @@ public class NeedManager {
 	public Need[] getNeeds() { return needs; }
 	public Hunger getHunger() { return (Hunger) needs[0]; }
 	public Entertainment getEntertainment() { return (Entertainment) needs[1]; }
+	public Sleep getSleep() { return (Sleep) needs[2]; }
 }

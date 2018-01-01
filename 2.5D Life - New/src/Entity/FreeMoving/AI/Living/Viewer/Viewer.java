@@ -27,6 +27,8 @@ public class Viewer extends JPanel {
 			return human.getNeedManager().getHunger().getValue();
 		}), new DataSeries("Entertainment", () -> {
 			return human.getNeedManager().getEntertainment().getValue();
+		}), new DataSeries("Sleep", () -> {
+			return human.getNeedManager().getSleep().getValue();
 		}));
 	}
 	

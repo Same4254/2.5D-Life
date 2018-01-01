@@ -32,7 +32,6 @@ public class EatHeldItemAction extends MultiAction {
 		if(food.getIntegrity() <= 0 || entity.getNeedManager().getHunger().getValue() >= 100) {
 			complete = true;
 			entity.getInventory().removeHeldObject();
-			return;
 		} else {
 			float before = food.getIntegrity();
 			food.degrade(entity.getEatingSpeed() * delta);

@@ -198,15 +198,12 @@ public class Util {
 		}
 	}
 	
-	public static void main(String[] args) {
-		int[][] field = new int[7][7];
-		
-		for(int x = 0; x < field.length; x++) {
-			for(int y = 0; y < field[0].length; y++) {
-				field[x][y] = 0;
-			}
-		}
-		
-		getEffectiveArea(3, 3, 2, field);
-	}
+//	public static void main(String[] args) {
+//		int width = 2, height = 2;
+//		
+//		float angle = 90;
+//		Vector2f vector = new Vector2f(1, 1);
+//		
+//		System.out.println(rotate(vector, angle));
+//	}
 }

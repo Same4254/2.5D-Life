@@ -46,6 +46,8 @@ public class Game {
 	 * 		- ✔ Each Tile have different texture
 	 * 		- ✔ Implement Into Assets
 	 * 	
+	 * 	  Rotation Glitch
+	 * 
 	 * Acutal Game:
 	 * 	Make actual textures for the models
 	 * 
@@ -53,6 +55,13 @@ public class Game {
 	 * 		- Can't watch TV through a wall
 	 * 		- Recursive algorithm can't go into an empty room next to the TV
 	 * 		- Ray Tracing -> Look at mouse picking
+	 * 
+	 * 	Appliances
+	 * 		- Pick them off of host object
+	 * 		- ✔ update them
+	 * 		- translate them with the host
+	 * 		- rotate with host
+	 * 		- host will look at appliances for actions 
 	 * 
 	 * 	Multiple Floors
 	 * 		- Lot can have floor levels that are all at different levels, and have different tiles
@@ -92,9 +101,9 @@ public class Game {
 	 *		- More models to go with new Actions
 	 * 	
 	 * 	Edit Mode
-	 * 		- Tile Texture 
-	 * 			- choosing and setting
-	 * 			- dragging in a rectangle
+	 * 		- ✔ Tile Texture 
+	 * 			- ✔ choosing and setting
+	 * 			- ✔ dragging in a rectangle
 	 * 
 	 * 	Relationships
 	 * 		- Remembering the other people 

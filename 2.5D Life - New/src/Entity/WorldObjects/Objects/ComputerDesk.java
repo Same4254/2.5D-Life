@@ -5,19 +5,21 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
-import Entity.WorldObjects.TileObject;
+import Entity.WorldObjects.MultiTileObject;
+import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Appliances.Appliance;
 import Main.Assets;
 import Main.Handler;
 
-public class Table extends TileObject {
+public class ComputerDesk extends MultiTileObject {
 
-	public Table(Handler handler, Lot lot) {
-		super(handler, lot, Assets.tableModel, Assets.tableTexture);
+	public ComputerDesk(Handler handler, Lot lot) {
+		super(handler, lot, Assets.computerDeskModel, Assets.computerDeskTexture);
 		
 	}
-	
+
 	@Override
 	public void update(float delta) {
 		
@@ -35,7 +37,7 @@ public class Table extends TileObject {
 
 	@Override
 	protected void initSkillsAndNeeds() {
-		
+		skills.put(Living.Programming, 100);
 	}
 
 	@Override
@@ -44,7 +46,7 @@ public class Table extends TileObject {
 	}
 	
 	@Override
-	public Table clone() { return new Table(handler, lot); }
+	public WorldObject clone() { return new ComputerDesk(handler, lot); }
 
 	@Override
 	public Vector2f[] getApplianceLocations() {

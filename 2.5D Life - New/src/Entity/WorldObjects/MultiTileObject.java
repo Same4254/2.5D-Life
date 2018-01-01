@@ -66,11 +66,6 @@ public abstract class MultiTileObject extends WorldObject {
 	}
 	
 	@Override
-	public void render() {
-		body.render();
-	}
-	
-	@Override
 	public void rotateFront(float angle) {
 		if(front.x > 1)
 			front.x = 1;

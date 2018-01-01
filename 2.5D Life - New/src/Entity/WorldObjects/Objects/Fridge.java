@@ -3,6 +3,8 @@ package Entity.WorldObjects.Objects;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.Engine.Util.Vectors.Vector2f;
+
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
@@ -70,6 +72,11 @@ public class Fridge extends MultiTileObject {
 	
 	@Override
 	public Fridge clone() { return new Fridge(handler, lot); }
+
+	@Override
+	public Vector2f[] getApplianceLocations() {
+		return null;
+	}
 }
 
 class GetLeftOversAction extends MultiAction {

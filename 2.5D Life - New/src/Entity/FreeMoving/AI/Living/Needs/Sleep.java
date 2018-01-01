@@ -2,14 +2,15 @@ package Entity.FreeMoving.AI.Living.Needs;
 
 import Entity.FreeMoving.Entity.Living;
 
-public class Entertainment extends Need {
+public class Sleep extends Need {
 
-	public Entertainment() {
-		value = 80;
+	public Sleep() {
+		value = 91;
 	}
 	
 	@Override
 	public Living asEnum() {
-		return Living.Entertainment;
+		return Living.Sleep;
 	}
+
 }

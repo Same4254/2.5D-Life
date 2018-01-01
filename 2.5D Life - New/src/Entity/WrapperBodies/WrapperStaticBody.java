@@ -77,8 +77,8 @@ public class WrapperStaticBody {
 	public Vector2f getPosition2D() { return new Vector2f(getX(), getZ()); }
 	
 	public void setRotationPosition2D(Vector2f position) {
-		staticBody.setPosition(new Vector3f(position.getX(), 0, position.getY()));
-		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), 0, position.getY()));
+		staticBody.setPosition(new Vector3f(position.getX(), staticBody.getPosition().y, position.getY()));
+		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), renderProperties.getTransform().getTranslation().y, position.getY()));
 		
 		Vector3f tempMin = min.transform(renderProperties.getTransformMatrix());
 		Vector3f tempMax = max.transform(renderProperties.getTransformMatrix());
@@ -91,12 +91,27 @@ public class WrapperStaticBody {
 	}
 	
 	public void setPosition2D(Vector2f position) {
-		staticBody.setPosition(new Vector3f(position.getX(), 0, position.getY()));
-		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), 0, position.getY()));
-		this.position = new Vector3f(position.x, 0, position.y);
+		staticBody.setPosition(new Vector3f(position.getX(), staticBody.getPosition().y, position.getY()));
+		renderProperties.getTransform().setTranslation(new Vector3f(position.getX(), renderProperties.getTransform().getTranslation().y, position.getY()));
+		this.position = new Vector3f(position.x, this.position == null ? 0 : this.position.y, position.y);
 	}
 	
-	public void setPosition2D(float x, float z) {setPosition2D(new Vector2f(x, z)); }
+	public void setPosition3D(Vector3f position) {
+		setY(position.y);
+		setPosition2D(Util.to2D(position));
+	}
+	
+	public void setRotationPosition3D(Vector3f position) {
+		setY(position.y);
+		setRotationPosition2D(Util.to2D(position));
+	}
+	
+	public void setY(float y) {
+		staticBody.getPosition().y = y;
+		renderProperties.getTransform().getTranslation().y = y;
+	}
+	
+	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
 	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
 
 	public Vector2f getDimensions() { return new Vector2f(size.x, size.z); }
@@ -104,6 +119,7 @@ public class WrapperStaticBody {
 	
 	public float getWidth() { return size.x; } 
 	public float getHeight() { return size.z; } 
+	public float getHeightY() { return size.y; }
 	
 	public float getX() { return position.x; }
 	public void addX(float amount) { setX(getX() + amount); }

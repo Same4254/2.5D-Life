@@ -3,6 +3,7 @@ package Entity.WorldObjects;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
@@ -12,6 +13,7 @@ import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.WorldObjects.Items.Item;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Appliances.Appliance;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
@@ -25,6 +27,7 @@ public abstract class WorldObject {
 
 	protected ArrayList<Item> inventory;
 	protected HashMap<Living, Integer> needs, skills;
+	protected ApplianceManager applianceManager;
 	
 	protected Vector2f front;
 	
@@ -42,11 +45,18 @@ public abstract class WorldObject {
 		
 		initSkillsAndNeeds();
 		initInventory();
+		
+		applianceManager = new ApplianceManager(this, getApplianceLocations());
 	}
 	
 	public void render() {
-//		body.getRenderProperties().getTransform().setScale(new Vector3f(1, .1, 1));
 		body.render();
+		applianceManager.render();
+	}
+	
+	public void masterUpdate(float delta) {
+		applianceManager.update(delta);
+		update(delta);
 	}
 	
 	public abstract void update(float delta);
@@ -71,21 +81,49 @@ public abstract class WorldObject {
 	
 	public abstract void clearTile();
 	public abstract void rotateFront(float angle);
+	public abstract Vector2f[] getApplianceLocations();
 
+	public Vector3f getApplicationPosition() { return applianceManager.getAnAvailablePosition(); }
+	public boolean addAppliance(Appliance appliance) { return applianceManager.addAppliance(appliance); }
+//	public void removeAppliance(Appliance appliance) { applianceManager.removeAppliance(appliance); }
+	public Appliance containsApplianceBody(PhysicsBody body) {
+		for(Appliance appliance : applianceManager.getAppliances()) 
+			if(appliance.getBody().getStaticBody() == body)
+				return appliance;
+		return null;
+	}
+	
 	public float getX() { return body.getX(); }
 	public float getZ() { return body.getZ(); }
 	
 	public float getWidth() { return body.getWidth(); }
 	public float getHeight() { return body.getHeight(); }
+	public float getHeightY() { return body.getHeightY(); }
 	
 	public Vector3f getPosition3D() { return body.getPosition3D(); }
 	public Vector2f getPosition2D() { return body.getPosition2D(); }
 	public Vector2f getFront() { return front; }
 	
-	public void setPosition2D(Vector2f position) { body.setRotationPosition2D(position); }
+	public void setPosition2D(Vector2f position) { 
+		body.setRotationPosition2D(position);
+		applianceManager.syncPosition();
+	}
+	
 	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
 
+	public void setPosition3D(Vector3f position) { 
+		body.setPosition3D(position);
+		applianceManager.syncPosition();
+	}
+	
+	public void setRotationPosition3D(Vector3f position) { 
+		body.setRotationPosition3D(position);
+		applianceManager.syncPosition();
+	}
+	
 	public void setAngle(float angle) {
+		float angleDiiference = angle - body.getRenderProperties().getTransform().getRotation().y;
+		
 		if(angle == 0) 
 			front = new Vector2f(getWidth(), 0);
 		if(angle == 90) 
@@ -96,6 +134,7 @@ public abstract class WorldObject {
 			front = new Vector2f(0, getHeight());
 		
 		body.setAngle(angle); 
+		applianceManager.rotate(angle, angleDiiference);
 	}
 
 	public Lot getLot() { return lot; }

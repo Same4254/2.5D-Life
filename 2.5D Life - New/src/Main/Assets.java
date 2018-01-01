@@ -38,9 +38,17 @@ public class Assets {
 	public static WrapperModel stoveModel;
 	public static Texture2D stoveTexture;
 	
+	public static WrapperModel computerDeskModel;
+	public static Texture2D computerDeskTexture;
+	
+	public static WrapperModel computerModel;
+	public static Texture2D computerTexture;
+	
 	public static WrapperModel tileModel;
 	public static Texture2D sampleFloorTextures;
 
+	public static BufferedImage house, maze;
+	
 	public static enum TileTextureIndecies {
 		WHITE_BRICK(0), CRACKED_STONE_BRICK(1), COBBLESTONE(2), STONE_BRICK(3), ORANGE_STONE(4), PURPLE_STONE(5), HARDWOOD(6);
 		
@@ -52,8 +60,6 @@ public class Assets {
 		
 		public int getValue() { return num; }
 	};
-	
-	public static BufferedImage house, maze;
 	
 	public static void init() {
 		house = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "House.png");
@@ -68,11 +74,17 @@ public class Assets {
 		fridgeModel = new WrapperModel(ImageLoader.MODEL_PATH + "Fridge.obj", defaultShader);
 		fridgeTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Fridge.png");
 		
+		computerModel = new WrapperModel(ImageLoader.MODEL_PATH + "Computer.obj", defaultShader);
+		computerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Computer.png");
+		
 		chairModel = new WrapperModel(ImageLoader.MODEL_PATH + "Chair.obj", defaultShader);
 		chairTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Chair.png");
 		
 		tvModel = new WrapperModel(ImageLoader.MODEL_PATH + "TV.obj", defaultShader);
 		tvTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "TV.png");
+		
+		computerDeskModel = new WrapperModel(ImageLoader.MODEL_PATH + "ComputerDesk.obj", defaultShader);
+		computerDeskTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "ComputerDesk.png");
 		
 		bedModel = new WrapperModel(ImageLoader.MODEL_PATH + "Bed.obj", defaultShader);
 		bedTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Bed.png");

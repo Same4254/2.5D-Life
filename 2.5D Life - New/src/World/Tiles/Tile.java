@@ -1,7 +1,6 @@
 package World.Tiles;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
-import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.WorldObjects.MultiTileObject;
@@ -10,7 +9,6 @@ import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Assets;
-import Main.Assets.TileTextureIndecies;
 import Main.Handler;
 import World.Tiles.Render.TileInstanceModel;
 
@@ -47,11 +45,11 @@ public class Tile {
 		if(object != null) {
 			if(object instanceof MultiTileObject) { 
 				if(!((MultiTileObject) object).getTiles().isEmpty() && ((MultiTileObject) object).getTiles().get(0) == this) {
-					object.update(delta);
+					object.masterUpdate(delta);
 					return;
 				}
 			}
-			object.update(delta);
+			object.masterUpdate(delta);
 		}
 	}
 	
@@ -77,8 +75,12 @@ public class Tile {
 	}
 	
 	public WorldObject findObject(PhysicsBody body) {
-		if(object != null && object.getBody().getStaticBody() == body)
-			return object;
+		if(object != null) {
+			if(object.getBody().getStaticBody() != body)
+				return object.containsApplianceBody(body);
+			else 
+				return object;
+		}
 		return null;
 	}
 	

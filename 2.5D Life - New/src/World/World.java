@@ -13,6 +13,7 @@ import Entity.FreeMoving.Player;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Bed;
 import Entity.WorldObjects.Objects.Chair;
 import Entity.WorldObjects.Objects.Fridge;
 import Entity.WorldObjects.Objects.TV;
@@ -35,10 +36,10 @@ public class World {
 	private boolean testPlayer = false; // Test variable to quickly disable player from the game
 	
 	private Human human;
-	private boolean testHuman = true; // Test variable to quickly disable test human from the game 
+	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
 	
 	private Viewer needViewer;
-	private boolean viewViewer = true; // Test variable to quickly disable need viewer
+	private boolean viewViewer = false; // Test variable to quickly disable need viewer
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -73,9 +74,10 @@ public class World {
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
-		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
-		place(new Chair(handler, lots.get(0)), new Vector2f(4, 10), 0);
-		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);
+//		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
+//		place(new Chair(handler, lots.get(0)), new Vector2f(4, 10), 0);
+//		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);
+//		place(new Bed(handler, lots.get(0)), new Vector2f(15), 0);
 		
 		lots.get(0).enableEdit();
 	}
@@ -136,6 +138,29 @@ public class World {
 		worldObject.addToTile(worldObject.getLot().getTiles()[(int) worldObject.getPosition2D().x][(int) worldObject.getPosition2D().y]);
 	}
  	
+	public WorldObject findNearest(Vector2f position, Lot lot, Class clazz) {
+		ArrayList<WorldObject> objects = new ArrayList<>();
+		for(int x = 0; x < lot.getWidth(); x++) {
+			for(int y = 0; y < lot.getHeight(); y++) {
+				WorldObject object = lot.getTiles()[x][y].getObject();
+				if(object != null && object.getClass() == clazz) {
+					objects.add(object);
+				}
+			}
+		}
+
+		if(objects.size() > 1) {
+			objects.sort((o1, o2) -> {
+				if(o1.getPosition2D().distance(position) < o2.getPosition2D().distance(position))
+					return -1;
+				return 1;
+			});
+			
+			return objects.get(0);
+		}
+		return null;
+	}
+	
 	public Lot getTestLot() {
 		return lots.get(0);
 	}

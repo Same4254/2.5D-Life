@@ -1,5 +1,7 @@
 package Entity.WorldObjects.Objects;
 
+import com.Engine.Util.Vectors.Vector2f;
+
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
@@ -43,4 +45,9 @@ public class Wall extends TileObject {
 	
 	@Override
 	public Wall clone() { return new Wall(handler, lot); }
+
+	@Override
+	public Vector2f[] getApplianceLocations() {
+		return null;
+	}
 }

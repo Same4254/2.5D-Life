@@ -4,6 +4,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.Engine.Util.Vectors.Vector2f;
+import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
@@ -11,11 +12,14 @@ import Entity.WorldObjects.Lot.Edit.WorldObjectDragList.AXIS;
 import Entity.WorldObjects.Objects.Bed;
 import Entity.WorldObjects.Objects.Box;
 import Entity.WorldObjects.Objects.Chair;
+import Entity.WorldObjects.Objects.ComputerDesk;
 import Entity.WorldObjects.Objects.Fridge;
 import Entity.WorldObjects.Objects.Stove;
 import Entity.WorldObjects.Objects.TV;
 import Entity.WorldObjects.Objects.Table;
 import Entity.WorldObjects.Objects.Wall;
+import Entity.WorldObjects.Objects.Appliances.Appliance;
+import Entity.WorldObjects.Objects.Appliances.Computer;
 import Main.Handler;
 import Utils.Util;
 
@@ -55,6 +59,12 @@ public class WorldObjectEdit extends EditMode {
 		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_8)) 
 			setHeldObject(new Stove(handler, lot));
 		
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_9)) 
+			setHeldObject(new ComputerDesk(handler, lot));
+		
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_0)) 
+			setHeldObject(new Computer(handler, lot));
+		
 		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) 
 			clear();
 		//********************************
@@ -75,9 +85,23 @@ public class WorldObjectEdit extends EditMode {
 		} else if(heldObject != null) { //Mouse moving around
 			handler.getMouseManager().updatePickerForTile(s -> {
 				if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
-					Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
-					Vector2f truncated = location.truncate();
-					heldObject.setPosition2D(truncated);
+					int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
+
+					if(heldObject instanceof Appliance && lot.getTiles()[x][z].containsAnything()) {
+						Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
+						if(applianceLocation != null) {
+							heldObject.setPosition3D(applianceLocation);
+						} else {
+							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+							Vector2f truncated = location.truncate();
+							heldObject.setPosition2D(truncated);
+						}
+					} else {
+						Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+						Vector2f truncated = location.truncate();
+						heldObject.getBody().setY(0);
+						heldObject.setPosition2D(truncated); 
+					}
 				} else if(s != null && Mouse.isButtonDown(1)) { 
 					if(heldObject instanceof Wall) {//Dragging
 						if(Math.abs(heldObject.getX() - s.getPosition().x) > Math.abs(heldObject.getZ() - s.getPosition().z))

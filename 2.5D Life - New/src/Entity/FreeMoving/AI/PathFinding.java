@@ -121,18 +121,18 @@ public class PathFinding {
 		
 		//**********************
 		//		  TEST
-		System.out.println("Nodes: " + grid.getNodes());
-		for(Node[] nodeArray : grid.getNodes()) {
-			for(Node n : nodeArray) {
-				if(n.isWalkable())
-					System.out.print("0 ");
-				else
-					System.out.print("1 ");
-			}
-			System.out.println();
-		}
-		
-		System.out.println("------");
+//		System.out.println("Nodes: " + grid.getNodes());
+//		for(Node[] nodeArray : grid.getNodes()) {
+//			for(Node n : nodeArray) {
+//				if(n.isWalkable())
+//					System.out.print("0 ");
+//				else
+//					System.out.print("1 ");
+//			}
+//			System.out.println();
+//		}
+//		
+//		System.out.println("------");
 		
 		for(Node[] nodeArray : grid.getNodes()) {
 			for(Node n : nodeArray) {
@@ -144,13 +144,13 @@ public class PathFinding {
 					}
 				}
 				
-				if(contains) {
-					System.out.print("2 ");
-				} else {
-					System.out.print("0 ");
-				}
+//				if(contains) {
+//					System.out.print("2 ");
+//				} else {
+//					System.out.print("0 ");
+//				}
 			}
-			System.out.println();
+//			System.out.println();
 		}
 		
 		//**********************
