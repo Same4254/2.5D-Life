@@ -13,27 +13,35 @@ public class Viewer extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private JFrame frame;
-	private BarGraph barGraph;
+	private BarGraph needGraph;
+	private BarGraph skillGraph;
 	
 	public Viewer(Handler handler, Human human) {
 		frame = new JFrame("Character Viewer");
-		frame.setSize(400, 500);
+		frame.setSize(400, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.add(this);
-		frame.setVisible(true);
-		
-		barGraph = new BarGraph(new DataSeries("Hunger", () -> {
+		needGraph = new BarGraph("Needs", 40, 0, new DataSeries("Hunger", () -> {
 			return human.getNeedManager().getHunger().getValue();
 		}), new DataSeries("Entertainment", () -> {
 			return human.getNeedManager().getEntertainment().getValue();
 		}), new DataSeries("Sleep", () -> {
 			return human.getNeedManager().getSleep().getValue();
 		}));
+		
+		skillGraph = new BarGraph("Skills", 40, 450, new DataSeries("Programming", () -> { 
+			return human.getSkillManager().getProgrammingSkill().getValue();
+		}), new DataSeries("Cooking", () -> {
+			return human.getSkillManager().getCookingSkill().getValue();
+		}));
+		
+		frame.add(this);
+		frame.setVisible(true);
 	}
 	
 	public void update() {
-		barGraph.update();
+		needGraph.update();
+		skillGraph.update();
 	}
 	
 	public void render() {
@@ -45,6 +53,7 @@ public class Viewer extends JPanel {
 		Graphics2D g2D = (Graphics2D) g;
 		g2D.clearRect(0, 0, frame.getWidth(), frame.getHeight());
 		
-		barGraph.render(g2D);
+		needGraph.render(g2D);
+		skillGraph.render(g2D);
 	}
 }

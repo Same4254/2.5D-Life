@@ -61,7 +61,7 @@ public class Game {
 	 * 		- ✔ update them
 	 * 		- ✔ translate them with the host
 	 * 		- ✔ rotate with host
-	 * 		- host will look at appliances for actions 
+	 * 		- host will look at appliances for actions AND needs
 	 * 
 	 * 	Multiple Floors
 	 * 		- Lot can have floor levels that are all at different levels, and have different tiles

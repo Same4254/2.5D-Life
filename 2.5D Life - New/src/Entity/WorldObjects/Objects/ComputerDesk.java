@@ -27,6 +27,11 @@ public class ComputerDesk extends MultiTileObject {
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
+		for(Appliance appliance : applianceManager.getAppliances()) {
+			Action action = appliance.getAction(entity, reason);
+			if(action != null) 
+				return action;
+		}
 		return null;
 	}
 

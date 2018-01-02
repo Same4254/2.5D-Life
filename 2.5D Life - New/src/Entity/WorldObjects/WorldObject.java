@@ -141,7 +141,16 @@ public abstract class WorldObject {
 	public Lot getLot() { return lot; }
 	
 	public HashMap<Living, Integer> getNeeds() { return needs; }
-	public HashMap<Living, Integer> getSkills() { return skills; } 
+	public HashMap<Living, Integer> getSkills() {
+		HashMap<Living, Integer> temp = new HashMap<>();
+		temp.putAll(skills);
+		
+		for(Appliance appliance : applianceManager.getAppliances()) 
+			temp.putAll(appliance.getSkills());
+		
+		return temp; 
+	}
+	
 	public ArrayList<Item> getInventory() { return inventory; } 
 	
 	public WrapperStaticBody getBody() { return body; }

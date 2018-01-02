@@ -13,10 +13,9 @@ import Entity.FreeMoving.Player;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.Objects.Bed;
 import Entity.WorldObjects.Objects.Chair;
-import Entity.WorldObjects.Objects.Fridge;
-import Entity.WorldObjects.Objects.TV;
+import Entity.WorldObjects.Objects.ComputerDesk;
+import Entity.WorldObjects.Objects.Appliances.Computer;
 import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
@@ -36,10 +35,10 @@ public class World {
 	private boolean testPlayer = false; // Test variable to quickly disable player from the game
 	
 	private Human human;
-	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
+	private boolean testHuman = true; // Test variable to quickly disable test human from the game 
 	
 	private Viewer needViewer;
-	private boolean viewViewer = false; // Test variable to quickly disable need viewer
+	private boolean viewViewer = true; // Test variable to quickly disable need viewer
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -58,11 +57,13 @@ public class World {
 
 		if(testPlayer) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
-			player.setPosition2D(2, 2);
+			player.setPosition2D(8, 8);
 		}
 
-		if(testHuman)
+		if(testHuman) {
 			human = new Human(handler, Assets.playerModel, Assets.playerTexture, "Bob");
+			human.setPosition2D(8, 8);
+		}
 		
 		if(viewViewer) {
 			if(testHuman)
@@ -74,6 +75,10 @@ public class World {
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
+		place(new ComputerDesk(handler, lots.get(0)), new Vector2f(2), 0);
+		place(new Computer(handler, lots.get(0)), new Vector2f(2, 3), 0);
+		place(new Chair(handler, lots.get(0)), new Vector2f(3, 2), 180);
+		
 //		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
 //		place(new Chair(handler, lots.get(0)), new Vector2f(4, 10), 0);
 //		place(new TV(handler, lots.get(0)), new Vector2f(8 , 10), 0);

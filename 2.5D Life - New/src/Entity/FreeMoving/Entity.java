@@ -7,6 +7,7 @@ import com.Engine.Util.Vectors.Vector3f;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.ActionQueue;
 import Entity.FreeMoving.AI.Living.Needs.NeedManager;
+import Entity.FreeMoving.AI.Living.Skills.SkillManager;
 import Entity.WrapperBodies.WrapperModel;
 import Entity.WrapperBodies.WrapperStaticBody;
 import Main.Handler;
@@ -21,6 +22,7 @@ public abstract class Entity {
 	protected Handler handler;
 	protected ActionQueue actionQueue;
 	protected NeedManager needManager;
+	protected SkillManager skillManager;
 	protected Inventory inventory;
 	
 	protected WrapperStaticBody body;
@@ -32,6 +34,7 @@ public abstract class Entity {
 		
 		actionQueue = new ActionQueue();
 		needManager = new NeedManager();
+		skillManager = new SkillManager();
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
 		movementSpeed = new Vector2f();
@@ -57,6 +60,7 @@ public abstract class Entity {
 	
 	public void render() { body.render(); }
 	
+	public SkillManager getSkillManager() { return skillManager; }
 	public NeedManager getNeedManager() { return needManager; }
 	public void addAction(Action a) { if(a != null) actionQueue.add(a); }
 	

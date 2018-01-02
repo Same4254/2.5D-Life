@@ -1,9 +1,13 @@
 package Entity.WorldObjects.Objects.Appliances;
 
+import com.Engine.Util.Vectors.Vector2f;
+
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
+import Entity.FreeMoving.AI.PathFinding;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.MultiAction;
+import Entity.FreeMoving.AI.Action.Human.FindPlaceToSitAction;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
 import Entity.WorldObjects.Lot.Lot;
@@ -61,6 +65,8 @@ class ProgramAction extends MultiAction {
 	public void start() {
 		super.start();
 		
+		subActions.add(new FindPlaceToSitAction(handler, entity, PathFinding.getEffectiveArea(computer, new Vector2f(1), false)));
+		subActions.add(new ProgramSubAction(handler, entity, computer));
 	}
 }
 
@@ -77,6 +83,6 @@ class ProgramSubAction extends Action {
 
 	@Override
 	public void update(float delta) {
-		
+		entity.getSkillManager().getProgrammingSkill().add(8 * delta);
 	}
 }
