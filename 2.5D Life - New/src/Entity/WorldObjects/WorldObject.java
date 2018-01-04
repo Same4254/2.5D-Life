@@ -67,6 +67,15 @@ public abstract class WorldObject {
 	protected abstract void initSkillsAndNeeds();
 	protected abstract void initInventory();
 	
+	protected Action searchApplianceForAction(Entity entity, Living reason) {
+		for(Appliance appliance : applianceManager.getAppliances()) {
+			Action action = appliance.getAction(entity, reason);
+			if(action != null) 
+				return action;
+		}
+		return null;
+	}
+	
 	public abstract boolean addToTile(Tile tile);
 	
 	public WorldObject removeFromTile() {
@@ -140,7 +149,16 @@ public abstract class WorldObject {
 
 	public Lot getLot() { return lot; }
 	
-	public HashMap<Living, Integer> getNeeds() { return needs; }
+	public HashMap<Living, Integer> getNeeds() { 
+		HashMap<Living, Integer> temp = new HashMap<>();
+		temp.putAll(needs);
+		
+		for(Appliance appliance : applianceManager.getAppliances()) 
+			temp.putAll(appliance.getNeeds());
+		
+		return temp; 
+	}
+	
 	public HashMap<Living, Integer> getSkills() {
 		HashMap<Living, Integer> temp = new HashMap<>();
 		temp.putAll(skills);

@@ -173,12 +173,12 @@ public class Util {
 	}
 
 	public static void getEffectiveArea(int px, int py, int radius, int[][] field) {
-		for(int x = 0; x < field.length; x++) {
-			for(int y = 0; y < field[0].length; y++) {
-				System.out.print(field[x][y] + " ");
-			}
-			System.out.println();
-		}
+//		for(int x = 0; x < field.length; x++) {
+//			for(int y = 0; y < field[0].length; y++) {
+//				System.out.print(field[x][y] + " ");
+//			}
+//			System.out.println();
+//		}
 		
 		for(int x = px - radius; x <= px + radius; x++) {
 			for(int y = py - radius; y <= py + radius; y++) {
@@ -188,14 +188,14 @@ public class Util {
 		
 		field[px][py] = 1;
 		
-		System.out.println("-----------");
-		
-		for(int x = 0; x < field.length; x++) {
-			for(int y = 0; y < field[0].length; y++) {
-				System.out.print(field[x][y] + " ");
-			}
-			System.out.println();
-		}
+//		System.out.println("-----------");
+//		
+//		for(int x = 0; x < field.length; x++) {
+//			for(int y = 0; y < field[0].length; y++) {
+//				System.out.print(field[x][y] + " ");
+//			}
+//			System.out.println();
+//		}
 	}
 	
 //	public static void main(String[] args) {

@@ -25,7 +25,7 @@ public class Table extends TileObject {
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
-		return null;
+		return searchApplianceForAction(entity, reason);
 	}
 
 	@Override

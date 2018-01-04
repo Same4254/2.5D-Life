@@ -110,12 +110,7 @@ public class WorldObjectEdit extends EditMode {
 							heldObject.getBody().setY(0);
 							heldObject.setPosition2D(truncated); 
 						}
-					} else if(s != null && Mouse.isButtonDown(1)) { 
-						if(s.getPosition().distance(heldObject.getPosition3D()) > 2) {//Rotation
-							float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s.getPosition()));
-							heldObject.setAngle(Util.roundNearestMultiple(angle, 90));
-						}
-					}
+					} 
 				}, delta);
 			} else {
 				handler.getMouseManager().updatePickerForTile(s -> {
@@ -145,8 +140,9 @@ public class WorldObjectEdit extends EditMode {
 								dragList.fill(WorldObjectDragList.AXIS.Z_AXIS, new Vector2f(s.getPosition().x, s.getPosition().z));
 						} else {//Rotating
 							if(s.getPosition().distance(heldObject.getPosition3D()) > 2) {
-								float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s.getPosition()));
-								heldObject.setAngle(Util.roundNearestMultiple(angle, 90));
+								float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s.getPosition())) - 15;
+								if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 90), 10))
+									heldObject.setAngle(Util.roundNearestMultiple(angle, 90)); 
 							}
 						}
 					}

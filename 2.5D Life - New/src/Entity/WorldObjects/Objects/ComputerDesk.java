@@ -9,7 +9,6 @@ import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Items.Item;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.Objects.Appliances.Appliance;
 import Main.Assets;
 import Main.Handler;
 
@@ -27,12 +26,7 @@ public class ComputerDesk extends MultiTileObject {
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
-		for(Appliance appliance : applianceManager.getAppliances()) {
-			Action action = appliance.getAction(entity, reason);
-			if(action != null) 
-				return action;
-		}
-		return null;
+		return searchApplianceForAction(entity, reason);
 	}
 
 	@Override

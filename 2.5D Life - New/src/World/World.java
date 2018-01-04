@@ -35,10 +35,10 @@ public class World {
 	private boolean testPlayer = false; // Test variable to quickly disable player from the game
 	
 	private Human human;
-	private boolean testHuman = true; // Test variable to quickly disable test human from the game 
+	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
 	
 	private Viewer needViewer;
-	private boolean viewViewer = true; // Test variable to quickly disable need viewer
+	private boolean viewViewer = false; // Test variable to quickly disable need viewer
 	
 	public World(Handler handler) {
 		this.handler = handler;
@@ -75,9 +75,9 @@ public class World {
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
-		place(new ComputerDesk(handler, lots.get(0)), new Vector2f(2), 0);
-		place(new Computer(handler, lots.get(0)), new Vector2f(2, 3), 0);
-		place(new Chair(handler, lots.get(0)), new Vector2f(3, 2), 180);
+//		place(new ComputerDesk(handler, lots.get(0)), new Vector2f(2), 0);
+//		place(new Computer(handler, lots.get(0)), new Vector2f(2, 3), 0);
+//		place(new Chair(handler, lots.get(0)), new Vector2f(3, 2), 180);
 		
 //		place(new Fridge(handler, lots.get(0)), new Vector2f(5), 0);
 //		place(new Chair(handler, lots.get(0)), new Vector2f(4, 10), 0);

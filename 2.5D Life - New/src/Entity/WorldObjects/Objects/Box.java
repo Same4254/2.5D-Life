@@ -1,11 +1,6 @@
 package Entity.WorldObjects.Objects;
 
-import com.Engine.PhysicsEngine.Detection.Colliders.CollisionEllipse;
-import com.Engine.PhysicsEngine.Render.PhysicsRenderProperties;
-import com.Engine.PhysicsEngine.Render.Sphere.SphereRender;
-import com.Engine.RenderEngine.Util.RenderStructs.Transform;
 import com.Engine.Util.Vectors.Vector2f;
-import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
@@ -14,7 +9,6 @@ import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.Items.Item;
 import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
-import Main.Game;
 import Main.Handler;
 
 public class Box extends MultiTileObject {
@@ -35,7 +29,7 @@ public class Box extends MultiTileObject {
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
-		return null;
+		return searchApplianceForAction(entity, reason);
 	}
 
 	@Override
