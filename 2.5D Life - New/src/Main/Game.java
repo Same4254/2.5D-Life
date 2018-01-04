@@ -46,7 +46,7 @@ public class Game {
 	 * 		- ✔ Each Tile have different texture
 	 * 		- ✔ Implement Into Assets
 	 * 	
-	 * 	  Rotation Glitch
+	 *  ✔ Rotation Glitch
 	 * 
 	 * Acutal Game:
 	 * 	Make actual textures for the models
@@ -90,8 +90,8 @@ public class Game {
 	 * 		- Re-Order them (Slight UI)
 	 * 			- Be able to reorder the actions by sliding them (UI)
 	 * 		- Timed actions 
-	 * 			- Food takes time to eat, not an instant
-	 * 			- Watching TV give entertainment over time
+	 * 			- ✔ Food takes time to eat, not an instant
+	 * 			- ✔ Watching TV give entertainment over time
 	 * 		- Synced actions between two entities
 	 * 			- Two people talking
 	 * 			- Back burner action list?
@@ -123,6 +123,10 @@ public class Game {
 	 * 			- Change the textures
 	 * 				- Different color t-shirt
 	 * 			- Add function to wrapper body to add other models, and sync with offset to original model
+	 * 
+	 * 	Sound
+	 * 		Certain actions will play a different sound in the world (World Sounds)
+	 * 		Ambient Sounds (Music, UI Clicking, etc...)
 	 */
 	public void init() throws LWJGLException {
 		window = new Window();
