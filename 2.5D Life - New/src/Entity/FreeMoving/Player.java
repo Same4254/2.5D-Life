@@ -2,13 +2,14 @@ package Entity.FreeMoving;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
 
+import Audio.SoundSource;
 import Entity.FreeMoving.AI.Action.Human.GoToAction;
 import Entity.FreeMoving.AI.Action.Human.MoveToAction;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
+import Main.Assets;
 import Main.Handler;
-import Utils.Util;
 
 public class Player extends Human {
 //	private Model model;
@@ -30,6 +31,14 @@ public class Player extends Human {
 //		});
 //		
 //		model.setShader(Game.physicsShader);
+//		body.getSoundSource().setVolume(100000000);
+//		body.getSoundSource().setLooping(true);
+//		body.getSoundSource().play(Assets.bounceSoundBuffer);
+//		
+//		SoundSource source = new SoundSource();
+//		source.setVolume(110000000);
+//		source.setLooping(true);
+//		source.play(Assets.bounceSoundBuffer);
 	}
 
 	@Override

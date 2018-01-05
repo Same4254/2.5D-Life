@@ -19,6 +19,10 @@ public class TV extends MultiTileObject {
 	public TV(Handler handler, Lot lot) {
 		super(handler, lot, Assets.tvModel, Assets.tvTexture);
 		
+		
+//		body.getSoundSource().setVolume(1000000);
+//		body.getSoundSource().setLooping(true);
+//		body.getSoundSource().play(Assets.bounceSoundBuffer);
 	}
 	
 	@Override

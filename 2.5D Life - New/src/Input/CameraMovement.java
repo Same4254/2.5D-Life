@@ -4,9 +4,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import com.Engine.RenderEngine.Util.Camera;
-import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Audio.Sound;
 import Entity.FreeMoving.Entity;
 import Main.Handler;
 
@@ -21,7 +21,7 @@ public class CameraMovement {
 	private float movementSpeed;
 	private float jumpSpeed;
 	private float mouseSensetivity;
-
+	
 	public CameraMovement(Handler handler, Camera camera, Vector3f spawn, float movementSpeed, float jumpSpeed, float mouseSensitivity) {
 		this.handler = handler;
 		this.camera = camera;
@@ -30,56 +30,32 @@ public class CameraMovement {
 		this.jumpSpeed = jumpSpeed;
 		this.mouseSensetivity = mouseSensitivity;
 
-		float angleToWorld = 50;
+		setPosition(spawn);
 		
-		camera.setPosition(spawn);
-		
-		rotationToWorld = new Vector3f(angleToWorld, 0, 0);
-		point(rotationToWorld);
-	}
-	
-	public void point(Vector3f angle) {
-		camera.setRotation(angle);
+		rotationToWorld = new Vector3f(50, 0, 0);
+		setRotation(rotationToWorld);
 	}
 	
 	public void centerOnEntity(Entity e) {
-		camera.setZ(e.getZ() + 20);
-		camera.setX(e.getX());
-		camera.setY(30);
-		point(rotationToWorld);
+		setPosition(new Vector3f(e.getX(), 30, e.getZ() + 20));
+//		camera.setZ(e.getZ() + 20);
+//		camera.setX(e.getX());
+//		camera.setY(30);
+		setRotation(rotationToWorld);
 	}
 	
 	public void update(float delta) {
 		Vector3f caped = camera.getRotation().capMax(100).capMin(-100);
-		camera.setRotX(caped.x);
+		setRotX(caped.x);
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_ESCAPE)) {
 			Mouse.setGrabbed(!Mouse.isGrabbed());
 		}
 		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) && !escapeLastFrame) {
-//			Mouse.setGrabbed(!Mouse.isGrabbed());
-//			escapeLastFrame = true;
-//		} else if(!Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) 
-//			escapeLastFrame = false;
-		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_R)) {
-			point(rotationToWorld);
-			camera.setPosition(spawn);
+			setRotation(rotationToWorld);
+			setPosition(spawn);
 		}
-		
-//		if(Keyboard.isKeyDown(Keyboard.KEY_R) && !rLastFrame) {
-//			point(rotationToWorld);
-//			
-//			camera.setPosition(spawn);
-//			
-//			rLastFrame = true;
-//		} else if(!Keyboard.isKeyDown(Keyboard.KEY_R)) 
-//			rLastFrame = false;
-		
-//		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RETURN)){
-//			centerOnEntity(handler.getWorld().getEntityManager().getEntities().get(0));
-//		}
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_TAB))
 			followPlayer = !followPlayer;
@@ -87,27 +63,59 @@ public class CameraMovement {
 		if(!followPlayer) {
 			if(Mouse.isGrabbed()) {
 				if(Math.abs(camera.getRotX()) <= 100)
-					camera.rotateX(-Mouse.getDY() * mouseSensetivity);
-				camera.rotateY(Mouse.getDX() * mouseSensetivity);
+					rotateX(-Mouse.getDY() * mouseSensetivity);
+				rotateY(Mouse.getDX() * mouseSensetivity);
 			}
 			
 			if(Keyboard.isKeyDown(Keyboard.KEY_W)) 
-				camera.moveForward(movementSpeed * delta);
+				moveForward(movementSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_A)) 
-				camera.moveRight(-movementSpeed * delta);
+				moveRight(-movementSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_S)) 
-				camera.moveForward(-movementSpeed * delta);
+				moveForward(-movementSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_D)) 
-				camera.moveRight(movementSpeed * delta);
+				moveRight(movementSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) 
-				camera.moveUp(jumpSpeed * delta);
+				moveUp(jumpSpeed * delta);
 			if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) 
-				camera.moveUp(-jumpSpeed * delta);
+				moveUp(-jumpSpeed * delta);
 		}
-//		} else 
-//			centerOnEntity(handler.getWorld().getPlayer());
+		
+		Sound.updateListenerData(camera);
 	}		
+	
+	private void setPosition(Vector3f position) {
+		camera.setPosition(position);
+	}
+	
+	private void setRotation(Vector3f angle) {
+		camera.setRotation(angle);
+	}
 
+	private void rotateX(float amount) {
+		camera.rotateX(amount);
+	}
+	
+	private void rotateY(float amount) {
+		camera.rotateY(amount);
+	}
+	
+	private void setRotX(float rotX) {
+		camera.setRotX(rotX);
+	}
+	
+	private void moveForward(float amount) {
+		camera.moveForward(amount);
+	}
+
+	private void moveRight(float amount) {
+		camera.moveRight(amount);
+	}
+	
+	private void moveUp(float amount) {
+		camera.moveUp(amount);
+	}
+	
 	public float getMovementSpeed(){return movementSpeed;}
 	public void setMovementSpeed(float movementSpeed){this.movementSpeed = movementSpeed;}
 	public float getJumpSpeed(){return jumpSpeed;}

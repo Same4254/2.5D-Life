@@ -2,20 +2,20 @@ package World;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import com.Engine.PhysicsEngine.Render.Vector.VectorModel;
 import com.Engine.RenderEngine.Lights.Light;
 import com.Engine.RenderEngine.Util.Camera;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Audio.Sound;
 import Entity.FreeMoving.Human;
 import Entity.FreeMoving.Player;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.Objects.Chair;
-import Entity.WorldObjects.Objects.ComputerDesk;
-import Entity.WorldObjects.Objects.Appliances.Computer;
 import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
@@ -32,7 +32,7 @@ public class World {
 	private ArrayList<Lot> lots;
 	
 	private Player player;
-	private boolean testPlayer = false; // Test variable to quickly disable player from the game
+	private boolean testPlayer = true; // Test variable to quickly disable player from the game
 	
 	private Human human;
 	private boolean testHuman = false; // Test variable to quickly disable test human from the game 
@@ -73,6 +73,7 @@ public class World {
 		}
 		
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
+		
 //		Util.placeHouse(handler, lots.get(0), Assets.house, 5, 5);
 
 //		place(new ComputerDesk(handler, lots.get(0)), new Vector2f(2), 0);
@@ -97,6 +98,9 @@ public class World {
 			player.update(delta);
 		if(testHuman)
 			human.update(delta);
+
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_L)) 
+			Sound.play(Assets.bounceSoundBuffer, new Vector3f());
 		
 //		cameraMovement.centerOnEntity(player);
 		

@@ -8,6 +8,7 @@ import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Audio.SoundSource;
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.Entity.Living;
 import Entity.FreeMoving.AI.Action.Action;
@@ -86,6 +87,7 @@ public abstract class WorldObject {
 	
 	public void cleanUp() {
 		handler.getGame().getPhysicsEngine().remove(body.getStaticBody());
+//		body.getSoundSource().delete();
 	}
 	
 	public abstract void clearTile();
@@ -146,8 +148,6 @@ public abstract class WorldObject {
 		body.setAngle(angle); 
 		applianceManager.rotate(angle, angleDiiference);
 	}
-
-	public Lot getLot() { return lot; }
 	
 	public HashMap<Living, Integer> getNeeds() { 
 		HashMap<Living, Integer> temp = new HashMap<>();
@@ -168,9 +168,10 @@ public abstract class WorldObject {
 		
 		return temp; 
 	}
-	
+
+//	public void playSound(int buffer) { body.getSoundSource().play(buffer); }
 	public ArrayList<Item> getInventory() { return inventory; } 
-	
+	public Lot getLot() { return lot; }	
 	public WrapperStaticBody getBody() { return body; }
 	public void setTile(Tile tile) { this.tile = tile; }
 }

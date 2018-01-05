@@ -2,13 +2,13 @@ package Entity.WrapperBodies;
 
 import com.Engine.PhysicsEngine.Bodies.StaticBody;
 import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
-import com.Engine.RenderEngine.Shaders.RenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.Model;
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Audio.SoundSource;
 import Utils.Util;
 import World.Tiles.Tile;
 
@@ -39,7 +39,7 @@ public class WrapperStaticBody {
 		this.wrapperModel = wrapperModel;
 		this.model = wrapperModel.getModel();
 		this.renderProperties = renderProperties;
-		
+
 		CollisionMesh col = wrapperModel.getCollisionMesh();
 		staticBody = new StaticBody(col);
 		
@@ -109,6 +109,7 @@ public class WrapperStaticBody {
 	public void setY(float y) {
 		staticBody.getPosition().y = y;
 		renderProperties.getTransform().getTranslation().y = y;
+		position.y = y;
 	}
 	
 	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
@@ -147,7 +148,7 @@ public class WrapperStaticBody {
 	public void add(Vector2f amount) { addX(amount.x); addZ(amount.y); }
 	
 	public void render() { model.render(renderProperties); }
-	
+
 	public Model getModel() { return model; }
 	public StaticBody getStaticBody() { return staticBody; }
 	public DefaultRenderProperties getRenderProperties() { return renderProperties; }

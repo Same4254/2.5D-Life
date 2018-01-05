@@ -5,8 +5,9 @@ import java.awt.image.BufferedImage;
 import com.Engine.RenderEngine.Shaders.Default.DefaultShader;
 import com.Engine.RenderEngine.Textures.Texture2D;
 
+import Audio.Sound;
 import Entity.WrapperBodies.WrapperModel;
-import Utils.ImageLoader;
+import Utils.AssetLoader;
 
 public class Assets {
 	public static DefaultShader defaultShader;
@@ -47,6 +48,8 @@ public class Assets {
 	public static WrapperModel tileModel;
 	public static Texture2D sampleFloorTextures;
 
+	public static int bounceSoundBuffer;
+	
 	public static BufferedImage house, maze;
 	
 	public static enum TileTextureIndecies {
@@ -62,48 +65,50 @@ public class Assets {
 	};
 	
 	public static void init() {
-		house = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "House.png");
-		maze = ImageLoader.loadImage(ImageLoader.STRUCTURE_PATH + "Maze.png");
+		house = AssetLoader.loadImage(AssetLoader.STRUCTURE_PATH + "House.png");
+		maze = AssetLoader.loadImage(AssetLoader.STRUCTURE_PATH + "Maze.png");
+		
+		bounceSoundBuffer = Sound.loadSound(AssetLoader.SOUND_PATH + "bounce.wav");
 		
 		defaultShader = new DefaultShader();
 //		defaultShader.getRenderer().usingFrustumCulling(false);
 		
-		stoveModel = new WrapperModel(ImageLoader.MODEL_PATH + "Stove.obj", defaultShader);
-		stoveTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Stove.png");
+		stoveModel = new WrapperModel(AssetLoader.MODEL_PATH + "Stove.obj", defaultShader);
+		stoveTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Stove.png");
 		
-		fridgeModel = new WrapperModel(ImageLoader.MODEL_PATH + "Fridge.obj", defaultShader);
-		fridgeTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Fridge.png");
+		fridgeModel = new WrapperModel(AssetLoader.MODEL_PATH + "Fridge.obj", defaultShader);
+		fridgeTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Fridge.png");
 		
-		computerModel = new WrapperModel(ImageLoader.MODEL_PATH + "Computer.obj", defaultShader);
-		computerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Computer.png");
+		computerModel = new WrapperModel(AssetLoader.MODEL_PATH + "Computer.obj", defaultShader);
+		computerTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Computer.png");
 		
-		chairModel = new WrapperModel(ImageLoader.MODEL_PATH + "Chair.obj", defaultShader);
-		chairTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Chair.png");
+		chairModel = new WrapperModel(AssetLoader.MODEL_PATH + "Chair.obj", defaultShader);
+		chairTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Chair.png");
 		
-		tvModel = new WrapperModel(ImageLoader.MODEL_PATH + "TV.obj", defaultShader);
-		tvTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "TV.png");
+		tvModel = new WrapperModel(AssetLoader.MODEL_PATH + "TV.obj", defaultShader);
+		tvTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "TV.png");
 		
-		computerDeskModel = new WrapperModel(ImageLoader.MODEL_PATH + "ComputerDesk.obj", defaultShader);
-		computerDeskTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "ComputerDesk.png");
+		computerDeskModel = new WrapperModel(AssetLoader.MODEL_PATH + "ComputerDesk.obj", defaultShader);
+		computerDeskTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "ComputerDesk.png");
 		
-		bedModel = new WrapperModel(ImageLoader.MODEL_PATH + "Bed.obj", defaultShader);
-		bedTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Bed.png");
+		bedModel = new WrapperModel(AssetLoader.MODEL_PATH + "Bed.obj", defaultShader);
+		bedTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Bed.png");
 		
-		playerModel = new WrapperModel(ImageLoader.MODEL_PATH + "Cube Person.obj", defaultShader);
-		playerTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Cube Person.png");
+		playerModel = new WrapperModel(AssetLoader.MODEL_PATH + "Cube Person.obj", defaultShader);
+		playerTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Cube Person.png");
 		
-		tileModel = new WrapperModel(ImageLoader.MODEL_PATH + "Tile.obj", defaultShader);
-		sampleFloorTextures = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "SampleFloorTexture.png");
+		tileModel = new WrapperModel(AssetLoader.MODEL_PATH + "Tile.obj", defaultShader);
+		sampleFloorTextures = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "SampleFloorTexture.png");
 		sampleFloorTextures.setNumberOfRows(3);
 		
-		wallModel = new WrapperModel(ImageLoader.MODEL_PATH + "Wall.obj", defaultShader);
-		wallTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Wall.png");
+		wallModel = new WrapperModel(AssetLoader.MODEL_PATH + "Wall.obj", defaultShader);
+		wallTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Wall.png");
 		
-		tableModel = new WrapperModel(ImageLoader.MODEL_PATH + "Table.obj", defaultShader);
-		tableTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Table.png");
+		tableModel = new WrapperModel(AssetLoader.MODEL_PATH + "Table.obj", defaultShader);
+		tableTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Table.png");
 		
 //		boxModel = new WrapperModel(ImageLoader.MODEL_PATH + "Physics/VectorTop.obj", defaultShader);
-		boxModel = new WrapperModel(ImageLoader.MODEL_PATH + "Box.obj", defaultShader);
-		boxTexture = ImageLoader.loadTexture(ImageLoader.TEXTURE_PATH + "Box.png");
+		boxModel = new WrapperModel(AssetLoader.MODEL_PATH + "Box.obj", defaultShader);
+		boxTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Box.png");
 	}
 }

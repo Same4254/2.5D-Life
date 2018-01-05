@@ -24,6 +24,7 @@ import com.Engine.RenderEngine.Shaders.Shader;
 import com.Engine.RenderEngine.Window.Window;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Audio.Sound;
 import World.World;
 import World.Tiles.Render.TileInstanceModel;
 
@@ -139,8 +140,9 @@ public class Game {
 		antiAliasing.attach(new RenderBuffer(antiAliasing), Attachment.DepthBuffer);
 		FBO.SCREEN_FBO.screenResized(window);
 		
-		physicsEngine = new PhysicsEngine();
+		Sound.init();
 		
+		physicsEngine = new PhysicsEngine();
 		physicsShader = new PhysicsShader();
 		Assets.init();
 		
@@ -220,6 +222,7 @@ public class Game {
 	
 	public void cleanUp() {
 		window.destroy();
+		Sound.cleanUp();
 		System.exit(0);
 	}
 	
