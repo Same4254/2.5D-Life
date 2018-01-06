@@ -58,8 +58,10 @@ public class TilePlacementDragList {
 	public void clear() {
 		for(int x = tiles.length - 1; x >= 0; x--) {
 			for(int z = tiles[x].length - 1; z >= 0; z--) {
-				tiles[x][z].cleanUp();
-				tiles[x][z] = null;
+				if(tiles[x][z] != null) {
+					tiles[x][z].cleanUp();
+					tiles[x][z] = null;
+				}
 			}
 		}
 	}
@@ -68,11 +70,13 @@ public class TilePlacementDragList {
 		for(int x = tiles.length - 1; x >= 0; x--) {
 			for(int z = tiles[x].length - 1; z >= 0; z--) {
 				Tile tile = tiles[x][z];
-				if(lot.getFloorTiles(tile.getPosition3D())[(int) tile.getPosition2D().x][(int) tile.getPosition2D().y] == null)
-					lot.getFloorTiles(tile.getPosition3D())[(int) tile.getPosition2D().x][(int) tile.getPosition2D().y] = tile;
-				else 
-					tile.cleanUp();
-				tiles[x][z] = null;
+				if(tile != null) {
+					if(lot.getFloorTiles(tile.getPosition3D())[(int) tile.getPosition2D().x][(int) tile.getPosition2D().y] == null)
+						lot.getFloorTiles(tile.getPosition3D())[(int) tile.getPosition2D().x][(int) tile.getPosition2D().y] = tile;
+					else 
+						tile.cleanUp();
+					tiles[x][z] = null;
+				}
 			}
 		}
 	}
@@ -80,6 +84,7 @@ public class TilePlacementDragList {
 	public void render() {
 		for(int x = tiles.length - 1; x >= 0; x--) 
 			for(int z = tiles[x].length - 1; z >= 0; z--) 
-				tiles[x][z].render(Lot.tileInstanceModel);
+				if(tiles[x][z] != null)
+					tiles[x][z].render(Lot.tileInstanceModel);
 	}
 }

@@ -38,7 +38,7 @@ public class TilePlacementEdit extends EditMode {
 			if(handler.getMouseManager().keyJustReleased(0)) 
 				place();
 			else if(Mouse.isButtonDown(0)) {// Dragging
-				dragList.fill(tileToPlace, Util.to2D(MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT)));
+//				dragList.fill(tileToPlace, Util.to2D(MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT)));
 			} else {//Free Moving
 				tileToPlace.setPosition3D(MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT));
 			}
@@ -57,14 +57,18 @@ public class TilePlacementEdit extends EditMode {
 	
 	@Override
 	public void render() {
-		tileToPlace.render(Lot.tileInstanceModel);
+		if(tileToPlace != null)
+			tileToPlace.render(Lot.tileInstanceModel);
 		dragList.render();
 	}
 
 	@Override
 	public void clear() {
-		tileToPlace.cleanUp();
-		tileToPlace = null;
+		if(tileToPlace != null) {
+			tileToPlace.cleanUp();
+			tileToPlace = null;
+		}
+		
 		dragList.clear();	
 	}
 }

@@ -88,7 +88,7 @@ public class MouseManager {
 		out:
 		for(PhysicsBody p : all) {
 			for(Floor floor : lot.getFloors()) {
-				if(floor.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody() == p) {
+				if(floor != null && floor.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody() == p) {
 					picked.pick(floor.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z].getBody().getStaticBody());
 					break out;
 				}
@@ -106,10 +106,12 @@ public class MouseManager {
 		out:
 		for(PhysicsBody p : all) {
 			for(Floor floor : lot.getFloors()) {
-				Tile t = floor.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z];
-				if(t.getObject() != null) {
-					picked.pick(t.getObject().getBody().getStaticBody());
-					break out;
+				if(floor != null) {
+					Tile t = floor.getTiles()[(int) p.getPosition().x][(int) p.getPosition().z];
+					if(t.getObject() != null) {
+						picked.pick(t.getObject().getBody().getStaticBody());
+						break out;
+					}
 				}
 			}
 		}
