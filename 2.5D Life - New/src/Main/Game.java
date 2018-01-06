@@ -38,6 +38,7 @@ public class Game {
 	private FBO antiAliasing;
 	
 	public static PhysicsShader physicsShader;
+	public static int screenWidth = 800, screenHeight = 600;
 	
 	/** TODO
 	 * Systems: 
@@ -133,7 +134,7 @@ public class Game {
 		window = new Window();
 		window.setTitle("Life 2.5D");
 		window.setFPS(60);
-		window.initDisplay(800, 600);
+		window.initDisplay(screenWidth, screenHeight);
 		
 		antiAliasing = new FBO(window.getWidth(), window.getHeight(), 4);
 		antiAliasing.attach(new RenderBuffer(antiAliasing), Attachment.ColourBuffer);

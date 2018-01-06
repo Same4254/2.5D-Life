@@ -87,7 +87,6 @@ public abstract class WorldObject {
 	
 	public void cleanUp() {
 		handler.getGame().getPhysicsEngine().remove(body.getStaticBody());
-//		body.getSoundSource().delete();
 	}
 	
 	public abstract void clearTile();

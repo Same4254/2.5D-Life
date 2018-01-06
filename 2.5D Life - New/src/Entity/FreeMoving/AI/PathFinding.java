@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.WorldObject;
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Wall;
 import Utils.Vector4I;
@@ -108,7 +109,7 @@ public class PathFinding {
 		
 		for(int x = px - radius.x; x <= radius.w + px; x++) {
 			for(int y = py - radius.y; y <= radius.z + py; y++) {
-				if(lot.getTiles()[x][y].getObject() instanceof Wall) 
+				if(lot.getFloorTiles(0)[x][y].getObject() instanceof Wall) 
 					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, false);
 				else 
 					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, true);
@@ -180,11 +181,13 @@ public class PathFinding {
 	}
 	
 	private static NodeGrid generateNodeGrid(Lot lot) {
-		Node[][] field = new Node[lot.getTiles().length][lot.getTiles()[0].length];
+		Floor floor = lot.getFloor(0);
 		
-		for(int x = 0; x < lot.getTiles().length; x++) 
-		for(int y = 0; y < lot.getTiles()[x].length; y++) 
-			field[x][y] = new Node(x, y, !lot.getTiles()[x][y].containsAnything());
+		Node[][] field = new Node[floor.getTiles().length][floor.getTiles()[0].length];
+		
+		for(int x = 0; x < floor.getTiles().length; x++) 
+		for(int y = 0; y < floor.getTiles()[x].length; y++) 
+			field[x][y] = new Node(x, y, !floor.getTiles()[x][y].containsAnything());
 		
 		return new NodeGrid(field);
 	}

@@ -20,6 +20,7 @@ import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
 import Main.Handler;
+import Utils.Util;
 import World.Tiles.Render.TileInstanceModel;
 
 public class World {
@@ -141,26 +142,27 @@ public class World {
 		return null;
 	}
 	
-	public void place(WorldObject worldObject, Vector2f position, float angle) {
-		worldObject.setPosition2D(position);
+	public void place(WorldObject worldObject, Vector3f position, float angle) {
+		worldObject.setPosition3D(position);
 		worldObject.setAngle(angle);
-		worldObject.addToTile(worldObject.getLot().getTiles()[(int) worldObject.getPosition2D().x][(int) worldObject.getPosition2D().y]);
+		worldObject.addToTile(worldObject.getLot().getFloorTiles(position)[(int) worldObject.getPosition2D().x][(int) worldObject.getPosition2D().y]);
 	}
  	
-	public WorldObject findNearest(Vector2f position, Lot lot, Class clazz) {
+	public WorldObject findNearest(Vector3f position, Lot lot, Class clazz) {
 		ArrayList<WorldObject> objects = new ArrayList<>();
 		for(int x = 0; x < lot.getWidth(); x++) {
 			for(int y = 0; y < lot.getHeight(); y++) {
-				WorldObject object = lot.getTiles()[x][y].getObject();
+				WorldObject object = lot.getFloorTiles(position)[x][y].getObject();
 				if(object != null && object.getClass() == clazz) {
 					objects.add(object);
 				}
 			}
 		}
 
+		Vector2f pos2D = Util.to2D(position);
 		if(objects.size() > 1) {
 			objects.sort((o1, o2) -> {
-				if(o1.getPosition2D().distance(position) < o2.getPosition2D().distance(position))
+				if(o1.getPosition2D().distance(pos2D) < o2.getPosition2D().distance(pos2D))
 					return -1;
 				return 1;
 			});

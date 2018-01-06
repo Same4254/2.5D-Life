@@ -3,6 +3,7 @@ package Entity.WorldObjects.Lot.Edit;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
 import Utils.Util;
@@ -36,6 +37,10 @@ public class TileTextureEdit extends EditMode {
 			setTempIndex(3);
 		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_5)) 
 			setTempIndex(4);
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_6)) 
+			setTempIndex(5);
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_7)) 
+			setTempIndex(6);
 		
 		if(handler.getMouseManager().keyJustReleased(0)) {//Placing the tile texture
 			place();
@@ -48,15 +53,17 @@ public class TileTextureEdit extends EditMode {
 		} else {
 			handler.getMouseManager().updatePickerForTile(s -> {// Free Moving around lot 
 				if(s != null) { 
+					Floor floor = lot.getFloor(s.getPosition());
+					
 					if(tempTextureIndex != -1) {
 						if(currentTile == null) {
-							currentTile = lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
+							currentTile = floor.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
 							originalTextureIndex = currentTile.getTextureIndex();
 							currentTile.setTextureIndex(tempTextureIndex);
 						} else if(!Util.to2D(s.getPosition()).equals(currentTile.getBody().getPosition2D())) {
 							currentTile.setTextureIndex(originalTextureIndex);
 							
-							currentTile = lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
+							currentTile = floor.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
 							originalTextureIndex = currentTile.getTextureIndex();
 							currentTile.setTextureIndex(tempTextureIndex);
 							

@@ -61,7 +61,7 @@ public class Human extends Entity {
 				Lot lot = handler.getWorld().getLot(body.getPosition2D());
 				
 				ArrayList<WorldObject> objects = new ArrayList<>();
-				for(Tile[] tiles : lot.getTiles())
+				for(Tile[] tiles : lot.getFloorTiles(0))
 					for(Tile t : tiles) {
 						if(t.getObject() != null && t.getObject().getSkills().containsKey(skill.asEnum()) && !objects.contains(t.getObject())) {
 							objects.add(t.getObject());

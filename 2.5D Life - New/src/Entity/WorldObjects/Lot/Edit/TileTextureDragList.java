@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.Engine.Util.Vectors.Vector2f;
 
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import World.Tiles.Tile;
 
@@ -21,13 +22,15 @@ public class TileTextureDragList {
 		if(originalTile != null) {
 			clear();
 			
+			Floor floor = lot.getFloor(originalTile.getPosition3D());
+			
 			boolean inX = true;
 			int x = (int) originalTile.getBody().getPosition2D().x;
 			while(inX) {
 				boolean inZ = true;
 				int z = (int) originalTile.getBody().getPosition2D().y;
 				while(inZ) {
-					Tile currentTile = lot.getTiles()[x][z];
+					Tile currentTile = floor.getTiles()[x][z];
 					if(!originalIndecies.keySet().contains(currentTile)) {
 						originalIndecies.put(currentTile, currentTile.getTextureIndex());
 						currentTile.setTextureIndex(originalTile.getTextureIndex());

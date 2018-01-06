@@ -7,6 +7,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.WorldObject;
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Lot.Edit.WorldObjectDragList.AXIS;
 import Entity.WorldObjects.Objects.Bed;
@@ -20,6 +21,7 @@ import Entity.WorldObjects.Objects.Table;
 import Entity.WorldObjects.Objects.Wall;
 import Entity.WorldObjects.Objects.Appliances.Appliance;
 import Entity.WorldObjects.Objects.Appliances.Computer;
+import Input.MousePicker;
 import Main.Handler;
 import Utils.Util;
 
@@ -74,10 +76,11 @@ public class WorldObjectEdit extends EditMode {
 				place();
 			} else {
 				handler.getMouseManager().updatePicker(s -> {
-					WorldObject temp = lot.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
+					Floor floor = lot.getFloor(s.getPosition());
+					WorldObject temp = floor.getTiles()[(int) s.getPosition().getX()][(int) s.getPosition().getZ()].findObject(s);
 					if(temp != null) {
 						if(temp instanceof Appliance) {
-							lot.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject().removeAppliance((Appliance) temp);
+							floor.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z].getObject().removeAppliance((Appliance) temp);
 							heldObject = temp;
 							dragList.setOriginal(temp);
 						} else {
@@ -94,11 +97,12 @@ public class WorldObjectEdit extends EditMode {
 					if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
 						int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
 	
-						if(lot.getTiles()[x][z].containsAnything()) {
-							Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
+						Floor floor = lot.getFloor(s.getPosition());
+						if(floor.getTiles()[x][z].containsAnything()) {
+							Vector3f applianceLocation = floor.getTiles()[x][z].getObject().getApplicationPosition();
 							if(applianceLocation != null) {
 								heldObject.setPosition3D(applianceLocation);
-								heldObject.setAngle(lot.getTiles()[x][z].getObject().getBody().getRenderProperties().getTransform().getRotation().y);
+								heldObject.setAngle(floor.getTiles()[x][z].getObject().getBody().getRenderProperties().getTransform().getRotation().y);
 							} else {
 								Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
 								Vector2f truncated = location.truncate();
@@ -117,8 +121,9 @@ public class WorldObjectEdit extends EditMode {
 					if(s != null && !Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
 						int x = (int) s.getPosition().x, z = (int) s.getPosition().z;
 	
-						if(heldObject instanceof Appliance && lot.getTiles()[x][z].containsAnything()) {
-							Vector3f applianceLocation = lot.getTiles()[x][z].getObject().getApplicationPosition();
+						Floor floor = lot.getFloor(s.getPosition());
+						if(heldObject instanceof Appliance && floor.getTiles()[x][z].containsAnything()) {
+							Vector3f applianceLocation = floor.getTiles()[x][z].getObject().getApplicationPosition();
 							if(applianceLocation != null) {
 								heldObject.setPosition3D(applianceLocation);
 							} else {
@@ -127,10 +132,12 @@ public class WorldObjectEdit extends EditMode {
 								heldObject.setPosition2D(truncated);
 							}
 						} else {
-							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
-							Vector2f truncated = location.truncate();
-							heldObject.getBody().setY(0);
-							heldObject.setPosition2D(truncated); 
+//							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+//							Vector2f truncated = location.truncate();
+//							heldObject.getBody().setY(0);
+//							heldObject.setPosition2D(truncated); 
+							heldObject.setPosition3D(MousePicker.calculateHitPosition(5));
+//							System.out.println("Position: " + heldObject.getPosition3D());
 						}
 					} else if(s != null && Mouse.isButtonDown(1)) { 
 						if(heldObject instanceof Wall) {//Dragging
@@ -170,12 +177,14 @@ public class WorldObjectEdit extends EditMode {
 	
 	private void place() {
 		if(heldObject != null) {
-			if(!heldObject.addToTile(lot.getTiles()[(int) heldObject.getX()][(int) heldObject.getZ()])) {
+			Floor floor = lot.getFloor(heldObject.getPosition3D());
+			
+			if(!heldObject.addToTile(floor.getTiles()[(int) heldObject.getX()][(int) heldObject.getZ()])) {
 				heldObject.cleanUp();
 			}
 			
 			for(WorldObject object : dragList.getList(WorldObjectDragList.AXIS.BOTH)) 
- 				if(!object.addToTile(lot.getTiles()[(int) object.getX()][(int) object.getZ()]))
+ 				if(!object.addToTile(floor.getTiles()[(int) object.getX()][(int) object.getZ()]))
  					object.cleanUp();
 			
 			heldObject = null;

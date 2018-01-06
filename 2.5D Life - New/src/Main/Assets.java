@@ -53,7 +53,7 @@ public class Assets {
 	public static BufferedImage house, maze;
 	
 	public static enum TileTextureIndecies {
-		WHITE_BRICK(0), CRACKED_STONE_BRICK(1), COBBLESTONE(2), STONE_BRICK(3), ORANGE_STONE(4), PURPLE_STONE(5), HARDWOOD(6);
+		GRASS(0), CRACKED_STONE_BRICK(1), COBBLESTONE(2), STONE_BRICK(3), ORANGE_STONE(4), PURPLE_STONE(5), WHITE_BRICK(6);
 		
 		private int num;
 		

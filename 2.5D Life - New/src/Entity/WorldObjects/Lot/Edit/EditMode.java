@@ -7,6 +7,8 @@ public abstract class EditMode {
 	protected Handler handler;
 	protected Lot lot;
 	
+	protected float floorLevel; 
+	
 	public EditMode(Handler handler, Lot lot) {
 		this.handler = handler;
 		this.lot = lot;
@@ -15,4 +17,7 @@ public abstract class EditMode {
 	public abstract void update(float delta);
 	public abstract void render();
 	public abstract void clear();
+	
+	public float getFloorLevel() { return floorLevel; }
+	public void setFloorLevel(float floorLevel) { this.floorLevel = floorLevel; }
 }

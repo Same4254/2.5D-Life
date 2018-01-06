@@ -2,6 +2,7 @@ package World.Tiles;
 
 import com.Engine.PhysicsEngine.Bodies.PhysicsBody;
 import com.Engine.Util.Vectors.Vector2f;
+import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.MultiTileObject;
 import Entity.WorldObjects.TileObject;
@@ -15,16 +16,18 @@ import World.Tiles.Render.TileInstanceModel;
 public class Tile {
 	public static final int TILE_RESOLUTION = 4;
 	
+	private Handler handler;
 	private Lot lot;
-
+	
 	private WorldObject object;
 	private WrapperStaticBody body;
 
-	public Tile(Handler handler, Lot lot, Vector2f position) {
+	public Tile(Handler handler, Lot lot, Vector3f position) {
+		this.handler = handler;
 		this.lot = lot;
 		
 		body = new WrapperStaticBody(Assets.tileModel);
-		body.setPosition2D(position);
+		body.setPosition3D(position);
 		
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
 	}
@@ -84,11 +87,22 @@ public class Tile {
 		return null;
 	}
 	
+	public void cleanUp() {
+		handler.getGame().getPhysicsEngine().remove(body.getStaticBody());
+//		body.getSoundSource().delete();
+	}
+	
 	public int getTextureIndex() { return body.getRenderProperties().getTextureAtlasIndex(); }
 	public void setTextureIndex(int index) { body.getRenderProperties().setTextureAtlasIndex(index); }
 	
 	public boolean containsAnything() { return object != null; }
 
+	public Vector2f getPosition2D() { return body.getPosition2D(); }
+	public Vector3f getPosition3D() { return body.getPosition3D(); }
+	
+	public void setPosition3D(Vector3f position) { body.setPosition3D(position); }
+	public void setPosition2D(Vector2f position) { body.setPosition2D(position); }
+	
 	public Lot getLot() { return lot; }
 	public WorldObject getObject() { return object; }
 	public WrapperStaticBody getBody() { return body; }

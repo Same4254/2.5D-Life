@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.Engine.RenderEngine.Textures.Texture2D;
 
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
@@ -23,13 +24,13 @@ public abstract class MultiTileObject extends WorldObject {
 	@Override
 	public boolean addToTile(Tile tile) {
 		//TODO check if the object is in the lot's bounds
-		Lot lot = tile.getLot();
+		Floor floor = tile.getLot().getFloor(getPosition3D());
 		
 		boolean noCollide = true;
 		
 		for(int x = (int) tile.getBody().getPosition2D().x; x < (int) tile.getBody().getPosition2D().x + body.getWidth(); x++) {
 		for(int y = (int) tile.getBody().getPosition2D().y; y < (int) tile.getBody().getPosition2D().y + body.getHeight(); y++) {
-			if(lot.getTiles()[x][y].containsAnything()) {// TODO Check for collision in all the tiles
+			if(floor.getTiles()[x][y].containsAnything()) {// TODO Check for collision in all the tiles
 				noCollide = false;
 			}
 		}}
@@ -43,8 +44,8 @@ public abstract class MultiTileObject extends WorldObject {
 
 			for(int x = (int) tile.getBody().getPosition2D().x; x < (int) tile.getBody().getPosition2D().x + body.getWidth(); x++) {
 			for(int y = (int) tile.getBody().getPosition2D().y; y < (int) tile.getBody().getPosition2D().y + body.getHeight(); y++) {
-				tiles.add(lot.getTiles()[x][y]);
-				lot.getTiles()[x][y].add(this);
+				tiles.add(floor.getTiles()[x][y]);
+				floor.getTiles()[x][y].add(this);
 			}}
 
 			return true;

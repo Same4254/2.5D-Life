@@ -35,7 +35,7 @@ public class FindPlaceToSitAction extends MultiAction {
 		ArrayList<WorldObject> chairs = new ArrayList<>();
 		for(int x = 0; x < lot.getWidth(); x++) {
 			for(int y = 0; y < lot.getHeight(); y++) {
-				WorldObject object = lot.getTiles()[x][y].getObject();
+				WorldObject object = lot.getFloorTiles(0)[x][y].getObject();
 				if(object != null && object instanceof Chair) {
 					chairs.add(object);
 				}

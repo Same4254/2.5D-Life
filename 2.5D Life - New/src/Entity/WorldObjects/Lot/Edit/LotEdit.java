@@ -13,6 +13,7 @@ public class LotEdit {
 	private ArrayList<EditMode> editModes;
 	private int index;
 	
+	private int floorLevel = 0;
 	private boolean enabled;
 	
 	public LotEdit(Handler handler, Lot lot) {
@@ -21,6 +22,7 @@ public class LotEdit {
 		editModes = new ArrayList<>();
 		editModes.add(new WorldObjectEdit(handler, lot));
 		editModes.add(new TileTextureEdit(handler, lot));
+		editModes.add(new TilePlacementEdit(handler, lot));
 	}
 	
 	public void update(float delta) { 
@@ -29,6 +31,23 @@ public class LotEdit {
 				changeMode(index + 1);
 			else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_LEFT)) 
 				changeMode(index - 1);
+			else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_UP)) {
+				floorLevel++;
+				
+				if(floorLevel == Lot.MAX_FLOOR)
+					floorLevel = 0;
+				
+				for(EditMode editMode : editModes)
+					editMode.setFloorLevel(floorLevel);
+			} else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DOWN)) {
+				floorLevel--;
+				
+				if(floorLevel == -1)
+					floorLevel = Lot.MAX_FLOOR - 1;
+				
+				for(EditMode editMode : editModes)
+					editMode.setFloorLevel(floorLevel);
+			}
 			
 			editModes.get(index).update(delta);
 		}
