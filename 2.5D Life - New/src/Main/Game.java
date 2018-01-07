@@ -49,6 +49,7 @@ public class Game {
 	 * 		- ✔ Implement Into Assets
 	 * 	
 	 *  ✔ Rotation Glitch
+	 *  Simpler Collision Model
 	 * 
 	 * Acutal Game:
 	 * 	Make actual textures for the models

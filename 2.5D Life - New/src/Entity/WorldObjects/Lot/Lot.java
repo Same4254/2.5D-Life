@@ -56,10 +56,6 @@ public class Lot {
 	public Floor getFloor(Vector3f position) {
 		for(int i = 0; i < floors.length; i++) {
 			Floor floor = floors[i];
-			System.out.println("Position: " + position);
-			System.out.println("Floor: " + floor.getPosition().y);
-			if(getFloor(i + 1) != null)
-				System.out.println("Next Floor: " + getFloor(i + 1).getPosition());
 			if(getFloor(i + 1) == null) 
 				return floor;
 			if(position.y >= floor.getPosition().y && position.y < getFloor(i + 1).getPosition().y)

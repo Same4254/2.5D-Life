@@ -104,7 +104,7 @@ public class ApplianceManager {
 		hostObject.getBody().setAngle(angle);
 		
 		Vector2f temp = tempPosition.add(position).add(size);
-		return new Vector3f(temp.x, hostObject.getHeightY(), temp.y);
+		return new Vector3f(temp.x, hostObject.getHeightY() + hostObject.getPosition3D().y, temp.y);
 	}
 	
 	public ArrayList<Appliance> getAppliances() {
