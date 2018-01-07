@@ -29,7 +29,7 @@ public class TilePlacementDragList {
 				int z = (int) originalTile.getBody().getPosition2D().y;
 				while(inZ) {
 					if(tiles[x][z] == null)
-						tiles[x][z] = new Tile(handler, lot, new Vector3f(position.x, originalTile.getPosition3D().y, position.y));
+						tiles[x][z] = new Tile(handler, lot, new Vector3f(x, originalTile.getPosition3D().y, z));
 						
 					if(position.y > originalTile.getBody().getPosition2D().y) {
 						z++;

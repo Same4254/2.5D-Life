@@ -1,12 +1,11 @@
 #version 400 core
 #define LIGHT_COUNT 4
-#define FLOOR_HEIGHT -.015
 
 in vec2 position;
 in vec2 lightInfo;
-in vec2 translation;
-
 in vec2 offset;
+
+in vec3 translation;
 
 out float visibility; 
 out vec2 textCoord;
@@ -27,9 +26,9 @@ uniform float fogDensity;
 uniform float fogGradient;
 
 void main() {
-	vec2 pos = position + translation;
+	vec3 pos = vec3(position.x + translation.x, translation.y, position.y + translation.z);
 
-	vec4 worldPosition = vec4(pos.x, FLOOR_HEIGHT, pos.y, 1);
+	vec4 worldPosition = vec4(pos.x, pos.y, pos.z, 1);
 	vec4 positionRelativeToCam = viewMatrix * worldPosition;
 	gl_Position = projectionMatrix * positionRelativeToCam;
 	

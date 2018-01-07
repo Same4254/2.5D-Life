@@ -132,11 +132,11 @@ public class WorldObjectEdit extends EditMode {
 								heldObject.setPosition2D(truncated);
 							}
 						} else {
-//							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
-//							Vector2f truncated = location.truncate();
+							Vector2f location = new Vector2f(s.getPosition().x, s.getPosition().z);
+							Vector2f truncated = location.truncate();
 //							heldObject.getBody().setY(0);
-//							heldObject.setPosition2D(truncated); 
-							heldObject.setPosition3D(MousePicker.calculateHitPosition(5));
+							heldObject.setPosition2D(truncated); 
+//							heldObject.setPosition3D(MousePicker.calculateHitPosition(5));
 //							System.out.println("Position: " + heldObject.getPosition3D());
 						}
 					} else if(s != null && Mouse.isButtonDown(1)) { 

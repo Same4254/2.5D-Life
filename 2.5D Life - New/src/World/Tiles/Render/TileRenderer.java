@@ -24,7 +24,7 @@ public class TileRenderer extends InstanceRenderer<TileInstanceModel, DefaultRen
 	@Override
 	public void prepInstanceVBO(InstanceVBO instanceVBO, TileInstanceModel model, DefaultRenderProperties property) {
 		Vector3f translation = property.getTransform().getTranslation();
-		instanceVBO.putAll(new Vector2f(property.getShineDamper(), property.getReflectivity()), new Vector2f(translation.x, translation.z), Assets.sampleFloorTextures.getOffset(property.getTextureAtlasIndex()));
+		instanceVBO.putAll(new Vector2f(property.getShineDamper(), property.getReflectivity()), new Vector3f(translation.x, translation.y, translation.z), Assets.sampleFloorTextures.getOffset(property.getTextureAtlasIndex()));
 	}
 
 	protected void prepareOpenGL() {
