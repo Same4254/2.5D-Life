@@ -24,6 +24,11 @@ public abstract class MultiTileObject extends WorldObject {
 	@Override
 	public boolean addToTile(Tile tile) {
 		//TODO check if the object is in the lot's bounds
+		if(tile == null)
+			return false;
+		if(tile.getPosition2D().x  + getWidth() > lot.getWidth() || tile.getPosition2D().y + getHeight() > lot.getHeight())
+			return false;
+		
 		Floor floor = tile.getLot().getFloor(getPosition3D());
 		
 		boolean noCollide = true;

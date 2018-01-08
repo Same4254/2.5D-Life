@@ -49,8 +49,8 @@ public class MousePicker extends MovingBody{
 		x -= startPos.x;
 		z -= startPos.z;
 		
-		z = (int) (Math.abs(z) + .5);
-		x = (int) (Math.abs(x) + .5);
+		z = (int) ((z * -1) + .5);
+		x = (int) ((x * -1) + .5);
 		
 		return new Vector3f(x, yLimit, z);
 	}

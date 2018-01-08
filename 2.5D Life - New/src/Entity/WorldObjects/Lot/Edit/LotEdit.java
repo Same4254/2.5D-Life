@@ -32,18 +32,14 @@ public class LotEdit {
 			else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_LEFT)) 
 				changeMode(index - 1);
 			else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_UP)) {
-				floorLevel++;
-				
-				if(floorLevel == Lot.MAX_FLOOR)
-					floorLevel = 0;
+				if(floorLevel != Lot.MAX_FLOOR - 1)
+					floorLevel++;
 				
 				for(EditMode editMode : editModes)
 					editMode.setFloorLevel(floorLevel);
 			} else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DOWN)) {
-				floorLevel--;
-				
-				if(floorLevel == -1)
-					floorLevel = Lot.MAX_FLOOR - 1;
+				if(floorLevel != 0)
+					floorLevel--;
 				
 				for(EditMode editMode : editModes)
 					editMode.setFloorLevel(floorLevel);
@@ -67,6 +63,7 @@ public class LotEdit {
 		
 		editModes.get(index).clear();
 		this.index = newIndex;
+		System.out.println(editModes.get(index));
 	}
 	
 	public boolean isEnabled() { return enabled; }

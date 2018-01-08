@@ -42,12 +42,7 @@ public class TilePlacementEdit extends EditMode {
 				dragList.fill(tileToPlace, Util.to2D(MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT)));
 			} else {//Free Moving
 				Vector3f pos = MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT);
-
-				System.out.println("Level: " + floorLevel);
-				System.out.println("Pos: " + pos);
-				
 				tileToPlace.setPosition3D(pos);
-				System.out.println("Tile Pos: " + tileToPlace.getPosition3D());
 			}
 		}
 	}

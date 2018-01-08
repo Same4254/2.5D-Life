@@ -94,10 +94,9 @@ public class WorldObjectEdit extends EditMode {
 			}
 		} else if(heldObject != null) { //Mouse moving around
 				Vector3f s = MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT);
-				if(!(s.x >= 0 && s.x < lot.getWidth() && s.z >= 0 && s.z < lot.getHeight()))
-					return;
+				s = s.capMax(lot.getPosition().x + lot.getWidth() - heldObject.getWidth(), s.y, lot.getPosition().z + lot.getHeight() - heldObject.getHeight());
+				s = s.capMin(lot.getPosition().x, s.y, lot.getPosition().z);
 				Floor floor = lot.getFloor(s);
-				System.out.println("Click: " + s);
 				
 				if(!Mouse.isButtonDown(0) && !Mouse.isButtonDown(1)) {//Free Moving
 					int x = (int) s.x, z = (int) s.z;
@@ -119,7 +118,7 @@ public class WorldObjectEdit extends EditMode {
 						else
 							dragList.fill(WorldObjectDragList.AXIS.Z_AXIS, new Vector2f(s.x, s.z));
 					} else {//Rotating
-						if(s.distance(heldObject.getPosition3D()) > 2) {
+						if(Util.to2D(s).distance(heldObject.getPosition2D()) > 2) {
 							float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s)) - 15;
 							if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 90), 10))
 								heldObject.setAngle(Util.roundNearestMultiple(angle, 90)); 

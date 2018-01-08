@@ -16,7 +16,7 @@ public abstract class TileObject extends WorldObject {
 
 	@Override
 	public boolean addToTile(Tile tile) {
-		if(!tile.containsAnything()) {
+		if(tile != null && !tile.containsAnything()) {
 			if(this.tile != null) 
 				this.tile.remove(this);
 			tile.add(this);
