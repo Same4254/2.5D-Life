@@ -13,6 +13,7 @@ import com.Engine.Util.Vectors.Vector3f;
 import Audio.Sound;
 import Entity.FreeMoving.Human;
 import Entity.FreeMoving.Player;
+import Entity.FreeMoving.AI.Action.Human.MovementFunction.MovementFunction;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
@@ -59,6 +60,7 @@ public class World {
 		if(testPlayer) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
 			player.setPosition2D(8, 8);
+			player.addAction(new MovementFunction(handler, player, MovementFunction.stairMovement));
 		}
 
 		if(testHuman) {

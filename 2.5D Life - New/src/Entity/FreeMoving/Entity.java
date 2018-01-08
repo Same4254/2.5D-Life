@@ -82,5 +82,5 @@ public abstract class Entity {
 	
 	public Inventory getInventory() { return inventory; }
 	
-//	public WrapperStaticBody getBody() { return body; }
+	public WrapperStaticBody getBody() { return body; }
 }
