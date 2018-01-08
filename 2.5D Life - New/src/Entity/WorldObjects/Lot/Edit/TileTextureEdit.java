@@ -3,8 +3,11 @@ package Entity.WorldObjects.Lot.Edit;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.Engine.Util.Vectors.Vector3f;
+
 import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
+import Input.MousePicker;
 import Main.Handler;
 import Utils.Util;
 import World.Tiles.Tile;
@@ -44,35 +47,33 @@ public class TileTextureEdit extends EditMode {
 		
 		if(handler.getMouseManager().keyJustReleased(0)) {//Placing the tile texture
 			place();
-		} else if(Mouse.isButtonDown(0)) {// Dragging
-			handler.getMouseManager().updatePickerForTile(s -> {
-				if(s != null) {
-					dragList.fill(currentTile, Util.to2D(s.getPosition()));
-				}
-			}, lot, delta);
 		} else {
-			handler.getMouseManager().updatePickerForTile(s -> {// Free Moving around lot 
-				if(s != null) { 
-					Floor floor = lot.getFloor(s.getPosition());
-					
-					if(tempTextureIndex != -1) {
-						if(currentTile == null) {
-							currentTile = floor.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
-							originalTextureIndex = currentTile.getTextureIndex();
-							currentTile.setTextureIndex(tempTextureIndex);
-						} else if(!Util.to2D(s.getPosition()).equals(currentTile.getBody().getPosition2D())) {
-							currentTile.setTextureIndex(originalTextureIndex);
-							
-							currentTile = floor.getTiles()[(int) s.getPosition().x][(int) s.getPosition().z];
-							originalTextureIndex = currentTile.getTextureIndex();
-							currentTile.setTextureIndex(tempTextureIndex);
-							
-//							dragList.clear();
-//							dragList.setOriginalTile(currentTile);
-						}
+			Vector3f location = MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT);
+			location = location.capMax(lot.getPosition().x + lot.getWidth() - 1, location.y, lot.getPosition().z + lot.getHeight() - 1);
+			location = location.capMin(lot.getPosition().x, location.y, lot.getPosition().z);
+			
+			if(Mouse.isButtonDown(0)) {
+				dragList.fill(currentTile, Util.to2D(location));
+			} else {
+				Floor floor = lot.getFloor(location);
+				
+				if(tempTextureIndex != -1) {
+					if(currentTile == null) {
+						currentTile = floor.getTiles()[(int) location.x][(int) location.z];
+						originalTextureIndex = currentTile.getTextureIndex();
+						currentTile.setTextureIndex(tempTextureIndex);
+					} else if(!Util.to2D(location).equals(currentTile.getBody().getPosition2D())) {
+						currentTile.setTextureIndex(originalTextureIndex);
+						
+						currentTile = floor.getTiles()[(int) location.x][(int) location.z];
+						originalTextureIndex = currentTile.getTextureIndex();
+						currentTile.setTextureIndex(tempTextureIndex);
+						
+//						dragList.clear();
+//						dragList.setOriginalTile(currentTile);
 					}
 				}
-			}, lot, delta);
+			}
 		}
 	}
 

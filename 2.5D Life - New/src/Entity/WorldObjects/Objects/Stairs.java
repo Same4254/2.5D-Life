@@ -12,10 +12,10 @@ import Entity.WorldObjects.Lot.Lot;
 import Main.Assets;
 import Main.Handler;
 
-public class ComputerDesk extends MultiTileObject {
+public class Stairs extends MultiTileObject {
 
-	public ComputerDesk(Handler handler, Lot lot) {
-		super(handler, lot, Assets.computerDeskModel, Assets.computerDeskTexture);
+	public Stairs(Handler handler, Lot lot) {
+		super(handler, lot, Assets.stairModel, Assets.stairTexture);
 		
 	}
 
@@ -26,7 +26,7 @@ public class ComputerDesk extends MultiTileObject {
 
 	@Override
 	public Action getAction(Entity entity, Living reason) {
-		return searchApplianceForAction(entity, reason);
+		return null;
 	}
 
 	@Override
@@ -35,22 +35,22 @@ public class ComputerDesk extends MultiTileObject {
 	}
 
 	@Override
+	public WorldObject clone() {
+		return new Stairs(handler, lot);
+	}
+
+	@Override
 	protected void initSkillsAndNeeds() {
-		skills.put(Living.Programming, 100);
+		
 	}
 
 	@Override
 	protected void initInventory() {
 		
 	}
-	
-	@Override
-	public WorldObject clone() { return new ComputerDesk(handler, lot); }
 
 	@Override
 	public Vector2f[] getApplianceLocations() {
-		return new Vector2f[] {
-				new Vector2f(0, 1)
-		};
+		return null;
 	}
 }

@@ -47,6 +47,9 @@ public class Assets {
 	
 	public static WrapperModel tileModel;
 	public static Texture2D sampleFloorTextures;
+	
+	public static WrapperModel stairModel;
+	public static Texture2D stairTexture;
 
 	public static int bounceSoundBuffer;
 	
@@ -72,6 +75,9 @@ public class Assets {
 		
 		defaultShader = new DefaultShader();
 //		defaultShader.getRenderer().usingFrustumCulling(false);
+		
+		stairModel = new WrapperModel(AssetLoader.MODEL_PATH + "Stairs.obj", defaultShader);
+		stairTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Stairs.png");
 		
 		stoveModel = new WrapperModel(AssetLoader.MODEL_PATH + "Stove.obj", defaultShader);
 		stoveTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Stove.png");

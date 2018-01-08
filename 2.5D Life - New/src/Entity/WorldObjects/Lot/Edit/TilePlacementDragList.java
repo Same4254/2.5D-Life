@@ -28,8 +28,10 @@ public class TilePlacementDragList {
 				boolean inZ = true;
 				int z = (int) originalTile.getBody().getPosition2D().y;
 				while(inZ) {
-					if(tiles[x][z] == null)
+					if(tiles[x][z] == null) {
 						tiles[x][z] = new Tile(handler, lot, new Vector3f(x, originalTile.getPosition3D().y, z));
+						tiles[x][z].setTextureIndex(originalTile.getTextureIndex());
+					}
 						
 					if(position.y > originalTile.getBody().getPosition2D().y) {
 						z++;

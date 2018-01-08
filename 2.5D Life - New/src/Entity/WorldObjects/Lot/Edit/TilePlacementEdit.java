@@ -3,6 +3,7 @@ package Entity.WorldObjects.Lot.Edit;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.WorldObjects.Lot.Lot;
@@ -23,8 +24,10 @@ public class TilePlacementEdit extends EditMode {
 
 	@Override
 	public void update(float delta) {
-		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1))
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_1)) {
 			tileToPlace = new Tile(handler, lot, new Vector3f(0));
+			tileToPlace.setTextureIndex(2);
+		}
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) {
 			tileToPlace = null;
@@ -38,11 +41,16 @@ public class TilePlacementEdit extends EditMode {
 		if(tileToPlace != null) {
 			if(handler.getMouseManager().keyJustReleased(0)) 
 				place();
-			else if(Mouse.isButtonDown(0)) {// Dragging
-				dragList.fill(tileToPlace, Util.to2D(MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT)));
-			} else {//Free Moving
-				Vector3f pos = MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT);
-				tileToPlace.setPosition3D(pos);
+			else { 
+				Vector3f location = MousePicker.calculateHitPosition(floorLevel * Lot.FLOOR_HEIGHT);
+				location = location.capMax(lot.getPosition().x + lot.getWidth() - 1, location.y, lot.getPosition().z + lot.getHeight() - 1);
+				location = location.capMin(lot.getPosition().x, location.y, lot.getPosition().z);
+				
+				if(Mouse.isButtonDown(0)) {// Dragging
+					dragList.fill(tileToPlace, Util.to2D(location));
+				} else {// Free Moving
+					tileToPlace.setPosition3D(location);
+				}
 			}
 		}
 	}

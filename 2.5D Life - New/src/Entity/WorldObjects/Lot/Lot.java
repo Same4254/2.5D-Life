@@ -10,7 +10,7 @@ import World.Tiles.Render.TileInstanceModel;
 
 public class Lot {
 	public static final TileInstanceModel tileInstanceModel = new TileInstanceModel();
-	public static final int FLOOR_HEIGHT = 5;
+	public static final int FLOOR_HEIGHT = 6;
 	public static final int MAX_FLOOR = 3;
 	
 	private Floor[] floors;

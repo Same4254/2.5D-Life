@@ -15,6 +15,7 @@ import Entity.WorldObjects.Objects.Box;
 import Entity.WorldObjects.Objects.Chair;
 import Entity.WorldObjects.Objects.ComputerDesk;
 import Entity.WorldObjects.Objects.Fridge;
+import Entity.WorldObjects.Objects.Stairs;
 import Entity.WorldObjects.Objects.Stove;
 import Entity.WorldObjects.Objects.TV;
 import Entity.WorldObjects.Objects.Table;
@@ -66,6 +67,9 @@ public class WorldObjectEdit extends EditMode {
 		
 		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_0)) 
 			setHeldObject(new Computer(handler, lot));
+		
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_MINUS)) 
+			setHeldObject(new Stairs(handler, lot));
 		
 		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_DELETE)) 
 			clear();
@@ -119,8 +123,8 @@ public class WorldObjectEdit extends EditMode {
 							dragList.fill(WorldObjectDragList.AXIS.Z_AXIS, new Vector2f(s.x, s.z));
 					} else {//Rotating
 						if(Util.to2D(s).distance(heldObject.getPosition2D()) > 2) {
-							float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s)) - 15;
-							if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 90), 10))
+							float angle = Util.getPosAngle(heldObject.getPosition2D(), Util.to2D(s));
+							if(Util.withinRange(angle, Util.roundNearestMultiple(angle, 90), 30))
 								heldObject.setAngle(Util.roundNearestMultiple(angle, 90)); 
 						}
 					}
