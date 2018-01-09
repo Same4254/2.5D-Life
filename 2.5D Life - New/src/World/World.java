@@ -59,8 +59,6 @@ public class World {
 
 		if(testPlayer) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");
-			player.setPosition2D(8, 8);
-			player.addAction(new MovementFunction(handler, player, MovementFunction.stairMovement));
 		}
 
 		if(testHuman) {
