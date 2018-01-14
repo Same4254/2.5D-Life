@@ -8,6 +8,7 @@ import com.Engine.Util.Vectors.Vector2f;
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.AI.Action.MultiAction;
 import Entity.WorldObjects.WorldObject;
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Chair;
 import Main.Handler;
@@ -30,12 +31,13 @@ public class FindPlaceToSitAction extends MultiAction {
 	public void start() {
 		super.start();
 		
-		Lot lot = handler.getWorld().getLot(entity.getPosition());
+		Lot lot = handler.getWorld().getLot(entity.getPosition2D());
+		Floor floor = lot.getFloor(entity.getPosition3D());
 		
 		ArrayList<WorldObject> chairs = new ArrayList<>();
 		for(int x = 0; x < lot.getWidth(); x++) {
 			for(int y = 0; y < lot.getHeight(); y++) {
-				WorldObject object = lot.getFloorTiles(0)[x][y].getObject();
+				WorldObject object = floor.getTiles()[x][y].getObject();
 				if(object != null && object instanceof Chair) {
 					chairs.add(object);
 				}
@@ -43,7 +45,7 @@ public class FindPlaceToSitAction extends MultiAction {
 		}
 		
 		chairs.sort((o1, o2) -> {
-			if(o1.getPosition2D().distance(entity.getPosition()) < o2.getPosition2D().distance(entity.getPosition()))
+			if(o1.getPosition2D().distance(entity.getPosition2D()) < o2.getPosition2D().distance(entity.getPosition2D()))
 				return -1;
 			return 1;
 		});

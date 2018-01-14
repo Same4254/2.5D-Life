@@ -20,7 +20,7 @@ public class TurnToAction extends Action {
 	
 	@Override
 	public void update(float delta) {
-		entity.setAngle(Util.getAngle(entity.getPosition(), target));
+		entity.setAngle(Util.getAngle(entity.getPosition2D(), target));
 		complete = true;
 	}
 }

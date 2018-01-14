@@ -5,7 +5,13 @@ import org.lwjgl.input.Keyboard;
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.AI.Action.Human.GoToAction;
+import Entity.FreeMoving.AI.Action.Human.GoToBelowFloorAction;
+import Entity.FreeMoving.AI.Action.Human.GoToNextFloorAction;
+import Entity.FreeMoving.AI.Action.Human.MoveToAction;
 import Entity.FreeMoving.AI.Action.Human.MovementFunction.MovementFunction;
+import Entity.WorldObjects.WorldObject;
+import Entity.WorldObjects.Lot.Lot;
 import Entity.WrapperBodies.WrapperModel;
 import Main.Handler;
 
@@ -58,30 +64,48 @@ public class Player extends Human {
 		}
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_J))
-			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, true, false));
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, true, false, false));
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_K))
-			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, false, true));
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, false, true, false));
 
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_L))
-			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, false, false));
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, false, false, false));
 		
 		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_I))
-			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, true, true));
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, true, true, false));
 		
-//		if(handler.getMouseManager().keyJustReleased(1)) {
-//			handler.getMouseManager().updatePicker(s -> {
-//				Lot lot = handler.getWorld().getLot(getPosition());
-//				WorldObject object = lot.getFloorTiles(s.getPosition())[(int) s.getPosition().x][(int) s.getPosition().z].getObject();
-//				if(object != null) {
-//					addAction(new MoveToAction(handler, object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
-//// 					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
-//// 					addAction(new TurnToAction(this, object.getPosition2D()));
-//				} else {
-//					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) s.getPosition().x, (int) s.getPosition().z));
-//				}
-//			}, delta);
-//		}
+		
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_NUMPAD4))
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, true, false, true));
+		
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_NUMPAD5))
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, false, true, true));
+
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_NUMPAD6))
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, false, false, true));
+		
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_NUMPAD8))
+			actionQueue.add(new MovementFunction(handler, this, MovementFunction.stairMovement, 0, 4, true, true, true));
+		
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_RETURN))
+			actionQueue.add(new GoToNextFloorAction(handler, this));
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_APOSTROPHE))
+			actionQueue.add(new GoToBelowFloorAction(handler, this));
+		
+		if(handler.getMouseManager().keyJustReleased(1)) {
+			handler.getMouseManager().updatePicker(s -> {
+				Lot lot = handler.getWorld().getLot(getPosition2D());
+				WorldObject object = lot.getFloorTiles(s.getPosition())[(int) s.getPosition().x][(int) s.getPosition().z].getObject();
+				if(object != null) {
+					addAction(new MoveToAction(handler, object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
+// 					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
+// 					addAction(new TurnToAction(this, object.getPosition2D()));
+				} else {
+					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition2D()), this, (int) s.getPosition().x, (int) s.getPosition().z));
+				}
+			}, delta);
+		}
 	}
 	
 	@Override

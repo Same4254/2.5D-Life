@@ -55,7 +55,7 @@ public class World {
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		lots.add(new Lot(handler, new Vector3f(), new Vector2f(10)));
+		lots.add(new Lot(handler, new Vector3f(), new Vector2f(20)));
 
 		if(testPlayer) {
 			player = new Player(handler, Assets.playerModel, Assets.playerTexture, "Player");

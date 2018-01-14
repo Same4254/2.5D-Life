@@ -33,7 +33,7 @@ public class GoToAction extends MultiAction {
 	public void start() {
 		super.start();
 		
-		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(entity, lot, entity.getPosition(), toGridLocation));
+		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(entity, lot, entity.getPosition2D(), toGridLocation));
 		if(path == null)
 			return;
 		
@@ -64,14 +64,14 @@ class Move extends Action {
 	public void start() {
 		super.start();
 		
-		startLocation = entity.getPosition();
+		startLocation = entity.getPosition2D();
 		
 		step = toGridLocation.subtract(startLocation).divide(toGridLocation.subtract(startLocation).length()).multiply(entity.getMovementSpeed());
 	}
 	
 	@Override
 	public void update(float delta) {
-		if(Util.withinRange(entity.getPosition(), toGridLocation, .2f)) {
+		if(Util.withinRange(entity.getPosition2D(), toGridLocation, .2f)) {
 			complete = true;
 			entity.setPosition2D(entity.roundPosToGrid());
 		} else {

@@ -3,11 +3,16 @@ package Entity.FreeMoving.AI.Action.Human.MovementFunction;
 import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.AI.Action.Action;
 import Main.Handler;
+import Utils.Util;
 
 public class MovementFunction extends Action {
-	public static Function stairMovement = (entity, x, maxX, negative, zAxis, delta) -> {
-		if(Math.abs(x) >= Math.abs(maxX))
-			return true;//TODO snap to the actual final location
+	public static Function stairMovement = (entity, x, minX, maxX, negative, zAxis, reverse, delta) -> {
+		if(!reverse) {
+			if(Util.withinRange(Math.abs(x), Math.abs(maxX), .1f))
+				return true;//TODO snap to the actual final location
+		} else if(Util.withinRange(Math.abs(x), Math.abs(minX), .1f)) {
+			return true;
+		}
 		
 		if(zAxis)
 			entity.getBody().addZ(!negative ? delta * 2.5f : -delta * 2.5f);
@@ -28,10 +33,11 @@ public class MovementFunction extends Action {
 	private Function function;
 	private Entity entity;
 	private float x;
+	private float minX, maxX;
 	
-	private boolean negative, zAxis;
+	private boolean negative, zAxis, reverse;
 	
-	public MovementFunction(Handler handler, Entity entity, Function function, boolean negative, boolean zAxis) {
+	public MovementFunction(Handler handler, Entity entity, Function function, float minX, float maxX, boolean negative, boolean zAxis, boolean reverse) {
 		super(handler);
 		
 		this.entity = entity;
@@ -39,11 +45,23 @@ public class MovementFunction extends Action {
 		
 		this.negative = negative;
 		this.zAxis = zAxis;
+		this.reverse = reverse;
+		
+		this.minX = minX;
+		this.maxX = maxX;
+		
+		if(reverse)
+			x = maxX;
+		else
+			x = minX;
 	}
 
 	@Override
 	public void update(float delta) {
-		x += delta * 2.5;
-		complete = function.function(entity, x, 4, negative, zAxis, delta);
+		if(!reverse)
+			x += delta * 2.5;
+		else
+			x -= delta * 2.5;
+		complete = function.function(entity, x, minX, maxX, negative, zAxis, reverse, delta);
 	}
 }

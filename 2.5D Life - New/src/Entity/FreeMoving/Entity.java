@@ -71,7 +71,8 @@ public abstract class Entity {
 	public void setEatingSpeed(float eatingSpeed) { this.eatingSpeed = eatingSpeed; }
 	public Vector2f getMovementSpeed() { return movementSpeed; }
 	
-	public Vector2f getPosition() { return body.getPosition2D(); }
+	public Vector2f getPosition2D() { return body.getPosition2D(); }
+	public Vector3f getPosition3D() { return body.getPosition3D(); }
 	public Vector2f getGridPosition() { return body.getPosition2D().truncate(); }
 	
 	public void setPosition2D(Vector2f position) { body.setPosition2D(position); }
