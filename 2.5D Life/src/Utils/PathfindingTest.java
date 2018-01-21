@@ -1,84 +1,109 @@
-package Entity.FreeMoving.AI;
+package Utils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import com.Engine.Util.Vectors.Vector2f;
 
-import Entity.FreeMoving.Entity;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Entity.WorldObjects.Objects.Wall;
-import Utils.Vector4I;
 
-public class PathFinding {
-	public static ArrayList<Vector2f> aStar(Entity entity, Lot lot, Vector2f start, Vector2f end) {
-		Floor floor = lot.getFloor(entity.getPosition3D());
-		NodeGrid grid = generateNodeGrid(floor);
+public class PathfindingTest {
+	public static void main(String[] args) {
+		Node[][] nodes = new Node[4][4];
+		
+		for(int x = 0; x < nodes.length; x++) {
+			for(int y = 0; y < nodes[x].length; y++) {
+				nodes[x][y] = new Node(x / 2f, y / 2f, true);
+			}
+		}
+		
+		NodeGrid grid = new NodeGrid(nodes);
+		
+		for(Node[] tempNodes : nodes) {
+			for(Node n : tempNodes) {
+				if(n.isWalkable())
+					System.out.print("0 ");
+				else
+					System.out.print("1 ");
+			}
+			System.out.println();
+		}
 		
 		grid.checkClearence();
 		
-		Node startNode = grid.getNode(start);
-		Node endNode = grid.getNode(end);
-		
-		boolean endUnWalkable = !endNode.isWalkable();
-		if(endUnWalkable)
-			endNode.setWalkable(true);
-		
-		ArrayList<Node> open = new ArrayList<>();
-		ArrayList<Node> closed = new ArrayList<>();
-		open.add(startNode);
-
-		while(true) {
-			open.sort(Node.COMPARATOR);
-
-			Node currentNode;
-			if(open.isEmpty())//No more tiles (path impossible)
-				return null;
-			else 
-				currentNode = open.remove(0);
-			
-			closed.add(currentNode);
-			if(currentNode == endNode) break;
-			
-			for(Node node : grid.getNeighborsNoCorners(currentNode)) {
-				if(!node.isWalkable() || closed.contains(node) || node.getClearence() < entity.getBody().getSquareSize()) continue;
-				
-				float newCost = currentNode.getGCost() + Node.getDistance(currentNode, node);
-				if(newCost < node.getGCost() || !open.contains(node)) {
-					node.setGCost(newCost);
-					node.setHCost(Node.getDistance(node, endNode));
-					
-					node.setParent(currentNode);
-					if(!open.contains(node))
-						open.add(node);
-				}
+		for(Node[] tempNodes : nodes) {
+			for(Node n : tempNodes) {
+				System.out.print(n.getClearence() + " ");
 			}
+			System.out.println();
 		}
 		
-		ArrayList<Vector2f> path = new ArrayList<>();
-
-		Node node = closed.get(closed.size() - 1);
-		path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
-		while(true) {
-			Node temp = node.getParent();
-			if(temp == null)
-				break;
-			else {
-				node = temp;
-				path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
-			}
-		}
-		
-		if(endUnWalkable)
-			path.remove(0);
-		
-		Collections.reverse(path);
-		return path;
+//		Floor floor = lot.getFloor(entity.getPosition3D());
+//		NodeGrid grid = generateNodeGrid(floor);
+//		
+//		grid.checkClearence();
+//		
+//		Node startNode = grid.getNode(start);
+//		Node endNode = grid.getNode(end);
+//		
+//		boolean endUnWalkable = !endNode.isWalkable();
+//		if(endUnWalkable)
+//			endNode.setWalkable(true);
+//		
+//		ArrayList<Node> open = new ArrayList<>();
+//		ArrayList<Node> closed = new ArrayList<>();
+//		open.add(startNode);
+//
+//		while(true) {
+//			open.sort(Node.COMPARATOR);
+//
+//			Node currentNode;
+//			if(open.isEmpty())//No more tiles (path impossible)
+//				return;
+//			else 
+//				currentNode = open.remove(0);
+//			
+//			closed.add(currentNode);
+//			if(currentNode == endNode) break;
+//			
+//			for(Node node : grid.getNeighborsNoCorners(currentNode)) {
+//				if(!node.isWalkable() || closed.contains(node) || node.getClearence() < entity.getBody().getSquareSize()) continue;
+//				
+//				float newCost = currentNode.getGCost() + Node.getDistance(currentNode, node);
+//				if(newCost < node.getGCost() || !open.contains(node)) {
+//					node.setGCost(newCost);
+//					node.setHCost(Node.getDistance(node, endNode));
+//					
+//					node.setParent(currentNode);
+//					if(!open.contains(node))
+//						open.add(node);
+//				}
+//			}
+//		}
+//		
+//		ArrayList<Vector2f> path = new ArrayList<>();
+//
+//		Node node = closed.get(closed.size() - 1);
+//		path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
+//		while(true) {
+//			Node temp = node.getParent();
+//			if(temp == null)
+//				break;
+//			else {
+//				node = temp;
+//				path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
+//			}
+//		}
+//		
+//		if(endUnWalkable)
+//			path.remove(0);
+//		
+//		Collections.reverse(path);
+//		return path;
 	}
-
 	
 	public static ArrayList<Vector2f> getEffectiveArea(WorldObject worldObject, Vector2f radius, boolean pointSource) {
 		Lot lot = worldObject.getLot();
