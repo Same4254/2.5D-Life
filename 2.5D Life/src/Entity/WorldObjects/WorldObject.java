@@ -36,8 +36,9 @@ public abstract class WorldObject {
 		this.lot = lot;
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
+		body.roundDimensionsToGrid();
 		handler.getGame().getPhysicsEngine().add(body.getStaticBody());
-		front = new Vector2f(getWidth(), 0);
+		front = new Vector2f(getWidth() / 2.0, 0);
 		
 		tiles = new ArrayList<>();
 		inventory = new ArrayList<>();
@@ -164,13 +165,13 @@ public abstract class WorldObject {
 	
 	public void setAngle(float angle) {
 		if(angle == 0) 
-			front = new Vector2f(getWidth(), 0);
+			front = new Vector2f(getWidth() / 2.0, 0);
 		if(angle == 90) 
-			front = new Vector2f(0, -1);
+			front = new Vector2f(0, -getHeight() / 2.0);
 		if(angle == 180)
-			front = new Vector2f(-1, 0);
+			front = new Vector2f(-getWidth() / 2.0, 0);
 		if(angle == 270)
-			front = new Vector2f(0, getHeight());
+			front = new Vector2f(0, getHeight() / 2.0);
 
 		applianceManager.rotate(angle, angle - body.getRenderProperties().getTransform().getRotation().y);
 		body.setAngle(angle); 

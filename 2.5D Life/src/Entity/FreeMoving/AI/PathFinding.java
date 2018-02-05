@@ -15,6 +15,8 @@ import Utils.Vector4I;
 
 public class PathFinding {
 	public static ArrayList<Vector2f> aStar(Entity entity, Lot lot, Vector2f start, Vector2f end) {
+		System.out.println("END " + end);
+		
 		Floor floor = lot.getFloor(entity.getPosition3D());
 		NodeGrid grid = generateNodeGrid(floor);
 		
@@ -203,7 +205,13 @@ class NodeGrid {
 				while(isClear(node, radius)) 
 					radius += .5f;
 				node.setClearence(radius -.5f);
+				
+				if(node.isWalkable())
+					System.out.print(node.getClearence() + " ");
+				else 
+					System.out.print(0.0 + " ");
 			}
+			System.out.println();
 		}
 	}
 	
@@ -265,16 +273,16 @@ class NodeGrid {
 				if(x != node.getX() && y != node.getY()) {
 					if(x > node.getX()) {
 						if(y > node.getY()) { 
-							if(!isWalkable(x - 1, y) || !isWalkable(x, y - 1))
+							if(!isWalkable(x - .5f, y) || !isWalkable(x, y - .5f))
 								continue;
-						} else if(!isWalkable(x - 1, y) || !isWalkable(x, y + 1))
+						} else if(!isWalkable(x - .5f, y) || !isWalkable(x, y + .5f))
 							continue;
 					} else if(x < node.getX()) {
 						if(y > node.getY()) {
-							if(!isWalkable(x + 1, y) || !isWalkable(x, y - 1))
+							if(!isWalkable(x + .5f, y) || !isWalkable(x, y - .5f))
 								continue;
 						} else if(y < node.getY()) {
-							if(!isWalkable(x + 1, y) || !isWalkable(x, y + 1))
+							if(!isWalkable(x + .5f, y) || !isWalkable(x, y + .5f))
 								continue;
 						}
 					}
@@ -294,10 +302,10 @@ class NodeGrid {
 	public ArrayList<Node> getAdjacentNeighbores(Node node) {
 		ArrayList<Node> temp = new ArrayList<>();
 		
-		temp.add(getNode(node.getPosition().add(1, 0)));
-		temp.add(getNode(node.getPosition().add(-1, 0)));
-		temp.add(getNode(node.getPosition().add(0, 1)));
-		temp.add(getNode(node.getPosition().add(0, -1)));
+		temp.add(getNode(node.getPosition().add(.5, 0)));
+		temp.add(getNode(node.getPosition().add(-.5, 0)));
+		temp.add(getNode(node.getPosition().add(0, .5)));
+		temp.add(getNode(node.getPosition().add(0, -.5)));
 		
 		for(int i = temp.size() - 1 ; i >= 0; i--)
 			if(temp.get(i) == null) temp.remove(i);
@@ -320,7 +328,7 @@ class NodeGrid {
 	}
 	
 	public Node getNode(Vector2f pos) {
-		return getNode((int) pos.x, (int) pos.y);
+		return getNode(pos.x, pos.y);
 	}
 	
 	public Node[][] getNodes() { return nodes; }

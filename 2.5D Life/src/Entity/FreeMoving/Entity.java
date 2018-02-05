@@ -37,6 +37,7 @@ public abstract class Entity {
 		skillManager = new SkillManager();
 		
 		body = new WrapperStaticBody(wrapperModel, texture);
+		body.squareSizeToGrid();
 		
 		movementSpeed = new Vector2f();
 		eatingSpeed = 10;
@@ -72,10 +73,15 @@ public abstract class Entity {
 	public void setEatingSpeed(float eatingSpeed) { this.eatingSpeed = eatingSpeed; }
 	public Vector2f getMovementSpeed() { return movementSpeed; }
 	
+	public Vector2f getCornerPosition2D() { return getPosition2D().subtract(getDimensions2D().divide(2.0)); }
+	
 	public Vector2f getPosition2D() { return body.getPosition2D(); }
 	public Vector3f getPosition3D() { return body.getPosition3D(); }
 	public float getWidth() { return body.getWidth(); }
 	public float getHeight() { return body.getHeight(); }
+	
+	public Vector2f getDimensions2D() { return body.getDimensions(); }
+	public Vector3f getDimensions3D() { return body.getDimensions3D(); }
 	
 	public void setPosition2D(Vector2f position) { body.setPosition2D(position.add(getWidth() / 2, getHeight() / 2)); }
 	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
@@ -83,9 +89,8 @@ public abstract class Entity {
 	public void setPosition3D(Vector3f position) { body.setPosition3D(position.add(getWidth() / 2, 0, getHeight() / 2)); }
 	
 	public Vector2f roundPosToGrid() { return body.roundPosToGrid(); }
-	public void setAngle(float angle) { body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
+	public void setAngle(float angle) { body.setAngle(angle); }//body.getRenderProperties().getTransform().setRotation(new Vector3f(0, angle, 0)); }
 	
 	public Inventory getInventory() { return inventory; }
-	
 	public WrapperStaticBody getBody() { return body; }
 }

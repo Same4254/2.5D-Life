@@ -37,8 +37,11 @@ public class GoToAction extends MultiAction {
 		if(path == null)
 			return;
 		
-		for(Vector2f point : path)   
+		System.out.println("-------\n\n");
+		
+		for(Vector2f point : path) {
 			subActions.add(new Move(handler, entity, point));
+		}
 	}
 }
 
@@ -56,26 +59,23 @@ class Move extends Action {
 		this.toGridLocation = toGridLocation;
 	}
 	
-	public Move(Handler handler, Entity entity, int x, int z) {
-		this(handler, entity, new Vector2f(x, z));
-	}
-
 	@Override
 	public void start() {
 		super.start();
 		
-		startLocation = entity.getPosition2D();
+		startLocation = entity.getCornerPosition2D();
 		
 		step = toGridLocation.subtract(startLocation).divide(toGridLocation.subtract(startLocation).length()).multiply(entity.getMovementSpeed());
 	}
 	
 	@Override
 	public void update(float delta) {
-		if(Util.withinRange(entity.getPosition2D(), toGridLocation, .2f)) {
+		if(Util.withinRange(entity.getCornerPosition2D(), toGridLocation, .1f)) {
 			complete = true;
 //			entity.setPosition2D(toGridLocation);
 		} else {
 			entity.move(step, delta);
+			System.out.println("Entity: " + entity.getCornerPosition2D() + ", Goal: " + toGridLocation);
 		}
 	}
 }

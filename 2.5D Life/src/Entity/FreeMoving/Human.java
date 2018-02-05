@@ -22,7 +22,7 @@ public class Human extends Entity {
 		super(handler, wrapperModel, texture);
 		this.name = name;
 		
-		movementSpeed = new Vector2f(6);
+		movementSpeed = new Vector2f(5);
 	}
 	
 	public void update(float delta) {

@@ -145,6 +145,10 @@ public class Util {
 		return new Vector2f(vector.x, vector.z);
 	}
 	
+	public static Vector3f to3D(Vector2f vector, float y) {
+		return new Vector3f(vector.x, y, vector.y);
+	}
+	
 	/****** Tiles ******/
 	public static Vector2f toGrid(Vector2f vector) {
 		return roundNearestMultiple(vector, .5f);

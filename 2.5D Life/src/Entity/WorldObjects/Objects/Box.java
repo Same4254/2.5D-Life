@@ -16,6 +16,7 @@ public class Box extends WorldObject {
 	public Box(Handler handler, Lot lot) {
 		super(handler, lot, Assets.boxModel, Assets.boxTexture);
 
+		System.out.println(new Vector2f(getWidth(), getHeight()));
 	}
 	
 	@Override

@@ -5,6 +5,7 @@ import com.Engine.PhysicsEngine.Detection.Colliders.CollisionMesh;
 import com.Engine.RenderEngine.Shaders.Default.DefaultRenderProperties;
 import com.Engine.RenderEngine.Shaders.Default.Model;
 import com.Engine.RenderEngine.Textures.Texture2D;
+import com.Engine.Util.Vectors.MatrixUtil;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
@@ -42,7 +43,7 @@ public class WrapperStaticBody {
 		staticBody = new StaticBody(col);
 		
 		size = col.getOctree().getRoot().getBounds().getRadius().multiply(2);
-		size = new Vector3f(Util.roundNearestMultiple(size.x, 1f / 2), size.y, Util.roundNearestMultiple(size.z, 1f / 2));
+//		size = new Vector3f(Util.roundNearestMultiple(size.x, 1f / 2), size.y, Util.roundNearestMultiple(size.z, 1f / 2));
 		position = new Vector3f();
 		
 		setPosition2D(0, 0);
@@ -83,6 +84,7 @@ public class WrapperStaticBody {
 	
 	public void setPosition2D(float x, float z) { setPosition2D(new Vector2f(x, z)); }
 	public Vector2f roundPosToGrid() { return Util.roundNearestMultiple(getPosition2D(), (float) (1.0 / Tile.TILE_RESOLUTION)); }
+	public void roundDimensionsToGrid() { size = new Vector3f(Util.roundNearestMultiple(size.x, 1f / 2), size.y, Util.roundNearestMultiple(size.z, 1f / 2)); }
 
 	public Vector2f getDimensions() { return new Vector2f(size.x, size.z); }
 	public Vector3f getDimensions3D() { return size; }
@@ -103,8 +105,9 @@ public class WrapperStaticBody {
 	public void addY(float amount) { setY(getY() + amount); }
 	
 	public void setAngle(float angle) {
-		if((renderProperties.getTransform().getRotation().y - angle) % 180 != 0)
+		if((renderProperties.getTransform().getRotation().y - angle) % 180 != 0) {
 			size = new Vector3f(size.z, size.y, size.x);
+		}
 		
 		renderProperties.getTransform().setRotation(new Vector3f(0, angle, 0));
 		staticBody.setRotation(new Vector3f(0, angle, 0));
@@ -114,6 +117,11 @@ public class WrapperStaticBody {
 	
 	public float getSquareSize() {
 		return size.x > size.z ? size.x: size.z;
+	}
+	
+	public void squareSizeToGrid() {
+		float temp = Util.roundNearestMultiple(getSquareSize(), .5f);
+		size = new Vector3f(Util.to3D(new Vector2f(temp), size.y));
 	}
 	
 	public void add(float x, float z) { addX(x); addZ(z); }

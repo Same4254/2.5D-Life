@@ -2,6 +2,8 @@ package World;
 
 import java.util.ArrayList;
 
+import org.lwjgl.input.Keyboard;
+
 import com.Engine.PhysicsEngine.Render.Vector.VectorModel;
 import com.Engine.RenderEngine.Lights.Light;
 import com.Engine.RenderEngine.Util.Camera;
@@ -17,6 +19,7 @@ import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
 import Main.Handler;
+import World.Tiles.Tile;
 import World.Tiles.Render.TileInstanceModel;
 
 public class World {
@@ -76,6 +79,8 @@ public class World {
 				needViewer = new Viewer(handler, player);
 		}
 		
+//		System.out.println(player.getCornerPosition2D());
+		
 //		place(new Wall(handler, lots.get(0)), new Vector2f(.5f, .5f));
 //		model.setTexture(Assets.wallTexture);
 	}
@@ -122,6 +127,29 @@ public class World {
 			human.update(delta);
 		if(viewViewer)
 			needViewer.update();
+		
+		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_APOSTROPHE)) {
+			System.out.println("Dim: " + player.getDimensions2D());
+//			System.out.println("Pos: " + player.getCornerPosition2D());
+		}
+		else if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_NUMPAD0)) {
+			player.getBody().setAngle(player.getBody().getRenderProperties().getTransform().getRotation().y + 90);
+			player.setPosition2D(new Vector2f());
+		}
+		
+//		if(handler.getKeyManager().keyJustPressed(Keyboard.KEY_SPACE)) {
+//			Tile[][] tiles = getTestLot().getFloorTiles(0);
+//			
+//			for(Tile[] temp : tiles) {
+//				for(Tile tile : temp) {
+//					if(tile.containsAnything())
+//						System.out.print(1);
+//					else
+//						System.out.print(0);
+//				}
+//				System.out.println();
+//			}
+//		}
 	}
 	
 	public void render() {
