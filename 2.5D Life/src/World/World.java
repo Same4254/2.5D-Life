@@ -15,6 +15,7 @@ import Entity.FreeMoving.Player;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
+import Entity.WorldObjects.Objects.Stairs;
 import Input.CameraMovement;
 import Main.Assets;
 import Main.Game;
@@ -81,7 +82,33 @@ public class World {
 		
 //		System.out.println(player.getCornerPosition2D());
 		
-//		place(new Wall(handler, lots.get(0)), new Vector2f(.5f, .5f));
+		Stairs stairs = new Stairs(handler, lots.get(0));
+		
+		place(stairs, new Vector2f(3, 4));
+		
+		Tile[][] floorTiles = lots.get(0).getFloor(1).getTiles();
+		
+		float sx = stairs.getPosition2D().x - (stairs.getWidth() / 2);
+		float sz = stairs.getPosition2D().y - (stairs.getHeight() / 2);
+		
+		System.out.println(sx);
+		System.out.println(sz);
+		
+		for(int x = 3; x < 17; x++) {
+			for(int z = 5; z < 15; z++) {
+				Vector2f position = new Vector2f(x / 2f, z / 2f);
+
+				if((position.x < sx || position.x >= sx + stairs.getWidth())
+					|| (position.y < sz || position.y >= sz + stairs.getHeight())) {
+					
+					Tile tile = new Tile(handler, lots.get(0).getFloor(1), new Vector3f(x / 2f, lots.get(0).getFloor(1).getPosition().y, z / 2f));
+					tile.setTextureIndex(2);
+					
+					floorTiles[x][z] = tile;
+				}
+			}
+		}
+		
 //		model.setTexture(Assets.wallTexture);
 	}
 	

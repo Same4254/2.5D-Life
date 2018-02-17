@@ -43,7 +43,7 @@ public class TilePlacementEdit extends EditMode {
 				place();
 			else { 
 				Vector3f location = MousePicker.calculateHitPosition(floorLevel * Lot.floorHeight);
-				location = location.capMax(lot.getPosition().x + lot.getWidth() - 1, location.y, lot.getPosition().z + lot.getHeight() - 1);
+				location = location.capMax(lot.getPosition().x + lot.getWidth() - .5, location.y, lot.getPosition().z + lot.getHeight() - .5);
 				location = location.capMin(lot.getPosition().x, location.y, lot.getPosition().z);
 				
 				if(Mouse.isButtonDown(0)) {// Dragging

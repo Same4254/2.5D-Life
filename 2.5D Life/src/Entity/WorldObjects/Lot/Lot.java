@@ -11,7 +11,7 @@ import World.Tiles.Render.TileInstanceModel;
 
 public class Lot {
 	public static final TileInstanceModel tileInstanceModel = new TileInstanceModel();
-	public static final int floorHeight = 6, floorCount = 3; 
+	public static final int floorHeight = 4, floorCount = 3; 
 	
 	private Floor[] floors;
 	private Vector3f position;

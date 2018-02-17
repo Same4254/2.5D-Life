@@ -79,11 +79,11 @@ public class TileTextureDragList {
 					}
 						
 					if(position.y > originalTile.getBody().getPosition2D().y) {
-						z += .25;
+						z += .5;
 						if(z > position.y)
 							inZ = false;
 					} else {
-						z -= .25;
+						z -= .5;
 						if(z < position.y)
 							inZ = false;
 					}

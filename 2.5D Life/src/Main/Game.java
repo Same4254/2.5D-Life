@@ -49,6 +49,9 @@ public class Game {
 	 * 	
 	 *  ✔ Rotation Glitch
 	 *  Simpler Collision Model
+	 *  
+	 *  Pathfinding between floors
+	 *  Pathfinding between buildings
 	 * 
 	 * Acutal Game:
 	 * 	Make actual textures for the models

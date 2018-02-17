@@ -34,24 +34,65 @@ public class TilePlacementDragList {
 					}
 						
 					if(position.y > originalTile.getBody().getPosition2D().y) {
-						z += .25;
-						if(z > position.y)
+						z += .5;
+						if(z > position.y) {
 							inZ = false;
+							
+							for(int xi = 0; xi < tiles.length; xi++)
+							for(int zi = 0; zi < tiles[0].length; zi++) {
+								Tile tile = tiles[xi][zi];
+								
+								if(tile != null)
+									if(tile.getZ() > position.y || tile.getZ() < originalTile.getZ())
+										removeTile(xi, zi);
+							}
+										
+						}
+						
 					} else {
-						z -= .25;
+						z -= .5;
 						if(z < position.y)
 							inZ = false;
+						
+						for(int xi = 0; xi < tiles.length; xi++)
+						for(int zi = 0; zi < tiles[0].length; zi++) {
+							Tile tile = tiles[xi][zi];
+							
+							if(tile != null)
+								if(tile.getZ() < position.y || tile.getZ() > originalTile.getZ())
+									removeTile(xi, zi);
+						}
 					}
 				}
 				
 				if(position.x > originalTile.getBody().getPosition2D().x) {
 					x += .5;
-					if(x > position.x)
+					if(x > position.x) {
 						inX = false;
+						
+						for(int xi = 0; xi < tiles.length; xi++)
+						for(int zi = 0; zi < tiles[0].length; zi++) {
+							Tile tile = tiles[xi][zi];
+							
+							if(tile != null)
+								if(tile.getX() > position.x || tile.getX() < originalTile.getX())
+									removeTile(xi, zi);
+						}
+					}
 				} else {
 					x -= .5;
-					if(x < position.x)
+					if(x < position.x) {
 						inX = false;
+						
+						for(int xi = 0; xi < tiles.length; xi++)
+						for(int zi = 0; zi < tiles[0].length; zi++) {
+							Tile tile = tiles[xi][zi];
+							
+							if(tile != null)
+								if(tile.getX() < position.x || tile.getX() > originalTile.getX())
+									removeTile(xi, zi);
+						}
+					}
 				}
 			}
 		}
@@ -88,5 +129,10 @@ public class TilePlacementDragList {
 			for(int z = tiles[x].length - 1; z >= 0; z--) 
 				if(tiles[x][z] != null)
 					tiles[x][z].render(Lot.tileInstanceModel);
+	}
+	
+	private void removeTile(int xi, int zi) {
+		tiles[xi][zi].cleanUp();
+		tiles[xi][zi] = null;
 	}
 }
