@@ -45,14 +45,11 @@ public class Assets {
 	public static Texture2D computerTexture;
 	
 	public static WrapperModel tileModel;
-	public static Texture2D grass;
 	public static Texture2D sampleFloorTextures;
 	
 	public static WrapperModel stairModel;
 	public static Texture2D stairTexture;
 
-	public static BufferedImage house, maze;
-	
 	public static enum TileTextureIndecies {
 		GRASS(0), CRACKED_STONE_BRICK(1), COBBLESTONE(2), STONE_BRICK(3), ORANGE_STONE(4), PURPLE_STONE(5), WHITE_BRICK(6);
 		
@@ -66,52 +63,48 @@ public class Assets {
 	};
 	
 	public static void init() {
-		house = AssetLoader.loadImage(AssetLoader.STRUCTURE_PATH + "House.png");
-		maze = AssetLoader.loadImage(AssetLoader.STRUCTURE_PATH + "Maze.png");
-		
 		defaultShader = new DefaultShader();
 //		defaultShader.getRenderer().usingFrustumCulling(false);
 		
-		stairModel = new WrapperModel(AssetLoader.MODEL_PATH + "Stairs.obj", defaultShader);
+		stairModel = new WrapperModel("Stairs", defaultShader);
 		stairTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Stairs.png");
 		
-		stoveModel = new WrapperModel(AssetLoader.MODEL_PATH + "Stove.obj", defaultShader);
+		stoveModel = new WrapperModel("Stove", defaultShader);
 		stoveTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Stove.png");
 		
-		fridgeModel = new WrapperModel(AssetLoader.MODEL_PATH + "Fridge.obj", defaultShader);
+		fridgeModel = new WrapperModel("Fridge", defaultShader);
 		fridgeTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Fridge.png");
 		
-		computerModel = new WrapperModel(AssetLoader.MODEL_PATH + "Computer.obj", defaultShader);
+		computerModel = new WrapperModel("Computer", defaultShader);
 		computerTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Computer.png");
 		
-		chairModel = new WrapperModel(AssetLoader.MODEL_PATH + "Chair.obj", defaultShader);
+		chairModel = new WrapperModel("Chair", defaultShader);
 		chairTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Chair.png");
 		
-		tvModel = new WrapperModel(AssetLoader.MODEL_PATH + "TV.obj", defaultShader);
+		tvModel = new WrapperModel("TV", defaultShader);
 		tvTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "TV.png");
 		
-		computerDeskModel = new WrapperModel(AssetLoader.MODEL_PATH + "ComputerDesk.obj", defaultShader);
+		computerDeskModel = new WrapperModel("ComputerDesk", defaultShader);
 		computerDeskTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "ComputerDesk.png");
 		
-		bedModel = new WrapperModel(AssetLoader.MODEL_PATH + "Bed.obj", defaultShader);
+		bedModel = new WrapperModel("Bed", defaultShader);
 		bedTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Bed.png");
 		
-		playerModel = new WrapperModel(AssetLoader.MODEL_PATH + "Cube Person.obj", defaultShader);
+		playerModel = new WrapperModel("CubePerson", defaultShader);
 		playerTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Cube Person.png");
 		
-		tileModel = new WrapperModel(AssetLoader.MODEL_PATH + "Tile.obj", defaultShader);
-		grass = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Grass.png");
+		tileModel = new WrapperModel("Tile", defaultShader);
 		sampleFloorTextures = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "SampleFloorTexture.png");
 		sampleFloorTextures.setNumberOfRows(3);
 		
-		wallModel = new WrapperModel(AssetLoader.MODEL_PATH + "Wall.obj", defaultShader);
+		wallModel = new WrapperModel("Wall", defaultShader);
 		wallTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Wall.png");
 		
-		tableModel = new WrapperModel(AssetLoader.MODEL_PATH + "Table.obj", defaultShader);
+		tableModel = new WrapperModel("Table", defaultShader);
 		tableTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Table.png");
 		
 //		boxModel = new WrapperModel(ImageLoader.MODEL_PATH + "Physics/VectorTop.obj", defaultShader);
-		boxModel = new WrapperModel(AssetLoader.MODEL_PATH + "Box.obj", defaultShader);
+		boxModel = new WrapperModel("Box", defaultShader);
 		boxTexture = AssetLoader.loadTexture(AssetLoader.TEXTURE_PATH + "Box.png");
 	}
 }

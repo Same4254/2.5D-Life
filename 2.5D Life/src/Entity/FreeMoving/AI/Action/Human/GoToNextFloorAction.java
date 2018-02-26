@@ -15,45 +15,53 @@ import Main.Handler;
 
 public class GoToNextFloorAction extends MultiAction {
 	private Entity entity;
+	private Stairs stair;
 	
 	public GoToNextFloorAction(Handler handler, Entity entity) {
 		super(handler);
 		
 		this.entity = entity;
 	}
+	
+	public GoToNextFloorAction(Handler handler, Entity entity, Stairs stair) {
+		this(handler, entity);
+		
+		this.stair = stair;
+	}
 
 	@Override
 	public void start() {
 		super.start();
-		
+
 		Lot lot = handler.getWorld().getLot(entity.getPosition2D());
 		Floor floor = lot.getFloor(entity.getPosition3D());
-		
-		ArrayList<WorldObject> stairs = new ArrayList<>();
-		for(int x = 0; x < lot.getWidth(); x++) {
-			for(int y = 0; y < lot.getHeight(); y++) {
-				WorldObject object = floor.getTiles()[x][y].getObject();
-				if(object != null && object instanceof Stairs) {
-					stairs.add(object);
+
+		if(stair == null) {
+			ArrayList<Stairs> stairs = new ArrayList<>();
+			for(int x = 0; x < lot.getWidth(); x++) {
+				for(int y = 0; y < lot.getHeight(); y++) {
+					WorldObject object = floor.getTiles()[x][y].getObject();
+					if(object != null && object instanceof Stairs) {
+						stairs.add((Stairs) object);
+					}
 				}
+			}
+			
+			stairs.sort((o1, o2) -> {
+				if(o1.getPosition2D().distance(entity.getPosition2D()) < o2.getPosition2D().distance(entity.getPosition2D()))
+					return -1;
+				return 1;
+			});
+			
+			if(!stairs.isEmpty()) {
+				stair = stairs.get(0);
+			} else {
+				complete = true;
+				return;
 			}
 		}
 		
-		stairs.sort((o1, o2) -> {
-			if(o1.getPosition2D().distance(entity.getPosition2D()) < o2.getPosition2D().distance(entity.getPosition2D()))
-				return -1;
-			return 1;
-		});
-		
-		WorldObject stair = null;
-		
-		if(!stairs.isEmpty()) {
-			stair = stairs.get(0);
-			subActions.add(new MoveToAction(handler, stair, entity));
-		} else {
-			complete = true;
-			return;
-		}
+		subActions.add(new MoveToAction(handler, stair, entity));
 		
 		Vector2f front = stair.getFront();
 		if(front.x > 0)

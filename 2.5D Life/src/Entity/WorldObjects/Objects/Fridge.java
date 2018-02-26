@@ -37,7 +37,7 @@ public class Fridge extends WorldObject {
 	public void initInventory() {
 		
 	}
-
+	
 	@Override
 	public Vector2f[] getApplianceLocations() {
 		return null;

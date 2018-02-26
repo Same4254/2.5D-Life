@@ -65,8 +65,8 @@ class ProgramAction extends MultiAction {
 	public void start() {
 		super.start();
 		
-		subActions.add(new FindPlaceToSitAction(handler, entity, PathFinding.getEffectiveArea(computer, new Vector2f(1), false)));
-		subActions.add(new ProgramSubAction(handler, entity, computer));
+//		subActions.add(new FindPlaceToSitAction(handler, entity, PathFinding.getEffectiveArea(computer, new Vector2f(1), false)));
+//		subActions.add(new ProgramSubAction(handler, entity, computer));
 	}
 }
 

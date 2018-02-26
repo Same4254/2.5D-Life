@@ -11,7 +11,7 @@ public class MoveToAction extends GoToAction {
 	public MoveToAction(Handler handler, WorldObject worldObject, Entity entity) {
 		super(handler, worldObject.getLot(), entity, worldObject.getPosition2D().add(worldObject.getFront()));
 
-		System.out.println("Front: " + worldObject.getFront());
+//		System.out.println("Front: " + worldObject.getFront());
 		
 		this.worldObject = worldObject;
 	}

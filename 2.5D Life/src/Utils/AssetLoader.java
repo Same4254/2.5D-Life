@@ -8,10 +8,10 @@ import javax.imageio.ImageIO;
 import com.Engine.RenderEngine.Textures.Texture2D;
 
 public class AssetLoader {
-	public static final String MODEL_PATH = "res/models/";
-	public static final String TEXTURE_PATH = "/textures/";
-	public static final String STRUCTURE_PATH = "/structures/";
-	public static final String SOUND_PATH = "sounds/";
+	public static final String MODEL_PATH = "res/Models/";
+	public static final String COLLISION_PATH = "res/Collision Meshes/";
+	public static final String TEXTURE_PATH = "/Textures/";
+	public static final String SOUND_PATH = "Sounds/";
 	
 	public static BufferedImage loadImage(String path) {
 		try {

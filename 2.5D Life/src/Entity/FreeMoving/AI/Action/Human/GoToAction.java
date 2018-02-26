@@ -8,74 +8,44 @@ import Entity.FreeMoving.Entity;
 import Entity.FreeMoving.AI.PathFinding;
 import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.MultiAction;
+import Entity.WorldObjects.Lot.Floor;
 import Entity.WorldObjects.Lot.Lot;
 import Main.Handler;
 import Utils.Util;
 
 public class GoToAction extends MultiAction {
-	protected Lot lot;
+	protected Floor floor;
 	protected Entity entity;
+	
+	protected Vector2f start;
 	protected Vector2f toGridLocation;
 	
-	public GoToAction(Handler handler, Lot lot, Entity entity, Vector2f toGridLocation) {
+	public GoToAction(Handler handler, Floor floor, Entity entity, Vector2f start, Vector2f target) {
 		super(handler);
 		
-		this.lot = lot;
+		this.handler = handler;
+		this.floor = floor;
 		this.entity = entity;
-		this.toGridLocation = toGridLocation;
+		this.start = start;
+		this.toGridLocation = target;
 	}
 	
-	public GoToAction(Handler handler, Lot lot, Entity entity, int x, int z) {
-		this(handler, lot, entity, new Vector2f(x, z));
+	public GoToAction(Handler handler, Lot lot, Entity entity, Vector2f toGridLocation) {
+		this(handler, lot.getFloor(entity.getPosition3D()), entity, entity.getPosition2D(), toGridLocation);
 	}
-
+	
 	@Override
 	public void start() {
 		super.start();
 		
-		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(entity, lot, entity.getPosition2D(), toGridLocation));
+		ArrayList<Vector2f> path = PathFinding.simplifyPath(PathFinding.aStar(entity, floor, entity.getPosition2D(), toGridLocation));
 		if(path == null)
 			return;
 		
-		System.out.println("-------\n\n");
+//		System.out.println("-------\n\n");
 		
 		for(Vector2f point : path) {
 			subActions.add(new Move(handler, entity, point));
-		}
-	}
-}
-
-class Move extends Action {
-	private Entity entity;
-	
-	private Vector2f toGridLocation;
-	private Vector2f startLocation;
-	private Vector2f step;
-	
-	public Move(Handler handler, Entity entity, Vector2f toGridLocation) {
-		super(handler);
-		
-		this.entity = entity;
-		this.toGridLocation = toGridLocation;
-	}
-	
-	@Override
-	public void start() {
-		super.start();
-		
-		startLocation = entity.getCornerPosition2D();
-		
-		step = toGridLocation.subtract(startLocation).divide(toGridLocation.subtract(startLocation).length()).multiply(entity.getMovementSpeed());
-	}
-	
-	@Override
-	public void update(float delta) {
-		if(Util.withinRange(entity.getCornerPosition2D(), toGridLocation, .1f)) {
-			complete = true;
-//			entity.setPosition2D(toGridLocation);
-		} else {
-			entity.move(step, delta);
-			System.out.println("Entity: " + entity.getCornerPosition2D() + ", Goal: " + toGridLocation);
 		}
 	}
 }

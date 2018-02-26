@@ -7,18 +7,32 @@ import java.util.Comparator;
 import com.Engine.Util.Vectors.Vector2f;
 
 import Entity.FreeMoving.Entity;
-import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Floor;
-import Entity.WorldObjects.Lot.Lot;
-import Entity.WorldObjects.Objects.Wall;
-import Utils.Vector4I;
+import Utils.Util;
 
 public class PathFinding {
-	public static ArrayList<Vector2f> aStar(Entity entity, Lot lot, Vector2f start, Vector2f end) {
+	public static ArrayList<Vector2f> aStar(Entity entity, Floor floor, Vector2f start, Vector2f end) {
+		start = Util.roundNearestMultiple(start, .5f);
+
+		System.out.println("Start: " + start);
 		System.out.println("END " + end);
 		
-		Floor floor = lot.getFloor(entity.getPosition3D());
 		NodeGrid grid = generateNodeGrid(floor);
+		
+//		System.out.println();
+//		
+//		for(Node[] nodes : grid.getNodes()) {
+//			for(Node node : nodes) {
+//				if(node == null)
+//					System.out.print("           ");
+//				else 
+//					System.out.print(node.getPosition() + " ");
+//			}
+//			
+//			System.out.println();
+//		}
+//		
+//		System.out.println();
 		
 		grid.checkClearence();
 		
@@ -63,14 +77,14 @@ public class PathFinding {
 		ArrayList<Vector2f> path = new ArrayList<>();
 
 		Node node = closed.get(closed.size() - 1);
-		path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
+		path.add(new Vector2f(node.getX() + floor.getPosition().x, node.getY() + floor.getPosition().z));
 		while(true) {
 			Node temp = node.getParent();
 			if(temp == null)
 				break;
 			else {
 				node = temp;
-				path.add(new Vector2f(node.getX() + lot.getPosition().x, node.getY() + lot.getPosition().y));
+				path.add(new Vector2f(node.getX() + floor.getPosition().x, node.getY() + floor.getPosition().z));
 			}
 		}
 		
@@ -81,81 +95,13 @@ public class PathFinding {
 		return path;
 	}
 
-	
-	public static ArrayList<Vector2f> getEffectiveArea(WorldObject worldObject, Vector2f radius, boolean pointSource) {
-		Lot lot = worldObject.getLot();
-		Floor floor = lot.getFloor(worldObject.getPosition3D());
-		
-		if(pointSource) {
-			return getEffectiveArea(floor, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
-		} else {
-			Vector2f front = worldObject.getFront();
-			if(front.x > 0) {//right
-				return getEffectiveArea(floor, worldObject.getPosition2D(), new Vector4I(0, radius.y, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
-			} else if(front.x < 0) {//Left
-				return getEffectiveArea(floor, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, radius.y + worldObject.getHeight() - 1, worldObject.getHeight() - 1));
-			} else if(front.y < 0) {//Up
-				return getEffectiveArea(floor, worldObject.getPosition2D(), new Vector4I(radius.x, radius.y, worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
-			} else {//Down
-				return getEffectiveArea(floor, worldObject.getPosition2D(), new Vector4I(radius.x, 0, radius.y + worldObject.getHeight() - 1, radius.x + worldObject.getWidth() - 1));
-			}
-		}
-	}
-	
-	/**
-	 *      Y
-	 *    X   W
-	 *      Z
-	 */
-	public static ArrayList<Vector2f> getEffectiveArea(Floor floor, Vector2f position, Vector4I radius) {
-		int px = (int) position.x;
-		int py = (int) position.y;
-		
-		Node[][] tempNodes = new Node[radius.x + radius.w + 1][radius.y + radius.z + 1];
-		
-		for(int x = px - radius.x; x <= radius.w + px; x++) {
-			for(int y = py - radius.y; y <= radius.z + py; y++) {
-				if(floor.getTiles()[x][y].getObject() instanceof Wall) 
-					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, false);
-				else 
-					tempNodes[x - px + radius.x][y - py + radius.y] = new Node(x - px + radius.x, y - py + radius.y, true);
-			}
-		}
-		
-		NodeGrid grid = new NodeGrid(tempNodes);
-		ArrayList<Node> nodes = new ArrayList<>();
-		addNeighbores(grid, grid.getNode(new Vector2f(radius.x, radius.y)), nodes);
-
-		return toVector(nodes, new Vector2f(px - radius.x, py - radius.y));
- 	}
-	
-	private static ArrayList<Node> addNeighbores(NodeGrid grid, Node node, ArrayList<Node> toAdd) {
-		ArrayList<Node> temp = grid.checkNeighbores(node);
-		toAdd.addAll(temp);
-		
-		for(Node tempNode : temp) 
-			addNeighbores(grid, tempNode, toAdd);
-		
-		return temp;
-	}
-	
-	private static ArrayList<Vector2f> toVector(ArrayList<Node> nodes, Vector2f translate) {
-		ArrayList<Vector2f> temp = new ArrayList<>();
-		for(Node n : nodes) {
-			if(translate != null)
-				temp.add(n.getPosition().add(translate));
-			else
-				temp.add(n.getPosition());
-		}
-		return temp;
-	}
-	
 	private static NodeGrid generateNodeGrid(Floor floor) {
 		Node[][] field = new Node[floor.getTiles().length][floor.getTiles()[0].length];
 		
 		for(int x = 0; x < floor.getTiles().length; x++) 
 		for(int y = 0; y < floor.getTiles()[x].length; y++) 
-			field[x][y] = new Node(floor.getTiles()[x][y].getX(), floor.getTiles()[x][y].getZ(), !floor.getTiles()[x][y].containsAnything());
+			if(floor.getTiles()[x][y] != null)
+				field[x][y] = new Node(floor.getTiles()[x][y].getX(), floor.getTiles()[x][y].getZ(), !floor.getTiles()[x][y].containsAnything());
 		
 		return new NodeGrid(field);
 	}
@@ -201,17 +147,20 @@ class NodeGrid {
 			for(int z = 0; z < nodes[x].length; z++) {
 				Node node = getNode(x / 2f, z / 2f);
 				
+				if(node == null)
+					continue;
+				
 				float radius = .5f;
 				while(isClear(node, radius)) 
 					radius += .5f;
 				node.setClearence(radius -.5f);
 				
-				if(node.isWalkable())
-					System.out.print(node.getClearence() + " ");
-				else 
-					System.out.print(0.0 + " ");
+//				if(node.isWalkable())
+//					System.out.print(node.getClearence() + " ");
+//				else 
+//					System.out.print(0.0 + " ");
 			}
-			System.out.println();
+//			System.out.println();
 		}
 	}
 	

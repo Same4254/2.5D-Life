@@ -5,6 +5,9 @@ import org.lwjgl.input.Keyboard;
 import com.Engine.RenderEngine.Textures.Texture2D;
 import com.Engine.Util.Vectors.Vector3f;
 
+import Entity.FreeMoving.AI.PathFinding;
+import Entity.FreeMoving.AI.PathFinding2;
+import Entity.FreeMoving.AI.Action.Action;
 import Entity.FreeMoving.AI.Action.Human.GoToAction;
 import Entity.FreeMoving.AI.Action.Human.GoToBelowFloorAction;
 import Entity.FreeMoving.AI.Action.Human.GoToNextFloorAction;
@@ -99,13 +102,21 @@ public class Player extends Human {
 			handler.getMouseManager().updatePicker(s -> {
 				Lot lot = handler.getWorld().getLot(getPosition2D());
 				Tile tile = lot.getFloor(s.getPosition()).getTile(Util.to2D(s.getPosition()));
-				WorldObject object = tile.getObject();
-				if(object != null) {
-					addAction(new MoveToAction(handler, object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
-// 					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
-// 					addAction(new TurnToAction(this, object.getPosition2D()));
-				} else {
-					addAction(new GoToAction(handler, lot, this, tile.getPosition2D()));
+//				WorldObject object = tile.getObject();
+//				if(object != null) {
+//					addAction(new MoveToAction(handler, object, this));//, object.getPosition2D().add(object.getFront()).truncate()));
+//// 					addAction(new GoToAction(handler, handler.getWorld().getLot(getPosition()), this, (int) (s.getPosition().x + object.getFront().x), (int) (s.getPosition().z + object.getFront().y)));
+//// 					addAction(new TurnToAction(this, object.getPosition2D()));
+//				} else {
+//					addAction(new GoToAction(handler, lot, this, tile.getPosition2D()));
+//				}
+				
+//				System.out.println(PathFinding2.findPath(handler, this, lot, s.getPosition()));
+				
+				for(Action a : PathFinding2.findPath(handler, this, lot, s.getPosition())) {
+					System.out.println(a);
+					addAction(a);
+//					System.out.println(a);
 				}
 			}, delta);
 		}

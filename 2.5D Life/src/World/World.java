@@ -12,6 +12,7 @@ import com.Engine.Util.Vectors.Vector3f;
 
 import Entity.FreeMoving.Human;
 import Entity.FreeMoving.Player;
+import Entity.FreeMoving.AI.Action.Human.GoToNextFloorAction;
 import Entity.FreeMoving.AI.Living.Viewer.Viewer;
 import Entity.WorldObjects.WorldObject;
 import Entity.WorldObjects.Lot.Lot;
@@ -56,7 +57,7 @@ public class World {
 	public void init() {
 		VectorModel.init(Game.physicsShader);
 		
-		lots.add(new Lot(handler, new Vector3f(), new Vector2f(10)));
+		lots.add(new Lot(handler, new Vector3f(), new Vector2f(20)));
 
 		sun.add(new Light(new Vector3f(10, 35, 10), new Vector3f(1), new Vector3f(.8, 0, 0)));
 		
@@ -82,6 +83,8 @@ public class World {
 		
 //		System.out.println(player.getCornerPosition2D());
 		
+//		player.setPosition3D(new Vector3f(2.5, Lot.floorHeight, 4));
+		
 		Stairs stairs = new Stairs(handler, lots.get(0));
 		
 		place(stairs, new Vector2f(3, 4));
@@ -91,14 +94,11 @@ public class World {
 		float sx = stairs.getPosition2D().x - (stairs.getWidth() / 2);
 		float sz = stairs.getPosition2D().y - (stairs.getHeight() / 2);
 		
-		System.out.println(sx);
-		System.out.println(sz);
-		
-		for(int x = 3; x < 17; x++) {
-			for(int z = 5; z < 15; z++) {
+		for(int x = 3; x < 35; x++) {
+			for(int z = 0; z < 20; z++) {
 				Vector2f position = new Vector2f(x / 2f, z / 2f);
 
-				if((position.x < sx || position.x >= sx + stairs.getWidth())
+				if((position.x < sx + 1 || position.x >= sx + stairs.getWidth())
 					|| (position.y < sz || position.y >= sz + stairs.getHeight())) {
 					
 					Tile tile = new Tile(handler, lots.get(0).getFloor(1), new Vector3f(x / 2f, lots.get(0).getFloor(1).getPosition().y, z / 2f));
@@ -108,12 +108,42 @@ public class World {
 				}
 			}
 		}
+
+		floorTiles = lots.get(0).getFloor(2).getTiles();
+		
+		Stairs stairs2 = new Stairs(handler, lots.get(0));
+		place(stairs2, new Vector3f(10, Lot.floorHeight, 4));
+		
+		sx = stairs2.getPosition2D().x - (stairs2.getWidth() / 2);
+		sz = stairs2.getPosition2D().y - (stairs2.getHeight() / 2);
+		
+		for(int x = 10; x < 35; x++) {
+			for(int z = 0; z < 20; z++) {
+				Vector2f position = new Vector2f(x / 2f, z / 2f);
+
+				if((position.x < sx + 1 || position.x >= sx + stairs2.getWidth())
+					|| (position.y < sz || position.y >= sz + stairs2.getHeight())) {
+					
+					Tile tile = new Tile(handler, lots.get(0).getFloor(2), new Vector3f(x / 2f, lots.get(0).getFloor(2).getPosition().y, z / 2f));
+					tile.setTextureIndex(2);
+					
+					floorTiles[x][z] = tile;
+				}
+			}
+		}
+		
+//		player.addAction(new GoToNextFloorAction(handler, player, stairs));
 		
 //		model.setTexture(Assets.wallTexture);
 	}
 	
 	public boolean place(WorldObject object, Vector3f position, float angle) {
 		object.setAngle(angle);
+		object.setPosition3D(position);
+		return object.addToTile(object.getLot().getTile(object.getPosition3D().subtract(object.getWidth() / 2, 0, object.getHeight() / 2)));
+	}
+	
+	public boolean place(WorldObject object, Vector3f position) {
 		object.setPosition3D(position);
 		return object.addToTile(object.getLot().getTile(object.getPosition3D().subtract(object.getWidth() / 2, 0, object.getHeight() / 2)));
 	}

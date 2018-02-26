@@ -48,10 +48,14 @@ public class Game {
 	 * 		- ✔ Implement Into Assets
 	 * 	
 	 *  ✔ Rotation Glitch
-	 *  Simpler Collision Model
+	 *  ✔ Simpler Collision Model
 	 *  
 	 *  Pathfinding between floors
-	 *  Pathfinding between buildings
+	 * 		- Make objects implement properties that can have methods 
+	 * 			- Stairs -> traveable, can get the resultant location from traveling
+	 * 		- Stairs should register to the tiles that they end up on as filled (bottom tiles in front and the tiles that are walked on at the top should have the stairs as their object)
+	 * 			- Gonna need to change the add to tile method for the stairs	
+	 * 		- Recursive call between finding traveable objects between floors, search for the position in each call. 
 	 * 
 	 * Acutal Game:
 	 * 	Make actual textures for the models

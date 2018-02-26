@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.Engine.Util.Vectors.Vector2f;
 import com.Engine.Util.Vectors.Vector3f;
 
-import World.Tiles.Tile;
-
 public class Util {
 	
 	/****** Nearest Multiple ******/
@@ -152,9 +150,5 @@ public class Util {
 	/****** Tiles ******/
 	public static Vector2f toGrid(Vector2f vector) {
 		return roundNearestMultiple(vector, .5f);
-	}
-	
-	public static int getSubCoord(float pos) {
-		return (int) (roundNearestMultiple(pos - (int) pos, (float) (1.0 / Tile.TILE_RESOLUTION)) * Tile.TILE_RESOLUTION);
 	}
 }
